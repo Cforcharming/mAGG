@@ -48,16 +48,19 @@ case $kernel_name in
     *) exit_on_invalid_host ;;
 esac
 
-echo -e "\nChecking if dependencies are installed..."
+echo -e "\nChecking if dependencies are installed...\n"
 
 function add() {
     pac=$1
     if ! [[ $(type -p "$pac") ]]; then
         if ! [[ $pac != "graphviz" ]]; then
+            type "$pac"
             not_installed+=("$pac")
         else
-            type -p dot > /dev/null || not_installed+=("$pac")
+            type dot || not_installed+=("graphviz")
         fi
+    else
+        type "$pac"
     fi
 }
 
@@ -69,9 +72,17 @@ add docker-compose
 add go
 add graphviz
 
+echo installing following dependencies:
+
+for t in "${not_installed[@]}"; do
+        echo "$t"
+done
+echo
+
 case $ID_LIKE in
 
     macOS)
+        echo using homebrew "$(type -p brew)"
         if ! [[ $(type -p brew) ]]; then
             echo installing homebrew...
             bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -85,31 +96,35 @@ case $ID_LIKE in
         for t in "${not_installed[@]}"; do
              brew install "$t"
         done
-        brew link --force docker
+        type docker || brew link --force docker
     ;;
 
     arch)
         for t in "${not_installed[@]}"; do
-             sudo pacman -S "$t"
+             sudo pacman --noconfirm -S "$t"
         done
+
+        echo
         sudo systemctl enable docker
         sudo systemctl start docker
     ;;
 
     debian)
         if ! [[ -f /etc/apt/sources.list.d/docker.list ]]; then
+            echo adding docker deb sources...
             if [[ $NAME == *"Ubuntu"* ]]; then
                 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
 
             elif [[ $NAME == *"Debian"* ]]; then
                 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
             fi
+            echo
             sudo apt update
         fi
 
-
+        echo
         for t in "${not_installed[@]}"; do
              if [[ $t == "go" ]]; then
                  sudo apt-get -y install golang
@@ -120,17 +135,26 @@ case $ID_LIKE in
              fi
         done
 
+        echo
         sudo systemctl enable docker
         sudo systemctl start docker
     ;;
 esac
 
+echo -e "\n creating venv $PWD/venv/$ID_LIKE\n"
 mkdir -p venv
 python3 -m venv "$PWD/venv/$ID_LIKE"
 # shellcheck source=/dev/null
-source "venv/$ID_LIKE/bin/activate"
+if [[ -f "venv/$ID_LIKE/bin/activate" ]]; then
+    source venv/$ID_LIKE/bin/activate
+else
+    echo -e"\n installing as global modules."
+fi
+
+echo -e "\n installing required pip modules.\n"
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
+echo
 # clairctl
-type -p clairctl > /dev/null || curl -L https://raw.githubusercontent.com/jgsqware/clairctl/master/install.sh | sudo sh
+type clairctl || curl -L https://raw.githubusercontent.com/jgsqware/clairctl/master/install.sh | sudo sh
