@@ -53,7 +53,7 @@ echo -e "\nChecking if dependencies are installed..."
 function add() {
     pac=$1
     if ! [[ $(type -p "$pac") ]]; then
-        if ! [[ $pac == "graphviz" ]]; then
+        if ! [[ $pac != "graphviz" ]]; then
             not_installed+=("$pac")
         else
             type -p dot > /dev/null || not_installed+=("$pac")
