@@ -4,28 +4,33 @@
 import os
 import sys
 import time
-
 from graphviz import Digraph
-
-from components import attack_graph_parser as att_gr_par
 from components import reader
-from components import topology_parser as top_par
-from components import vulnerability_parser as vul_par
 from components import writer
+from components import topology_parser
+from components import attack_graph_parser
+from components import vulnerability_parser
+
+__version__ = "0.1-alpha"
 
 
-def main(example_folder):
-    """Main function responsible for running the attack graph generation pipeline."""
+def main(argv):
+    """
+    Main function responsible for running the attack graph generation pipeline.
+    """
     
+    # Checks if the command-line input and config file content is valid.
+    reader.validate_command_line_input(argv)
     # Opening the configuration file.
-    config = reader.read_config_file()
+    config = reader.validate_config_file()
+    example_folder = argv[1]
     
     # Create folder where the result files will be stored.
     writer.create_folder(os.path.basename(example_folder))
     
     # Parsing the topology of the docker containers.
     time_start = time.time()
-    topology, duration_topology = top_par.parse_topology(example_folder)
+    topology = topology_parser.parse_topology(example_folder)
     duration_topology = time.time() - time_start
     print("Time elapsed: " + str(duration_topology) + " seconds.\n")
     
@@ -33,8 +38,8 @@ def main(example_folder):
     duration_visualization = 0
     if config['generate_graphs']:
         time_start = time.time()
-        top_par.create_topology_graph(topology,
-                                      example_folder)
+        topology_parser.create_topology_graph(topology,
+                                              example_folder)
         duration_visualization = time.time() - time_start
         print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
     
@@ -42,7 +47,7 @@ def main(example_folder):
     duration_vulnerabilities = 0
     if config["mode"] == "online":
         time_start = time.time()
-        vul_par.parse_vulnerabilities(example_folder)
+        vulnerability_parser.parse_vulnerabilities(example_folder)
         duration_vulnerabilities = time.time() - time_start
         print("Time elapsed: " + str(duration_vulnerabilities) + " seconds.\n")
     
@@ -57,19 +62,19 @@ def main(example_folder):
     # Getting the attack graph nodes and edges from the attack paths.
     # Returns a tuple of the form:
     # (attack_graph_nodes, attack_graph_edges, duration_bdf, duration_vul_preprocessing)
-    att_graph_tuple = att_gr_par.generate_attack_graph(config["attack-vector-folder-path"],
-                                                       config["preconditions-rules"],
-                                                       config["postconditions-rules"],
-                                                       topology,
-                                                       vulnerabilities,
-                                                       example_folder)
+    att_graph_tuple = attack_graph_parser.generate_attack_graph(config["attack-vector-folder-path"],
+                                                                config["preconditions-rules"],
+                                                                config["postconditions-rules"],
+                                                                topology,
+                                                                vulnerabilities,
+                                                                example_folder)
     
     print("Time elapsed: " + str(att_graph_tuple[2] + att_graph_tuple[3]) + " seconds.\n")
     
     # Printing the graph properties.
-    duration_graph_properties = att_gr_par.print_graph_properties(config["labels_edges"],
-                                                                  nodes=att_graph_tuple[0],
-                                                                  edges=att_graph_tuple[1])
+    duration_graph_properties = attack_graph_parser.print_graph_properties(config["labels_edges"],
+                                                                           nodes=att_graph_tuple[0],
+                                                                           edges=att_graph_tuple[1])
     
     # print(att_graph_tuple[0])
     # print(len(att_graph_tuple[1].keys()))
@@ -97,6 +102,8 @@ def main(example_folder):
                          duration_vuls_preprocessing=att_graph_tuple[3],
                          duration_graph_properties=duration_graph_properties,
                          duration_visualization=duration_visualization)
+    
+    return 0
 
 
 def visualize_attack_graph(labels_edges,
@@ -137,33 +144,4 @@ def visualize_attack_graph(labels_edges,
 
 
 if __name__ == "__main__":
-    
-    # Checks if the command-line input and config file content is valid.
-    IS_VALID_INPUT = reader.validate_command_line_input(sys.argv)
-    IS_VALID_CONFIG = reader.validate_config_file()
-    
-    version = "0.1-alpha"
-    
-    if not IS_VALID_CONFIG:
-        print("The config file is not valid.")
-        exit()
-    
-    if IS_VALID_INPUT:
-        
-        # Checks if the docker-compose file is valid.
-        IS_VALID_COMPOSE = top_par.validation_docker_compose(sys.argv[1])
-        if IS_VALID_COMPOSE:
-            
-            if sys.argv.__contains__('-h') or sys.argv.__contains__('--help'):
-                print("Option --help turned on" +
-                      "Command: ./main.py <example-folder-path> <goal-container>" +
-                      "<example-folder-path> is the folder that we want to analyze." +
-                      "<goal-container> is the name of the docker that the attacker wants to control.")
-            elif sys.argv.__contains__('-v') or sys.argv.__contains__('--version'):
-                print("mAGG version:", version)
-            sys.argv.remove('-h')
-            sys.argv.remove('--help')
-            
-            sys.exit(main(sys.argv))
-    else:
-        print("Please have a look at the --help.")
+    exit(main(sys.argv))

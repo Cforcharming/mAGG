@@ -2,12 +2,10 @@
 """Module responsible for generating the attack graph."""
 
 import time
+import networkx
 from queue import Queue
-
-import networkx as nx
-
 from components import reader
-from components import topology_parser as top_par
+from components import topology_parser
 
 
 def clean_vulnerabilities(raw_vulnerabilities, container):
@@ -146,7 +144,7 @@ def add_edge(nodes,
             if key.startswith(container):
                 return nodes, edges, passed_edges"""
     
-    # Checks if the opposite edge is already in the collection. If it is, dont add the edge.
+    # Checks if the opposite edge is already in the collection. If it is, don't add the edge.
     node_start_full = node_start + "(" + node_start_priv + ")"
     node_end_full = node_end + "(" + node_end_priv + ")"
     
@@ -175,8 +173,8 @@ def add_edge(nodes,
 
 
 def breadth_first_search(topology,
-                         container_exploitability,
-                         priviledged_access):
+                         container_exploit_ability,
+                         privileged_access):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
     
@@ -226,7 +224,7 @@ def breadth_first_search(topology,
                                                       passed_edges)
             
             # Checks if the container has privileged access.
-            elif neighbour == "docker host" and priviledged_access[current_node]:
+            elif neighbour == "docker host" and privileged_access[current_node]:
                 
                 # Add the edge
                 nodes, edges, passed_edges = add_edge(nodes,
@@ -242,16 +240,15 @@ def breadth_first_search(topology,
                 passed_nodes[neighbour + "|4"] = True
             
             elif neighbour != "outside" and neighbour != "docker host":
-                
-                precond = container_exploitability[neighbour]["precond"]
-                postcond = container_exploitability[neighbour]["postcond"]
-                
+                precond = container_exploit_ability[neighbour]["precond"]
+                postcond = container_exploit_ability[neighbour]["postcond"]
+    
                 for vul in precond.keys():
-                    
+        
                     if priv_current >= precond[vul] and \
                             ((neighbour != current_node and postcond[vul] != 0) or
                              (neighbour == current_node and priv_current < postcond[vul])):
-                        
+            
                         # Add the edge
                         nodes, edges, passed_edges = add_edge(nodes,
                                                               edges,
@@ -261,7 +258,7 @@ def breadth_first_search(topology,
                                                               get_priv(postcond[vul]),
                                                               vul,
                                                               passed_edges)
-                        
+            
                         # If the neighbour was not passed, or it has a lower privilege...
                         passed_nodes_key = neighbour + "|" + str(postcond[vul])
                         if passed_nodes.get(passed_nodes_key) is None:
@@ -453,7 +450,7 @@ def get_rule_postcondition(rule, vul, postcond, vul_key):
 
 
 def rule_processing(merged_vul, pre_rules, post_rules):
-    """ This functions is responspible for creating the
+    """ This function is responsible for creating the
     precondition and postcondition rules."""
     
     precond = {}
@@ -487,7 +484,7 @@ def get_exploitable_vuls_container(vulnerabilities,
                                    post_rules):
     """Processes and provides exploitable vulnerabilities per container."""
     
-    # Remove junk and just takethe most important part from each vulnerability
+    # Remove junk and just take the most important part from each vulnerability
     cleaned_vulnerabilities = clean_vulnerabilities(vulnerabilities, container_name)
     
     # Merging the cleaned vulnerabilities
@@ -495,9 +492,9 @@ def get_exploitable_vuls_container(vulnerabilities,
     
     # Get the preconditions and postconditions for each vulnerability.
     precond, postcond = rule_processing(merged_vul, pre_rules, post_rules)
-    exploitability_dict = {"precond": precond, "postcond": postcond}
+    exploit_ability_dict = {"precond": precond, "postcond": postcond}
     
-    return exploitability_dict
+    return exploit_ability_dict
 
 
 def generate_attack_graph(attack_vector_path,
@@ -517,10 +514,10 @@ def generate_attack_graph(attack_vector_path,
     time_start = time.time()
     
     # Read the service to image mapping.
-    mapping_names = top_par.get_mapping_service_to_image_names(example_folder)
+    mapping_names = topology_parser.get_mapping_service_to_image_names(example_folder)
     
-    # Read priviledged containers from docker-compose.yml
-    privileged_access = reader.check_priviledged_access(mapping_names, example_folder)
+    # Read privileged containers from docker-compose.yml
+    privileged_access = reader.check_privileged_access(mapping_names, example_folder)
     
     # Merging the attack vector files and creating an attack vector dictionary.
     attack_vector_dict = get_attack_vector(attack_vector_files)
@@ -537,8 +534,8 @@ def generate_attack_graph(attack_vector_path,
                                                                          post_rules)
     
     duration_vuls_preprocessing = time.time() - time_start
-    print("Vulnerabilities preprocessing finished. Time elapsed: " + \
-          str(duration_vuls_preprocessing) + \
+    print("Vulnerabilities preprocessing finished. Time elapsed: " +
+          str(duration_vuls_preprocessing) +
           " seconds.\n")
     
     # Breadth first search algorithm for generation of attack paths.
@@ -561,7 +558,7 @@ def print_graph_properties(label_edges, nodes, edges):
     time_start = time.time()
     
     # Create the graph
-    graph = nx.DiGraph()
+    graph = networkx.DiGraph()
     
     for node in nodes:
         graph.add_node(node)
@@ -592,7 +589,7 @@ def print_graph_properties(label_edges, nodes, edges):
     print("The number of edges in the graph is " + str(no_edges) + "\n")
     
     # Degree centrality
-    degree_centrality = nx.degree_centrality(graph)
+    degree_centrality = networkx.degree_centrality(graph)
     print("The degree centrality of the graph is: ")
     for item in degree_centrality.keys():
         print(str(item) + " " + str(degree_centrality[item]))
@@ -633,7 +630,7 @@ def print_graph_properties(label_edges, nodes, edges):
     print("\n")
     
     if no_nodes != 0:
-        print("Is the graph strongly connected? " + str(nx.is_strongly_connected(graph)) + "\n")
+        print("Is the graph strongly connected? " + str(networkx.is_strongly_connected(graph)) + "\n")
     
     duration_graph_properties = time.time() - time_start
     print("Time elapsed: " + str(duration_graph_properties) + " seconds.\n")

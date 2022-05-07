@@ -1,17 +1,17 @@
 # The location of the folder with the NVD attack rule files.
 attack-vector-folder-path: attack_vector_files
 
-# The locations from where the example-folders are read and where their results are beeing stored.
+# The locations from where the example-folders are read and where their results are being stored.
 examples-results-path: examples-results
 
-# online calculates vulnerabilites with clairctl
+# online calculates vulnerabilities with clairctl
 # offline skips clairctl and assumes that the vulnerabilities are already calculated.
 mode: online # Options {"online", "offline"}
 
 # This property states if topology and attack graphs are going to be produced.
 generate_graphs: True # Options {True, False}
 
-# This property states if single or multiple vulnerabilties constitute 
+# This property states if single or multiple vulnerabilities constitute
 # an edge between two same nodes
 labels_edges: multiple # Options {"single", "multiple"}
 

@@ -2,16 +2,13 @@
 """Module responsible for manipulation of the topology of the docker system."""
 
 import os
-import time
-
 from graphviz import Graph
-
-from System.components import reader
-from System.components import writer
+from components import reader
+from components import writer
 
 
 def get_services(example_folder_path):
-    """It returns a dictionary of all of the services defined in docker-compose.yml"""
+    """It returns a dictionary of all services defined in docker-compose.yml"""
     
     docker_compose_file = reader.read_docker_compose_file(example_folder_path)
     
@@ -45,7 +42,7 @@ def validation_docker_compose(example_folder_path):
 
 
 def get_mapping_service_to_image_names(example_folder_path):
-    """This function mapps the service name to the real image name.
+    """This function maps the service name to the real image name.
 
     In docker images get assigned different names based on how the
     docker-compose.yml file is constructed.
@@ -104,8 +101,6 @@ def parse_topology(example_folder_path,
     
     print("Executing the topology parser...")
     
-    time_start = time.time()
-    
     # Checks if the services are specified.
     services = get_services(example_folder_path)
     
@@ -152,18 +147,15 @@ def parse_topology(example_folder_path,
             list_services["outside"].append(mapping_names[first_service_name])
             list_services[mapping_names[first_service_name]].append("outside")
         
-        # Adding the docker host as a node in the graph connected to all of the services
+        # Adding the docker host as a node in the graph connected to all of services
         list_services[mapping_names[first_service_name]].append("docker host")
         list_services["docker host"].append(mapping_names[first_service_name])
     
-    # Writing the dictonary into a json file.
+    # Writing the dictionary into a json file.
     writer.write_topology_file(list_services,
                                example_folder_path,
                                example_results_path)
     
     print("Topology parser executed.")
     
-    duration_topology = time.time() - time_start
-    print("Time elapsed: " + str(duration_topology) + " seconds.\n")
-    
-    return list_services, duration_topology
+    return list_services

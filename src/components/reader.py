@@ -1,46 +1,49 @@
 #!/usr/bin/env python
 """Module responsible for all the input reading and validation."""
 
+from main import __version__
+import errno
 import json
-import os
-import sys
-
 import yaml
+import sys
+import os
 
 
 def validate_command_line_input(arguments):
-    """This function validates the command line user input."""
-    print("Command-line input validation...\n")
     
-    is_valid = True
+    if arguments.__contains__('-h') or arguments.__contains__('--help'):
+        print("Option --help turned on" +
+              "Command: ./main.py <example-folder-path> <goal-container>" +
+              "<example-folder-path> is the folder that we want to analyze." +
+              "<goal-container> is the name of the docker that the attacker wants to control.")
+        exit(0)
+    
+    if len(arguments) == 1 or arguments.__contains__('-v') or arguments.__contains__('--version'):
+        print("mAGG version: " + __version__)
+        exit(0)
     
     # Check if the user has entered right number of arguments.
-    if len(arguments) != 2:
-        print("Incorrect number of arguments.")
-        is_valid = False
+    if len(arguments) > 2:
+        print("Incorrect number of arguments.", file=sys.stderr)
+        exit(errno.EINVAL)
     
     # Check if the specified folder exists.
-    if is_valid:
-        if not os.path.exists(arguments[1]):
-            print("The entered example folder name does not exist.")
-            is_valid = False
+    if not os.path.exists(arguments[1]):
+        print("The entered example folder name does not exist: " + arguments[1], file=sys.stderr)
+        exit(errno.ENOTDIR)
     
     # Check if there is a docker-compose.yml file in the specified folder.
-    if is_valid:
-        content = os.listdir(arguments[1])
-        if "docker-compose.yml" not in content:
-            print("docker-compose.yml is missing in the folder " + arguments[1])
-            is_valid = False
-    
-    return is_valid
+    content = os.listdir(arguments[1])
+    if "docker-compose.yml" not in content:
+        print("docker-compose.yml is missing in the folder: " + arguments[1], file=sys.stderr)
+        exit(errno.ENOENT)
 
 
 def validate_config_file():
-    """This function validates the config file content."""
+    """
+    This function validates the config file content.
+    """
     
-    print("Config file content validation...\n")
-    
-    is_valid = True
     config_file = read_config_file()
     
     # Check if the main keywords are present in the config file.
@@ -53,62 +56,44 @@ def validate_config_file():
     
     for main_keyword in main_keywords:
         if main_keyword not in config_file.keys():
-            print("'" + main_keyword + "' keyword is missing in the config file.")
-            is_valid = False
+            print("'" + main_keyword + "' keyword is missing in the config file.", file=sys.stderr)
+            exit(errno.EBADF)
     
     # Check if the mode keyword has the right values
-    if is_valid:
-        config_mode = config_file["mode"]
-        if config_mode != "offline" and config_mode != "online":
-            print("Value: " + config_mode + " is invalid for keyword mode")
-            sys.exit(0)
-        
-        # Checks if clairctl has been installed.
-        elif config_mode == "online":
-            print("Checking if clairctl has been installed")
-            
-            home = os.path.expanduser("~")
-            os.path.exists(os.path.join(home,
-                                        "golang"
-                                        "go",
-                                        "bin",
-                                        "src",
-                                        "github.com",
-                                        "jgsqware",
-                                        "clairctl"))
+    mode = config_file["mode"]
+    if mode != "offline" and mode != "online":
+        print("Value: " + mode + " is invalid for keyword mode", file=sys.stderr)
+        exit(errno.EBADF)
     
     # Check if the generate_graphs keyword has the right values
-    if is_valid:
-        config_mode = config_file["generate_graphs"]
-        if config_mode is False and config_mode is True:
-            print("Value: " + config_mode + " is invalid for keyword generate_graphs")
-            sys.exit(0)
+    generate_graphs = config_file["generate_graphs"]
+    if type(generate_graphs) is not bool:
+        print("Value: " + generate_graphs + " is invalid for keyword generate_graphs", file=sys.stderr)
+        exit(errno.EBADF)
     
     # Check if the show_one_vul_per_edge keyword has the right values
-    if is_valid:
-        config_mode = config_file["show_one_vul_per_edge"]
-        if config_mode is False and config_mode is True:
-            print("Value: " + config_mode + " is invalid for keyword generate_graphs")
-            sys.exit(0)
+    show_one_vul_per_edge = config_file["show_one_vul_per_edge"]
+    if type(show_one_vul_per_edge) is not bool:
+        print("Value: " + show_one_vul_per_edge + " is invalid for keyword show_one_vul_per_edge", file=sys.stderr)
+        exit(errno.EBADF)
     
     # Check if the labels_edges keyword has the right values
-    if is_valid:
-        config_mode = config_file["labels_edges"]
-        if config_mode != "single" and config_mode != "multiple":
-            print("Value: " + config_mode + " is invalid for keyword labels_edges")
-            sys.exit(0)
+    labels_edges = config_file["labels_edges"]
+    if labels_edges != "single" and labels_edges != "multiple":
+        print("Value: " + labels_edges + " is invalid for keyword labels_edges")
+        exit(errno.EBADF)
     
-    return is_valid
+    return config_file
 
 
-def check_priviledged_access(mapping_names, example_folder_path):
+def check_privileged_access(mapping_names, example_folder_path):
     """Checks if a container has the privileged flag."""
     docker_compose = read_docker_compose_file(example_folder_path)
     services = docker_compose["services"]
-    priviledged_access = {}
+    privileged_access = {}
     for service in services:
         if "privileged" in services[service] and services[service]["privileged"]:
-            priviledged_access[mapping_names[service]] = True
+            privileged_access[mapping_names[service]] = True
         elif "volumes" in services[service]:
             volumes = services[service]["volumes"]
             # Check if docker socket is mounted
@@ -117,13 +102,13 @@ def check_priviledged_access(mapping_names, example_folder_path):
                 if "/var/run/docker.sock:/var/run/docker.sock" in volume:
                     socket_mounted = True
             if socket_mounted:
-                priviledged_access[mapping_names[service]] = True
+                privileged_access[mapping_names[service]] = True
             else:
-                priviledged_access[mapping_names[service]] = False
+                privileged_access[mapping_names[service]] = False
         else:
-            priviledged_access[mapping_names[service]] = False
+            privileged_access[mapping_names[service]] = False
     
-    return priviledged_access
+    return privileged_access
 
 
 def read_attack_vector_files(attack_vector_folder_path):
@@ -181,7 +166,7 @@ def read_docker_compose_file(example_folder_path):
     """This function is responsible for reading the docker-compose file of the container."""
     
     with open(os.path.join(example_folder_path, "docker-compose.yml"), "r") as compose_file:
-        docker_compose_file = yaml.load(compose_file)
+        docker_compose_file = yaml.full_load(compose_file)
     
     return docker_compose_file
 
@@ -191,7 +176,7 @@ def read_config_file(old_root_path=""):
     
     with open(os.path.join(old_root_path, "config.yml"), "r") as stream:
         try:
-            config_file = yaml.load(stream)
+            config_file = yaml.full_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
     
@@ -202,5 +187,5 @@ def read_clairctl_config_file(clairctl_home):
     """This function is responsible for reading the clairctl config file."""
     
     with open(os.path.join(clairctl_home, "clairctl.yml"), "r") as clair_config:
-        clair_config = yaml.load(clair_config)
+        clair_config = yaml.full_load(clair_config)
     return clair_config

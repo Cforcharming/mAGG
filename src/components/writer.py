@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 """This module is responsible for writing the outputs into files."""
 
-import json
 import os
-
 import yaml
-
+import json
 import reader
 
 
