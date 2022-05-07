@@ -6,6 +6,7 @@
 
 The following dependencies are needed:
 
+* bash
 * python3
 * docker
 * docker-compose
@@ -17,12 +18,12 @@ You may install them with
 ```
 ./install_dependencies.bash
 ```
-Note that this script is designed to be running on following systems:
+Note that this script is recommended to be running on following systems:
 
 * macOS Monterey
-* Manjaro Rolling (in 2022.5)
+* Manjaro Linux
 * Ubuntu 22.04 LTS
-* Kali Rolling 2022.2.4
+* Kali 2022.2
 
 Other versions of the above OS, e.g. `Ubuntu 20.04 LTS`, `macOS Big Sur`, 
 [install_dependencies.bash](install_dependencies.bash) should also work. 
@@ -51,21 +52,22 @@ to have venv enabled. Please change ```python3.10``` to your python major versio
 The general usage of the script is:
 
 ```
-$ ./main.py ./examples/example
+$ ./main.py {CONFIG_DIR}
 ```
 
-The above command starts the [main.py](main.py) script and generates an attack graph for the system ./examples/atsea. 
-It performs the attack graph analysis.
+The above command starts the [main.py](main.py) script and generates an attack graph for the system in the directory
+`{CONFIG_DIR}`. 
+It performs the attack graph analysis. Note that a `docker-compose.yaml` is needed in the directory.
 
-Other examples are
+Examples are
 ```
 $ ./main.py ./examples/1_example
 $ ./main.py ./examples/atsea
 ```
 
-* Please note that on the first try, Clair populates the database, so that is why the attack graph will be empty. 
+* Please note that on the first try, `Clair` populates the database, so that is why the attack graph will be empty. 
 * Furthermore, building the images in the vulnerability-parser for the first time takes longer. The code is tested
-* on a virtual machine running on the above-mentioned operating system.
+on a macOS and on the virtual machines of above-mentioned operating systems hosted on it.
 
 ## Customizing the attack graph generation
 
@@ -92,17 +94,17 @@ by ibrahim *et al.*
 please also site this academic work: 
 
 > Ibrahim, Amjad, Stevica Bozhinoski, and Alexander Pretschner.
->  "Attack graph generation for microservice architecture."
+> "Attack graph generation for microservice architecture."
 > Proceedings of the 34th ACM/SIGAPP Symposium on Applied Computing. ACM, 2019.
 > 
 > @inproceedings{ibrahim2019attack,
-  title={Attack graph generation for microservice architecture},
-  author={Ibrahim, Amjad and Bozhinoski, Stevica and Pretschner, Alexander},
-  booktitle={Proceedings of the 34th ACM/SIGAPP Symposium on Applied Computing},
-  pages={1235--1242},
-  year={2019},
-  organization={ACM}
-}
+title={Attack graph generation for microservice architecture},
+author={Ibrahim, Amjad and Bozhinoski, Stevica and Pretschner, Alexander},
+booktitle={Proceedings of the 34th ACM/SIGAPP Symposium on Applied Computing},
+pages={1235--1242},
+year={2019},
+organization={ACM}
+> }
 
 We would like to thank the teams of [Clair](https://github.com/coreos/clair) 
 and [Clairctl](https://github.com/jgsqware/clairctl) for their vulnerability generator,
