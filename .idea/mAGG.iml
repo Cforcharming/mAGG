@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/output_samples" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/ZeppelinRemoteNotebooks" />
       <excludeFolder url="file://$MODULE_DIR$/data/attack_vector_files" />
+      <excludeFolder url="file://$MODULE_DIR$/examples-results" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (cve)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
