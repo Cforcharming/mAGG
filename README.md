@@ -1,8 +1,4 @@
-
-
-## Getting Started
-
-[//]: # (TODO)
+# mAGG: a multi-layer attack graph generator
 
 ## Installing
 
@@ -17,7 +13,10 @@ The following dependencies are needed:
 * graphviz
 * clairctl
 
-You may install them with <code>bash install_dependencies.bash</code>.
+You may install them with 
+```
+./install_dependencies.bash
+```
 Note that this script is designed to be running on following systems:
 
 * macOS Monterey
@@ -25,39 +24,43 @@ Note that this script is designed to be running on following systems:
 * Ubuntu 22.04 LTS
 * Kali Rolling 2022.2.4
 
-Other versions of the above OS, e.g. Ubuntu 20.04 LTS, macOS Big Sur, [install_dependencies.bash](install_dependencies.bash) should also work. 
-Also, the script may work on all Arch-Based Linux distros and Debian Linux.
+Other versions of the above OS, e.g. `Ubuntu 20.04 LTS`, `macOS Big Sur`, 
+[install_dependencies.bash](install_dependencies.bash) should also work. 
+Also, the script may work on all `Arch-Based Linux` distros and `Debian Linux`.
 
 ### Python modules
-The needed python modules are listed in [requirements.txt](requirements.txt). You can simply install them by <code>pip install -r requirements.txt</code>
+The needed python modules are listed in [requirements.txt](requirements.txt). You can simply install them by 
+```
+pip install -r requirements.txt
+```
 
 Note that if you use [install_dependencies.bash](install_dependencies.bash) for system requirements,
-it will create a virtualenv in directory venv with the name of your OS type. If your python is not configured to use venv,
+it will create a virtualenv in directory venv with the name of your OS type. 
+If your python is not configured to use venv,
 then the modules will be installed globally.
 
-For example, on Debian-based Linuxes like Ubuntu 22.04 or Kali 2022.2, you need to run <code>sudo apt install python3.10-venv</code>
-to have venv enabled. Please change <code>python3.10</code> to your python major version.
+For example, on Debian-based Linuxes like Ubuntu 22.04 or Kali 2022.2, you need to run
+```
+sudo apt install python3.10-venv
+```
+to have venv enabled. Please change ```python3.10``` to your python major version.
 
 
 ## Running
 
-[//]: # (TODO)
-
-In order to run the program, the user needs to enter the home directory of the project and the following command on the terminal should be run:
+The general usage of the script is:
 
 ```
-$ sudo ./attack-graph-generator.sh ./examples/atsea
-
+$ ./main.py ./examples/example
 ```
 
-The above command starts the attack-graph-generator.sh script and generates an attack graph for the system ./examples/atsea. This command will download and install the required libraries and set up environment variables when run for the first time. Afterward, it performs the attack graph analysis.
+The above command starts the [main.py](main.py) script and generates an attack graph for the system ./examples/atsea. 
+It performs the attack graph analysis.
 
 Other examples are
 ```
-$ sudo ./attack-graph-generator.sh ./examples/javaee
-$ sudo ./attack-graph-generator.sh ./examples/example
-$ sudo ./attack-graph-generator.sh ./examples/netflix-oss-example
-
+$ ./main.py ./examples/1_example
+$ ./main.py ./examples/atsea
 ```
 
 * Please note that on the first try, Clair populates the database, so that is why the attack graph will be empty. 
@@ -80,7 +83,7 @@ the comments in the config.yml file.
 ## Acknowledgments
 
 This project is modified from the tool [attack-graph-generator](https://github.com/tum-i4/attack-graph-generator)
-by ibrahim <i>et al.</i>
+by ibrahim *et al.*
 
 ### Original authors
 * Stevica Bozhinoski stevica.bozhinoski@tum.de
