@@ -8,7 +8,7 @@ import errno
 from graphviz import Digraph
 from components import reader, vulnerability_parser, writer, attack_graph_parser, topology_parser
 
-__version__ = "1.0-dev1"
+__version__ = "1.0-dev2"
 
 
 def main(argv):
@@ -41,11 +41,10 @@ def main(argv):
     
     # Parsing the vulnerabilities for each docker container.
     duration_vulnerabilities = 0
-    if config["mode"] == "online":
-        time_start = time.time()
-        vulnerability_parser.parse_vulnerabilities(example_folder)
-        duration_vulnerabilities = time.time() - time_start
-        print("Time elapsed: " + str(duration_vulnerabilities) + " seconds.\n")
+    time_start = time.time()
+    vulnerability_parser.parse_vulnerabilities(example_folder)
+    duration_vulnerabilities = time.time() - time_start
+    print("Time elapsed: " + str(duration_vulnerabilities) + " seconds.\n")
     
     vulnerabilities_folder_path = os.path.join(config['examples-results-path'], os.path.basename(example_folder))
     
@@ -88,8 +87,7 @@ def main(argv):
         print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
     
     # Printing time summary of the attack graph generation.
-    writer.print_summary(config["mode"],
-                         config['generate_graphs'],
+    writer.print_summary(config['generate_graphs'],
                          duration_topology=duration_topology,
                          duration_vulnerabilities=duration_vulnerabilities,
                          duration_bdf=attack_graph_tuple[2],
