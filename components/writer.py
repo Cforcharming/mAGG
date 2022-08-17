@@ -82,8 +82,7 @@ def create_folder(example_folder_path):
         os.makedirs(directory_path, mode=0o777)
 
 
-def print_summary(config_mode,
-                  config_generate_graphs,
+def print_summary(config_generate_graphs,
                   no_topology_nodes=0,
                   no_topology_edges=0,
                   no_attack_graph_nodes=0,
@@ -115,9 +114,6 @@ def print_summary(config_mode,
     print("\n**********Time Summary of the Attack Graph Generation Process**********")
     
     print("Topology parsing took " + str(duration_topology) + " seconds.")
-    
-    if config_mode == "online":
-        print("Vulnerability parsing took " + str(duration_vulnerabilities) + " seconds.")
     
     print("The attack graph generation took " +
           str(duration_vulnerabilities_preprocessing + duration_bdf) + " seconds.")

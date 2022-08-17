@@ -10,7 +10,6 @@ import os
 
 
 def validate_command_line_input(arguments):
-    
     if arguments.__contains__('-h') or arguments.__contains__('--help'):
         print("Option --help turned on" +
               "Command: ./main.py <example-folder-path> <goal-container>" +
@@ -18,7 +17,7 @@ def validate_command_line_input(arguments):
               "<goal-container> is the name of the docker that the attacker wants to control.")
         exit(0)
     
-    if len(arguments) == 1 or arguments.__contains__('-v') or arguments.__contains__('--version'):
+    if arguments.__contains__('-v') or arguments.__contains__('--version'):
         print("mAGG version: " + __version__)
         exit(0)
     
@@ -49,7 +48,6 @@ def validate_config_file():
     # Check if the main keywords are present in the config file.
     main_keywords = ["attack-vector-folder-path",
                      "examples-results-path",
-                     "mode",
                      "labels_edges",
                      "generate_graphs",
                      "show_one_vul_per_edge"]
@@ -58,12 +56,6 @@ def validate_config_file():
         if main_keyword not in config_file.keys():
             print("'" + main_keyword + "' keyword is missing in the config file.", file=sys.stderr)
             exit(errno.EBADF)
-    
-    # Check if the mode keyword has the right values
-    mode = config_file["mode"]
-    if mode != "offline" and mode != "online":
-        print("Value: " + mode + " is invalid for keyword mode", file=sys.stderr)
-        exit(errno.EBADF)
     
     # Check if the generate_graphs keyword has the right values
     generate_graphs = config_file["generate_graphs"]
@@ -80,35 +72,10 @@ def validate_config_file():
     # Check if the labels_edges keyword has the right values
     labels_edges = config_file["labels_edges"]
     if labels_edges != "single" and labels_edges != "multiple":
-        print("Value: " + labels_edges + " is invalid for keyword labels_edges")
+        print("Value: " + labels_edges + " is invalid for keyword labels_edges", file=sys.stderr)
         exit(errno.EBADF)
     
     return config_file
-
-
-def check_privileged_access(mapping_names, example_folder_path):
-    """Checks if a container has the privileged flag."""
-    docker_compose = read_docker_compose_file(example_folder_path)
-    services = docker_compose["services"]
-    privileged_access = {}
-    for service in services:
-        if "privileged" in services[service] and services[service]["privileged"]:
-            privileged_access[mapping_names[service]] = True
-        elif "volumes" in services[service]:
-            volumes = services[service]["volumes"]
-            # Check if docker socket is mounted
-            socket_mounted = False
-            for volume in volumes:
-                if "/var/run/docker.sock:/var/run/docker.sock" in volume:
-                    socket_mounted = True
-            if socket_mounted:
-                privileged_access[mapping_names[service]] = True
-            else:
-                privileged_access[mapping_names[service]] = False
-        else:
-            privileged_access[mapping_names[service]] = False
-    
-    return privileged_access
 
 
 def read_attack_vector_files(attack_vector_folder_path):
@@ -135,9 +102,7 @@ def read_topology(example_folder_path):
     
     config = read_config_file()
     folder_name = os.path.basename(example_folder_path)
-    topology_path = os.path.join(config["examples-results-path"],
-                                 folder_name,
-                                 "topology.json")
+    topology_path = os.path.join(config["examples-results-path"], folder_name, "topology.json")
     
     with open(topology_path) as topology_file:
         topology = json.load(topology_file)
@@ -152,8 +117,7 @@ def read_vulnerabilities(vulnerabilities_folder_path, containers):
     
     for container in containers:
         
-        vulnerabilities_path = os.path.join(vulnerabilities_folder_path,
-                                            container + "-vulnerabilities.json")
+        vulnerabilities_path = os.path.join(vulnerabilities_folder_path, container + "-vulnerabilities.json")
         if os.path.exists(vulnerabilities_path):
             with open(vulnerabilities_path) as vul_file:
                 vulnerabilities_container = json.load(vul_file)
@@ -174,18 +138,32 @@ def read_docker_compose_file(example_folder_path):
 def read_config_file(old_root_path=""):
     """This function is responsible for reading the config file."""
     
-    with open(os.path.join(old_root_path, "config.yml"), "r") as stream:
+    with open(os.path.join(old_root_path, "data/config.yml"), "r") as stream:
         try:
             config_file = yaml.full_load(stream)
         except yaml.YAMLError as exc:
-            print(exc)
+            print(exc, file=sys.stderr)
+            exit(errno.ENOENT)
     
     return config_file
 
 
-def read_clairctl_config_file(clairctl_home):
-    """This function is responsible for reading the clairctl config file."""
+def cache_parsed_images(old_root_path: str, parent_folder):
     
-    with open(os.path.join(clairctl_home, "clairctl.yml"), "r") as clair_config:
-        clair_config = yaml.full_load(clair_config)
-    return clair_config
+    config = read_config_file(old_root_path)
+    parent_folder = os.path.basename(parent_folder)
+    return get_parsed_images(os.path.join(old_root_path, config["examples-results-path"], parent_folder))
+
+
+def get_parsed_images(folder):
+    
+    files = os.listdir(folder)
+    
+    parsed_images = {}
+    
+    for file in files:
+        if 'vulnerabilities' in file:
+            image = file.replace('-vulnerabilities.json', '')
+            parsed_images[image] = True
+    
+    return parsed_images

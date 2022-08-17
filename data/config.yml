@@ -4,10 +4,6 @@ attack-vector-folder-path: data/attack_vector_files
 # The locations from where the example-folders are read and where their results are being stored.
 examples-results-path: examples-results
 
-# online calculates vulnerabilities with clairctl
-# offline skips clairctl and assumes that the vulnerabilities are already calculated.
-mode: online # Options {"online", "offline"}
-
 # This property states if topology and attack graphs are going to be produced.
 generate_graphs: True # Options {True, False}
 
