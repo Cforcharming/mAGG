@@ -96,7 +96,7 @@ case $ID_LIKE in
         for t in "${not_installed[@]}"; do
              brew install "$t"
         done
-        type docker || brew link --force docker
+        type docker || brew link --overwrite docker
     ;;
 
     arch)
@@ -105,8 +105,7 @@ case $ID_LIKE in
         done
 
         echo
-        sudo systemctl enable docker
-        sudo systemctl start docker
+        sudo systemctl enable docker --now
     ;;
 
     debian)
@@ -136,8 +135,7 @@ case $ID_LIKE in
         done
 
         echo
-        sudo systemctl enable docker
-        sudo systemctl start docker
+        sudo systemctl enable docker --now
     ;;
 esac
 
@@ -148,7 +146,7 @@ python3 -m venv "$PWD/venv/$ID_LIKE"
 if [[ -f "venv/$ID_LIKE/bin/activate" ]]; then
     source venv/$ID_LIKE/bin/activate
 else
-    echo -e"\n installing as global modules."
+    echo -e "\n installing as global modules."
 fi
 
 echo -e "\n installing required pip modules.\n"
@@ -158,3 +156,5 @@ pip install -r requirements.txt
 echo
 # clairctl
 type clairctl || curl -L https://raw.githubusercontent.com/jgsqware/clairctl/master/install.sh | sudo sh
+clairctl_path="$HOME/go/src/github.com/jgsqware/clairctl"
+! [[ -e $clairctl_path ]] || git clone --depth=1 https://github.com/jgsqware/clairctl.git "$HOME/go/src/github.com/jgsqware"

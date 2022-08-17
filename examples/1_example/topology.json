@@ -1,1 +1,0 @@
-{"outside": ["1example_phpmailer"], "docker host": ["1example_phpmailer", "1example_samba"], "1example_phpmailer": ["1example_samba", "outside", "docker host"], "1example_samba": ["1example_phpmailer", "docker host"]}

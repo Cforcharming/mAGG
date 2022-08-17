@@ -1,19 +1,28 @@
-version: '2'
+version: "3.8"
+
 services:
-  phpmailer:
-    build: ./phpmailer
-    networks: 
+
+  python:
+    networks:
+      - backend
+      - db
+    image: python
+
+  tomcat:
+    networks:
       - frontend
+      - backend
+    image: tomcat
     ports:
-      - 80
-      
-  samba:
-    build: ./samba
-    networks: 
-      - frontend
-    tty: true
+      - "3001:8080"
+
+  mysql:
+    # build: .
+    networks:
+      - db
+    image: mysql
+
 networks:
-  frontend:
-    driver: bridge
-  backend:
-    driver: bridge
+  frontend: {}
+  backend: {}
+  db: {}

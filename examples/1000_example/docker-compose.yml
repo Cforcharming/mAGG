@@ -4,5010 +4,5010 @@ networks:
   frontend:
     driver: bridge
 services:
-  phpmailer:
-    build: ./phpmailer
+  py1:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py10:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py100:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py1000:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py101:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py102:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py103:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py104:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py105:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py106:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py107:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py108:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py109:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py11:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py110:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py111:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py112:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py113:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py114:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py115:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py116:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py117:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py118:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py119:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py12:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py120:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py121:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py122:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py123:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py124:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py125:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py126:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py127:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py128:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py129:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py13:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py130:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py131:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py132:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py133:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py134:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py135:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py136:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py137:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py138:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py139:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py14:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py140:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py141:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py142:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py143:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py144:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py145:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py146:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py147:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py148:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py149:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py15:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py150:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py151:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py152:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py153:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py154:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py155:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py156:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py157:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py158:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py159:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py16:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py160:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py161:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py162:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py163:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py164:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py165:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py166:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py167:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py168:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py169:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py17:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py170:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py171:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py172:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py173:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py174:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py175:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py176:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py177:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py178:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py179:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py18:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py180:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py181:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py182:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py183:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py184:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py185:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py186:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py187:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py188:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py189:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py19:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py190:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py191:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py192:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py193:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py194:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py195:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py196:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py197:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py198:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py199:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py2:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py20:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py200:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py201:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py202:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py203:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py204:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py205:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py206:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py207:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py208:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py209:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py21:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py210:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py211:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py212:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py213:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py214:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py215:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py216:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py217:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py218:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py219:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py22:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py220:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py221:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py222:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py223:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py224:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py225:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py226:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py227:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py228:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py229:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py23:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py230:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py231:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py232:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py233:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py234:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py235:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py236:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py237:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py238:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py239:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py24:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py240:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py241:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py242:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py243:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py244:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py245:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py246:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py247:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py248:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py249:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py25:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py250:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py251:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py252:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py253:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py254:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py255:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py256:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py257:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py258:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py259:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py26:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py260:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py261:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py262:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py263:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py264:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py265:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py266:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py267:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py268:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py269:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py27:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py270:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py271:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py272:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py273:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py274:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py275:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py276:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py277:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py278:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py279:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py28:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py280:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py281:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py282:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py283:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py284:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py285:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py286:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py287:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py288:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py289:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py29:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py290:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py291:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py292:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py293:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py294:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py295:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py296:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py297:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py298:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py299:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py3:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py30:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py300:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py301:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py302:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py303:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py304:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py305:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py306:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py307:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py308:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py309:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py31:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py310:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py311:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py312:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py313:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py314:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py315:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py316:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py317:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py318:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py319:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py32:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py320:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py321:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py322:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py323:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py324:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py325:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py326:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py327:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py328:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py329:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py33:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py330:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py331:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py332:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py333:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py334:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py335:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py336:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py337:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py338:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py339:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py34:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py340:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py341:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py342:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py343:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py344:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py345:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py346:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py347:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py348:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py349:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py35:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py350:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py351:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py352:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py353:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py354:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py355:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py356:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py357:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py358:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py359:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py36:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py360:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py361:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py362:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py363:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py364:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py365:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py366:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py367:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py368:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py369:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py37:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py370:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py371:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py372:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py373:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py374:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py375:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py376:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py377:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py378:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py379:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py38:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py380:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py381:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py382:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py383:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py384:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py385:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py386:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py387:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py388:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py389:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py39:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py390:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py391:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py392:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py393:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py394:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py395:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py396:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py397:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py398:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py399:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py4:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py40:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py400:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py401:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py402:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py403:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py404:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py405:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py406:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py407:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py408:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py409:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py41:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py410:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py411:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py412:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py413:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py414:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py415:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py416:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py417:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py418:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py419:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py42:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py420:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py421:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py422:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py423:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py424:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py425:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py426:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py427:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py428:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py429:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py43:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py430:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py431:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py432:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py433:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py434:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py435:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py436:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py437:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py438:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py439:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py44:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py440:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py441:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py442:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py443:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py444:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py445:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py446:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py447:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py448:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py449:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py45:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py450:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py451:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py452:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py453:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py454:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py455:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py456:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py457:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py458:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py459:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py46:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py460:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py461:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py462:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py463:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py464:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py465:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py466:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py467:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py468:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py469:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py47:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py470:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py471:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py472:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py473:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py474:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py475:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py476:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py477:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py478:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py479:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py48:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py480:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py481:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py482:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py483:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py484:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py485:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py486:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py487:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py488:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py489:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py49:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py490:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py491:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py492:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py493:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py494:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py495:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py496:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py497:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py498:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py499:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py5:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py50:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py500:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py501:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py502:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py503:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py504:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py505:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py506:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py507:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py508:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py509:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py51:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py510:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py511:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py512:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py513:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py514:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py515:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py516:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py517:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py518:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py519:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py52:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py520:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py521:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py522:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py523:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py524:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py525:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py526:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py527:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py528:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py529:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py53:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py530:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py531:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py532:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py533:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py534:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py535:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py536:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py537:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py538:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py539:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py54:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py540:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py541:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py542:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py543:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py544:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py545:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py546:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py547:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py548:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py549:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py55:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py550:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py551:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py552:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py553:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py554:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py555:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py556:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py557:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py558:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py559:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py56:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py560:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py561:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py562:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py563:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py564:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py565:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py566:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py567:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py568:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py569:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py57:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py570:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py571:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py572:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py573:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py574:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py575:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py576:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py577:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py578:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py579:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py58:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py580:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py581:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py582:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py583:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py584:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py585:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py586:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py587:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py588:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py589:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py59:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py590:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py591:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py592:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py593:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py594:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py595:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py596:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py597:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py598:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py599:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py6:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py60:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py600:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py601:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py602:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py603:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py604:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py605:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py606:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py607:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py608:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py609:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py61:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py610:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py611:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py612:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py613:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py614:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py615:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py616:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py617:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py618:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py619:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py62:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py620:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py621:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py622:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py623:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py624:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py625:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py626:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py627:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py628:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py629:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py63:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py630:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py631:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py632:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py633:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py634:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py635:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py636:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py637:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py638:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py639:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py64:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py640:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py641:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py642:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py643:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py644:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py645:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py646:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py647:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py648:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py649:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py65:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py650:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py651:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py652:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py653:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py654:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py655:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py656:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py657:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py658:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py659:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py66:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py660:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py661:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py662:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py663:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py664:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py665:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py666:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py667:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py668:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py669:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py67:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py670:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py671:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py672:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py673:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py674:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py675:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py676:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py677:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py678:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py679:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py68:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py680:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py681:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py682:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py683:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py684:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py685:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py686:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py687:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py688:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py689:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py69:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py690:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py691:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py692:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py693:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py694:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py695:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py696:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py697:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py698:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py699:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py7:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py70:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py700:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py701:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py702:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py703:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py704:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py705:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py706:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py707:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py708:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py709:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py71:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py710:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py711:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py712:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py713:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py714:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py715:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py716:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py717:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py718:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py719:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py72:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py720:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py721:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py722:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py723:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py724:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py725:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py726:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py727:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py728:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py729:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py73:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py730:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py731:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py732:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py733:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py734:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py735:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py736:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py737:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py738:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py739:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py74:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py740:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py741:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py742:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py743:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py744:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py745:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py746:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py747:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py748:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py749:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py75:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py750:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py751:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py752:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py753:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py754:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py755:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py756:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py757:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py758:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py759:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py76:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py760:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py761:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py762:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py763:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py764:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py765:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py766:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py767:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py768:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py769:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py77:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py770:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py771:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py772:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py773:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py774:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py775:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py776:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py777:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py778:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py779:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py78:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py780:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py781:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py782:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py783:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py784:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py785:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py786:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py787:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py788:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py789:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py79:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py790:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py791:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py792:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py793:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py794:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py795:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py796:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py797:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py798:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py799:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py8:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py80:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py800:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py801:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py802:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py803:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py804:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py805:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py806:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py807:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py808:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py809:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py81:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py810:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py811:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py812:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py813:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py814:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py815:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py816:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py817:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py818:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py819:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py82:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py820:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py821:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py822:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py823:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py824:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py825:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py826:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py827:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py828:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py829:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py83:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py830:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py831:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py832:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py833:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py834:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py835:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py836:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py837:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py838:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py839:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py84:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py840:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py841:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py842:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py843:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py844:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py845:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py846:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py847:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py848:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py849:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py85:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py850:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py851:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py852:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py853:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py854:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py855:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py856:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py857:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py858:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py859:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py86:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py860:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py861:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py862:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py863:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py864:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py865:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py866:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py867:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py868:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py869:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py87:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py870:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py871:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py872:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py873:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py874:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py875:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py876:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py877:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py878:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py879:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py88:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py880:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py881:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py882:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py883:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py884:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py885:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py886:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py887:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py888:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py889:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py89:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py890:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py891:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py892:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py893:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py894:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py895:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py896:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py897:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py898:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py899:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py9:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py90:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py900:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py901:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py902:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py903:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py904:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py905:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py906:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py907:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py908:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py909:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py91:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py910:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py911:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py912:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py913:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py914:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py915:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py916:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py917:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py918:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py919:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py92:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py920:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py921:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py922:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py923:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py924:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py925:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py926:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py927:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py928:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py929:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py93:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py930:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py931:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py932:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py933:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py934:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py935:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py936:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py937:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py938:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py939:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py94:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py940:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py941:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py942:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py943:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py944:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py945:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py946:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py947:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py948:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py949:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py95:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py950:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py951:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py952:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py953:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py954:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py955:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py956:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py957:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py958:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py959:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py96:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py960:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py961:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py962:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py963:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py964:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py965:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py966:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py967:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py968:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py969:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py97:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py970:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py971:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py972:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py973:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py974:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py975:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py976:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py977:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py978:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py979:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py98:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py980:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py981:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py982:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py983:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py984:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py985:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py986:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py987:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py988:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py989:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py99:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py990:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py991:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py992:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py993:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py994:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py995:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py996:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py997:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py998:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  py999:
+    image: python
+    networks:
+    - frontend
+    tty: true
+  tc:
+    image: tomcat
     networks:
     - frontend
     ports:
-    - 80
-  samba1:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba10:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba100:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba1000:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba101:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba102:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba103:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba104:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba105:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba106:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba107:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba108:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba109:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba11:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba110:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba111:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba112:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba113:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba114:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba115:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba116:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba117:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba118:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba119:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba12:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba120:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba121:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba122:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba123:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba124:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba125:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba126:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba127:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba128:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba129:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba13:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba130:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba131:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba132:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba133:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba134:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba135:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba136:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba137:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba138:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba139:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba14:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba140:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba141:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba142:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba143:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba144:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba145:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba146:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba147:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba148:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba149:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba15:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba150:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba151:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba152:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba153:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba154:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba155:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba156:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba157:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba158:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba159:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba16:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba160:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba161:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba162:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba163:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba164:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba165:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba166:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba167:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba168:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba169:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba17:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba170:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba171:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba172:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba173:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba174:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba175:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba176:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba177:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba178:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba179:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba18:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba180:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba181:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba182:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba183:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba184:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba185:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba186:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba187:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba188:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba189:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba19:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba190:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba191:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba192:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba193:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba194:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba195:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba196:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba197:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba198:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba199:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba2:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba20:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba200:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba201:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba202:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba203:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba204:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba205:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba206:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba207:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba208:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba209:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba21:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba210:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba211:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba212:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba213:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba214:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba215:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba216:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba217:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba218:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba219:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba22:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba220:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba221:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba222:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba223:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba224:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba225:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba226:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba227:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba228:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba229:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba23:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba230:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba231:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba232:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba233:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba234:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba235:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba236:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba237:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba238:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba239:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba24:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba240:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba241:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba242:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba243:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba244:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba245:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba246:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba247:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba248:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba249:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba25:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba250:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba251:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba252:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba253:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba254:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba255:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba256:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba257:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba258:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba259:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba26:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba260:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba261:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba262:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba263:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba264:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba265:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba266:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba267:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba268:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba269:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba27:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba270:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba271:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba272:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba273:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba274:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba275:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba276:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba277:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba278:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba279:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba28:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba280:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba281:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba282:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba283:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba284:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba285:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba286:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba287:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba288:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba289:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba29:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba290:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba291:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba292:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba293:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba294:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba295:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba296:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba297:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba298:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba299:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba3:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba30:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba300:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba301:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba302:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba303:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba304:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba305:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba306:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba307:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba308:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba309:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba31:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba310:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba311:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba312:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba313:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba314:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba315:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba316:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba317:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba318:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba319:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba32:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba320:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba321:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba322:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba323:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba324:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba325:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba326:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba327:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba328:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba329:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba33:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba330:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba331:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba332:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba333:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba334:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba335:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba336:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba337:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba338:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba339:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba34:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba340:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba341:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba342:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba343:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba344:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba345:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba346:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba347:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba348:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba349:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba35:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba350:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba351:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba352:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba353:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba354:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba355:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba356:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba357:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba358:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba359:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba36:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba360:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba361:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba362:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba363:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba364:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba365:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba366:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba367:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba368:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba369:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba37:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba370:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba371:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba372:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba373:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba374:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba375:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba376:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba377:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba378:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba379:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba38:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba380:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba381:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba382:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba383:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba384:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba385:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba386:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba387:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba388:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba389:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba39:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba390:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba391:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba392:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba393:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba394:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba395:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba396:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba397:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba398:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba399:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba4:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba40:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba400:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba401:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba402:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba403:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba404:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba405:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba406:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba407:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba408:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba409:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba41:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba410:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba411:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba412:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba413:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba414:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba415:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba416:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba417:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba418:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba419:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba42:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba420:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba421:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba422:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba423:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba424:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba425:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba426:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba427:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba428:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba429:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba43:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba430:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba431:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba432:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba433:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba434:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba435:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba436:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba437:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba438:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba439:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba44:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba440:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba441:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba442:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba443:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba444:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba445:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba446:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba447:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba448:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba449:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba45:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba450:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba451:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba452:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba453:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba454:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba455:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba456:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba457:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba458:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba459:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba46:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba460:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba461:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba462:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba463:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba464:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba465:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba466:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba467:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba468:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba469:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba47:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba470:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba471:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba472:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba473:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba474:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba475:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba476:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba477:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba478:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba479:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba48:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba480:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba481:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba482:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba483:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba484:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba485:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba486:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba487:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba488:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba489:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba49:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba490:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba491:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba492:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba493:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba494:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba495:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba496:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba497:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba498:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba499:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba5:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba50:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba500:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba501:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba502:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba503:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba504:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba505:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba506:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba507:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba508:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba509:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba51:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba510:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba511:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba512:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba513:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba514:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba515:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba516:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba517:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba518:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba519:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba52:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba520:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba521:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba522:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba523:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba524:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba525:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba526:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba527:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba528:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba529:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba53:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba530:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba531:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba532:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba533:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba534:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba535:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba536:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba537:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba538:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba539:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba54:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba540:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba541:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba542:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba543:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba544:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba545:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba546:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba547:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba548:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba549:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba55:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba550:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba551:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba552:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba553:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba554:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba555:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba556:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba557:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba558:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba559:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba56:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba560:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba561:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba562:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba563:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba564:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba565:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba566:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba567:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba568:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba569:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba57:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba570:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba571:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba572:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba573:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba574:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba575:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba576:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba577:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba578:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba579:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba58:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba580:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba581:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba582:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba583:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba584:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba585:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba586:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba587:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba588:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba589:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba59:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba590:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba591:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba592:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba593:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba594:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba595:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba596:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba597:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba598:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba599:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba6:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba60:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba600:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba601:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba602:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba603:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba604:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba605:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba606:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba607:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba608:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba609:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba61:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba610:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba611:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba612:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba613:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba614:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba615:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba616:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba617:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba618:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba619:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba62:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba620:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba621:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba622:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba623:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba624:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba625:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba626:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba627:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba628:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba629:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba63:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba630:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba631:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba632:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba633:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba634:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba635:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba636:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba637:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba638:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba639:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba64:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba640:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba641:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba642:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba643:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba644:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba645:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba646:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba647:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba648:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba649:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba65:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba650:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba651:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba652:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba653:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba654:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba655:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba656:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba657:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba658:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba659:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba66:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba660:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba661:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba662:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba663:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba664:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba665:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba666:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba667:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba668:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba669:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba67:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba670:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba671:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba672:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba673:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba674:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba675:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba676:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba677:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba678:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba679:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba68:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba680:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba681:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba682:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba683:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba684:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba685:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba686:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba687:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba688:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba689:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba69:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba690:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba691:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba692:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba693:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba694:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba695:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba696:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba697:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba698:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba699:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba7:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba70:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba700:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba701:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba702:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba703:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba704:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba705:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba706:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba707:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba708:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba709:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba71:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba710:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba711:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba712:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba713:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba714:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba715:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba716:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba717:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba718:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba719:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba72:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba720:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba721:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba722:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba723:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba724:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba725:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba726:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba727:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba728:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba729:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba73:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba730:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba731:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba732:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba733:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba734:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba735:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba736:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba737:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba738:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba739:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba74:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba740:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba741:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba742:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba743:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba744:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba745:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba746:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba747:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba748:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba749:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba75:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba750:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba751:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba752:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba753:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba754:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba755:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba756:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba757:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba758:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba759:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba76:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba760:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba761:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba762:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba763:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba764:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba765:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba766:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba767:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba768:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba769:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba77:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba770:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba771:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba772:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba773:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba774:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba775:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba776:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba777:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba778:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba779:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba78:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba780:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba781:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba782:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba783:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba784:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba785:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba786:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba787:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba788:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba789:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba79:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba790:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba791:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba792:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba793:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba794:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba795:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba796:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba797:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba798:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba799:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba8:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba80:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba800:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba801:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba802:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba803:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba804:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba805:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba806:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba807:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba808:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba809:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba81:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba810:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba811:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba812:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba813:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba814:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba815:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba816:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba817:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba818:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba819:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba82:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba820:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba821:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba822:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba823:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba824:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba825:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba826:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba827:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba828:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba829:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba83:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba830:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba831:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba832:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba833:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba834:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba835:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba836:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba837:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba838:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba839:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba84:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba840:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba841:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba842:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba843:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba844:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba845:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba846:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba847:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba848:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba849:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba85:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba850:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba851:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba852:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba853:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba854:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba855:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba856:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba857:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba858:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba859:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba86:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba860:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba861:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba862:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba863:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba864:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba865:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba866:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba867:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba868:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba869:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba87:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba870:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba871:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba872:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba873:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba874:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba875:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba876:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba877:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba878:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba879:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba88:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba880:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba881:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba882:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba883:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba884:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba885:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba886:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba887:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba888:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba889:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba89:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba890:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba891:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba892:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba893:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba894:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba895:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba896:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba897:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba898:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba899:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba9:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba90:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba900:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba901:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba902:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba903:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba904:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba905:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba906:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba907:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba908:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba909:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba91:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba910:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba911:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba912:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba913:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba914:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba915:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba916:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba917:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba918:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba919:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba92:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba920:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba921:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba922:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba923:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba924:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba925:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba926:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba927:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba928:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba929:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba93:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba930:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba931:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba932:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba933:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba934:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba935:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba936:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba937:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba938:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba939:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba94:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba940:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba941:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba942:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba943:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba944:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba945:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba946:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba947:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba948:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba949:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba95:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba950:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba951:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba952:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba953:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba954:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba955:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba956:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba957:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba958:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba959:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba96:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba960:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba961:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba962:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba963:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba964:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba965:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba966:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba967:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba968:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba969:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba97:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba970:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba971:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba972:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba973:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba974:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba975:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba976:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba977:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba978:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba979:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba98:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba980:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba981:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba982:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba983:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba984:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba985:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba986:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba987:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba988:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba989:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba99:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba990:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba991:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba992:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba993:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba994:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba995:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba996:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba997:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba998:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-  samba999:
-    build: ./samba
-    networks:
-    - frontend
-    tty: true
-version: '2'
+    - '80'
+version: '3.8'

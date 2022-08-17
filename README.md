@@ -7,12 +7,10 @@
 The following dependencies are needed:
 
 * bash
-* python3
-* docker
-* docker-compose
+* Python3
+* Docker Desktop (Engine >= 19.03, Compose >= 1.27)
 * go
 * graphviz
-* clairctl
 
 You may install them with 
 ```
