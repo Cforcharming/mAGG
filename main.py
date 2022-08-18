@@ -114,13 +114,13 @@ def visualize_attack_graph(labels_edges, example_folder_path, nodes, edges):
                 dot.edge(terminal_points[0], terminal_points[1], label=edge_vulnerabilities, contstraint='false')
         
         elif labels_edges == "multiple":
-            desc = ""
+            descriptions = ""
             for edge_vulnerabilities in edge_vulnerabilities:
-                if desc == "":
-                    desc += edge_vulnerabilities
+                if descriptions == "":
+                    descriptions += edge_vulnerabilities
                 else:
-                    desc += "\n" + edge_vulnerabilities
-            dot.edge(terminal_points[0], terminal_points[1], label=desc, contstraint='false')
+                    descriptions += "\n" + edge_vulnerabilities
+            dot.edge(terminal_points[0], terminal_points[1], label=descriptions, contstraint='false')
     
     writer.write_attack_graph(example_folder_path, dot)
     print("Visualizing the graph...")
