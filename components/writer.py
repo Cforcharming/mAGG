@@ -2,7 +2,6 @@
 """This module is responsible for writing the outputs into files."""
 
 import os
-import yaml
 import json
 from components import reader
 
@@ -29,6 +28,7 @@ def write_attack_graph(example_folder_path, graph):
     folder_name = os.path.basename(example_folder_path)
     attack_graph_path = os.path.join(config["examples-results-path"], folder_name, "attack_graph.dot")
     graph.render(attack_graph_path)
+    print("Attack graph is at: " + attack_graph_path + ".png")
 
 
 def write_topology_graph(graph, example_folder_path, example_result_path=""):
@@ -40,13 +40,7 @@ def write_topology_graph(graph, example_folder_path, example_result_path=""):
         example_result_path = config["examples-results-path"]
     topology_graph_path = os.path.join(example_result_path, folder_name, "topology_graph.dot")
     graph.render(topology_graph_path)
-
-
-def write_clarictl_config_file(clairctl_home, clairctl_config_dict):
-    """Writes the modified clairctl config file."""
-    
-    with open(os.path.join(clairctl_home, "clairctl.yml"), "w") as outfile:
-        yaml.dump(clairctl_config_dict, outfile)
+    print("Topology graph is at: " + topology_graph_path + ".png")
 
 
 def copy_vulnerability_file(clairctl_home, image_name, old_root_path, parent_folder):
@@ -88,6 +82,7 @@ def print_summary(config_generate_graphs,
                   no_attack_graph_nodes=0,
                   no_attack_graph_edges=0,
                   duration_topology=0,
+                  duration_vulnerabilities=0,
                   duration_vulnerabilities_preprocessing=0,
                   duration_bdf=0,
                   duration_graph_properties=0,
@@ -118,7 +113,7 @@ def print_summary(config_generate_graphs,
           str(duration_vulnerabilities_preprocessing + duration_bdf) + " seconds.")
     
     print("	-Preprocessing of the vulnerabilities took " +
-          str(duration_vulnerabilities_preprocessing) + " seconds.")
+          str(duration_vulnerabilities) + " seconds.")
     
     print("	-Breadth First Search took " + str(duration_bdf) + " seconds.")
     
