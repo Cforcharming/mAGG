@@ -5,8 +5,9 @@ import os
 import sys
 import time
 import errno
-from graphviz import Digraph
-from components import reader, vulnerability_parser, writer, attack_graph_parser, topology_parser
+
+from parsers import vulnerability_parser, attack_graph_parser, topology_parser
+from mio import writer, reader
 
 __version__ = "1.0-dev2"
 
@@ -15,115 +16,151 @@ def main(argv):
     """
     Main function responsible for running the attack graph generation pipeline.
     """
+
+    times = 0
     
-    # Checks if the command-line input and config file content is valid.
+    # %% Checks if the command-line input and config file content is valid.
     reader.validate_command_line_input(argv)
     # Opening the configuration file.
     config = reader.validate_config_file()
-    example_folder = argv[1]
+    example_folder = os.path.join(os.getcwd(), argv[1])
     
     # Create folder where the result files will be stored.
-    writer.create_folder(os.path.basename(example_folder))
+    result_folder = writer.create_result_folder(os.path.basename(example_folder), config)
     
-    # Parsing the topology of the docker containers.
+    # %% Parsing the topology of the docker containers.
     time_start = time.time()
-    topology = topology_parser.parse_topology(example_folder)
+    topology, networks, services = topology_parser.parse_topology(example_folder)
     duration_topology = time.time() - time_start
     print("Time elapsed: " + str(duration_topology) + " seconds.\n")
     
-    # Visualizing the topology graph.
-    duration_visualization = 0
-    if config['generate_graphs']:
-        time_start = time.time()
-        topology_parser.create_topology_graph(topology, example_folder)
-        duration_visualization = time.time() - time_start
-        print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
+    mapping_names = topology_parser.get_mapping_service_to_image_names(services, example_folder)
     
-    # Parsing the vulnerabilities for each docker container.
+    # %% Visualizing the topology graph.
     time_start = time.time()
-    vulnerability_parser.parse_vulnerabilities(example_folder)
+    topology_graph = topology_parser.create_topology_graph(topology)
+    duration_visualization = time.time() - time_start
+    print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
+    
+    # %% Parsing the vulnerabilities for each docker container.
+    time_start = time.time()
+    parsed_images = reader.cache_parsed_images(example_folder)
+    vulnerabilities = vulnerability_parser.parse_vulnerabilities(example_folder, parsed_images, services, mapping_names)
     duration_vulnerabilities = time.time() - time_start
     print("Time elapsed: " + str(duration_vulnerabilities) + " seconds.\n")
-    
-    vulnerabilities_folder_path = os.path.join(config['examples-results-path'], os.path.basename(example_folder))
-    
-    vulnerabilities_files = reader.cache_parsed_images(os.getcwd(), example_folder)
-    vulnerabilities = reader.read_vulnerabilities(vulnerabilities_folder_path, vulnerabilities_files)
     
     if not vulnerabilities.keys():
         print("There is a mistake with the vulnerabilities. Terminating the function...")
         return errno.ENOENT
-    
+
+    # Read the attack vector files.
+    attack_vector_files = reader.read_attack_vector_files(config["attack-vector-folder-path"])
+    # Merging the attack vector files and creating an attack vector dictionary.
+    attack_vector_dict = attack_graph_parser.get_attack_vector(attack_vector_files)
+    exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
+            topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
+            config["postconditions-rules"], )
+
     # Getting the attack graph nodes and edges from the attack paths.
     # Returns a tuple of the form:
     # (attack_graph_nodes, attack_graph_edges, duration_bdf, duration_vul_preprocessing)
-    attack_graph_tuple = attack_graph_parser.generate_attack_graph(config["attack-vector-folder-path"],
-                                                                   config["preconditions-rules"],
-                                                                   config["postconditions-rules"],
-                                                                   topology,
-                                                                   vulnerabilities,
-                                                                   example_folder)
+    nodes, edges, duration_bdf = attack_graph_parser.generate_attack_graph(topology, exploitable_vulnerabilities)
     
-    print("Time elapsed: " + str(attack_graph_tuple[2] + attack_graph_tuple[3]) + " seconds.\n")
+    print("Time elapsed: " + str(duration_bdf + dvp) + " seconds.\n")
     
-    # Printing the graph properties.
-    duration_graph_properties = attack_graph_parser.print_graph_properties(config["labels_edges"],
-                                                                           nodes=attack_graph_tuple[0],
-                                                                           edges=attack_graph_tuple[1])
+    duration_graph_properties, attach_graph = attack_graph_parser.print_graph_properties(config["labels_edges"], nodes,
+                                                                                         edges)
     
-    if config["show_one_vul_per_edge"]:
-        for element in attack_graph_tuple[1].keys():
-            attack_graph_tuple[1][element] = [attack_graph_tuple[1][element][0]]
+    for element in edges.keys():
+        edges[element] = [edges[element][0]]
     
-    # Visualizing the attack graph.
-    if config['generate_graphs']:
-        time_start = time.time()
-        visualize_attack_graph(config["labels_edges"],
-                               example_folder,
-                               nodes=attack_graph_tuple[0],
-                               edges=attack_graph_tuple[1])
-        duration_visualization = time.time() - time_start
-        print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
+    # %% Visualizing the attack graph.
+    times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
     
-    # Printing time summary of the attack graph generation.
-    writer.print_summary(config['generate_graphs'],
-                         duration_topology=duration_topology,
+    # %% Printing time summary of the attack graph generation.
+    writer.print_summary(config['generate_graphs'], duration_topology=duration_topology,
                          duration_vulnerabilities=duration_vulnerabilities,
-                         duration_bdf=attack_graph_tuple[2],
-                         duration_vulnerabilities_preprocessing=attack_graph_tuple[3],
+                         duration_bdf=duration_bdf,
+                         duration_vulnerabilities_preprocessing=dvp,
                          duration_graph_properties=duration_graph_properties,
                          duration_visualization=duration_visualization)
     
-    return 0
+    # %%
+    while True:
+        
+        try:
+            # option = input('>>> ')
+
+            # if option == 'exit' or option == 'bye' or option == 'quit':
+            #     raise EOFError
+
+            option = 'add test nginx'
+            
+            option = option.split(' ')
+            
+            if option[0] == 'add':
+                
+                name = option[1]
+                image = option[2]
+                # network = input('networks to add: ').split(' ')
+                network = ['db', 'backend']
+                add_node(name, image, network, vulnerabilities, parsed_images, example_folder, networks, topology,
+                         topology_graph, services)
+            
+            times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
+            option = 'del test'
+            option = option.split(' ')
+            
+            if option[0] == 'del':
+                name = option[1]
+                del_node(name, networks, topology, services)
+                
+            times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
+            
+            if option[0] == 'v':
+                times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
+
+            raise EOFError
+        except KeyboardInterrupt:
+            continue
+        
+        except EOFError:
+            return 0
 
 
-def visualize_attack_graph(labels_edges, example_folder_path, nodes, edges):
-    """This function visualizes the attack graph with given counter examples."""
+def add_node(name, image, network, vulnerabilities, parsed_images, example_folder, networks, topology, topology_graph,
+             services):
     
-    dot = Digraph(comment="Attack Graph", format='png')
-    for node in nodes:
-        dot.node(node)
+    new_service = {'image': image, 'networks': network}
     
-    for edge_name in edges.keys():
-        terminal_points = edge_name.split("|")
-        
-        edge_vulnerabilities = edges[edge_name]
-        
-        if labels_edges == "single":
-            for edge_vulnerabilities in edge_vulnerabilities:
-                dot.edge(terminal_points[0], terminal_points[1], label=edge_vulnerabilities, contstraint='false')
-        
-        elif labels_edges == "multiple":
-            descriptions = ""
-            for edge_vulnerabilities in edge_vulnerabilities:
-                if descriptions == "":
-                    descriptions += edge_vulnerabilities
-                else:
-                    descriptions += "\n" + edge_vulnerabilities
-            dot.edge(terminal_points[0], terminal_points[1], label=descriptions, contstraint='false')
+    vulnerability_parser.add(vulnerabilities, parsed_images, example_folder, image)
+    topology_parser.add(networks, topology, topology_graph, services, new_service, name)
     
-    writer.write_attack_graph(example_folder_path, dot)
-    print("Visualizing the graph...")
+    print("Node added")
+
+
+def del_node(name, networks, topology, services):
+    
+    del_service = services[name]
+    
+    topology_parser.delete(networks, topology, services, del_service, name)
+    
+    print("Node deleted")
+
+
+def visualise(topology, example_folder, result_folder, times, labels_edges, nodes, edges):
+    
+    time_start = time.time()
+    
+    writer.write_topology(topology, example_folder, result_folder, times)
+    topology_graph = topology_parser.create_topology_graph(topology)
+    writer.write_topology_graph(topology_graph, example_folder, result_folder, times)
+    writer.write_attack_graph(labels_edges, nodes, edges, example_folder, result_folder, times)
+    
+    duration_visualization = time.time() - time_start
+    print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
+    
+    return times + 1
 
 
 if __name__ == "__main__":

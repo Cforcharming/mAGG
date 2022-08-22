@@ -4,8 +4,6 @@
 import time
 import networkx
 from queue import Queue
-from components import reader
-from components import topology_parser
 
 
 def clean_vulnerabilities(raw_vulnerabilities, container):
@@ -41,9 +39,8 @@ def clean_vulnerabilities(raw_vulnerabilities, container):
                     if "CVSSv2" not in metadata["NVD"]:
                         continue
                     
-                    cvss_v2 = metadata["NVD"]["CVSSv2"]
-                    if "Vectors" in cvss_v2:
-                        vec = cvss_v2["Vectors"]
+                    if "Vectors" in metadata["NVD"]["CVSSv2"]:
+                        vec = metadata["NVD"]["CVSSv2"]["Vectors"]
                         vulnerability_new["attack_vec"] = vec
                 vulnerabilities[vulnerability["Name"]] = vulnerability_new
     
@@ -192,10 +189,9 @@ def breadth_first_search(topology, container_exploit_ability):
         current_privilege = int(parts_current[1])
         
         neighbours = topology[current_node]
-        neighbours.append(current_node)
         
         # Iterate through all of neighbours
-        for neighbour in neighbours:
+        for neighbour in neighbours + [current_node]:
             
             # Checks if the attacker has access to the docker host.
             if neighbour != "outside":
@@ -255,7 +251,6 @@ def merge_attack_vector_vulnerabilities(attack_vector_dict, vulnerabilities):
     
     for vulnerability in vulnerabilities:
         vulnerability_new = {}
-        
         if vulnerability in attack_vector_dict:
             
             vulnerability_new["desc"] = attack_vector_dict[vulnerability]["desc"]
@@ -281,7 +276,7 @@ def merge_attack_vector_vulnerabilities(attack_vector_dict, vulnerabilities):
     return merged_vulnerabilities
 
 
-def get_value(privilege):
+def get_val(privilege):
     """Mapping the privilege level to its value, so that it can be compared later."""
     
     mapping = {"NONE": 0, "VOS USER": 1, "VOS ADMIN": 2, "USER": 3, "ADMIN": 4}
@@ -297,47 +292,40 @@ def get_privilege_level(privilege):
     return mapping[privilege]
 
 
-def get_rule_precondition(rule, vulnerability, pre_conditions, vulnerability_key):
+def get_rule_precondition(rule, vul, pre_conditions, vul_key):
     """Checks if it finds rule precondition"""
     
     # Checks if the cpe in the rule is same with vulnerability.
     if rule["cpe"] != "?":
-        if rule["cpe"] == "o" and vulnerability["cpe"] != "o":
+        if rule["cpe"] == "o" and vul["cpe"] != "o":
             return pre_conditions
-        elif rule["cpe"] == "h" and (vulnerability["cpe"] != "h" and vulnerability["cpe"] != "a"):
+        elif rule["cpe"] == "h" and (vul["cpe"] != "h" and vul["cpe"] != "a"):
             return pre_conditions
     
     # Checks if the vocabulary is matching
     if "vocabulary" in rule.keys():
-        is_hit = is_hit_vocabulary(rule, vulnerability)
-        pre_value = get_value(rule["precondition"])
-        if is_hit and (vulnerability_key not in pre_conditions or pre_conditions[vulnerability_key] < pre_value):
-            pre_conditions[vulnerability_key] = pre_value
+        hit_vocab = get_hit_vocabulary(rule, vul)
+        if hit_vocab and (vul_key not in pre_conditions or pre_conditions[vul_key] < get_val(rule["precondition"])):
+            pre_conditions[vul_key] = get_val(rule["precondition"])
     
     # Check access vector
     else:
-        
-        attack_vec_av = vulnerability["attack_vec"]["AV"]
-        attack_vec_au = vulnerability["attack_vec"]["Au"]
-        
         if rule["accessVector"] != "?":
             
-            if rule["accessVector"] == "LOCAL" and attack_vec_av != "L":
+            if rule["accessVector"] == "LOCAL" and vul["attack_vec"]["AV"] != "L":
                 return pre_conditions
-            elif attack_vec_av != "A" and attack_vec_av != "N":
+            elif vul["attack_vec"]["AV"] != "A" and vul["attack_vec"]["AV"] != "N":
                 return pre_conditions
         
         if rule["authentication"] != "?":
-            if rule["authentication"] == "NONE" and attack_vec_au != "N":
+            if rule["authentication"] == "NONE" and vul["attack_vec"]["Au"] != "N":
                 return pre_conditions
-            elif attack_vec_au != "L" and attack_vec_au != "H":
+            elif vul["attack_vec"]["Au"] != "L" and vul["attack_vec"]["Au"] != "H":
                 return pre_conditions
         
-        pre_value = get_value(rule["precondition"])
-        
-        if rule["accessComplexity"][0] == vulnerability["attack_vec"]["AC"] and \
-                (vulnerability_key not in pre_conditions or pre_conditions[vulnerability_key] < pre_value):
-            pre_conditions[vulnerability_key] = pre_value
+        if rule["accessComplexity"][0] == vul["attack_vec"]["AC"] and \
+                (vul_key not in pre_conditions or pre_conditions[vul_key] < get_val(rule["precondition"])):
+            pre_conditions[vul_key] = get_val(rule["precondition"])
     
     return pre_conditions
 
@@ -346,101 +334,96 @@ def get_post_condition_from_rule(rule, vulnerability, post_condition, vulnerabil
     """Checks if it finds rule post-condition"""
     
     # Checks if the cpe in the rule is same with vulnerability.
-    rule_cpe = rule["cpe"]
-    vulnerability_cpe = vulnerability["cpe"]
-    
-    if rule_cpe != "?":
-        if rule_cpe == "o" and vulnerability_cpe != "o":
+    if rule["cpe"] != "?":
+        if rule["cpe"] == "o" and vulnerability["cpe"] != "o":
             return post_condition
-        elif rule_cpe == "h" and (vulnerability_cpe != "h" and vulnerability_cpe != "a"):
+        elif rule["cpe"] == "h" and (vulnerability["cpe"] != "h" and vulnerability["cpe"] != "a"):
             return post_condition
     
     # Checks if the vocabulary is matching
-    hit_vocabulary = is_hit_vocabulary(rule, vulnerability)
+    hit_vocabulary = get_hit_vocabulary(rule, vulnerability)
     if not hit_vocabulary:
         return post_condition
     
     # Check Impacts
-    impacts = rule["impacts"]
-    attack_vector_i = vulnerability["attack_vec"]["I"]
-    attack_vector_c = vulnerability["attack_vec"]["C"]
-    post_condition_value = get_value(rule["postcondition"])
+    if rule["impacts"] == "ALL_COMPLETE":
+        if vulnerability["attack_vec"]["I"] == "C" and vulnerability["attack_vec"]["C"] == "C":
+            if vulnerability_key not in post_condition or \
+                    post_condition[vulnerability_key] > get_val(rule["postcondition"]):
+                post_condition[vulnerability_key] = get_val(rule["postcondition"])
     
-    if impacts == "ALL_COMPLETE":
-        if attack_vector_i == "C" and attack_vector_c == "C":
-            if vulnerability_key not in post_condition or post_condition[vulnerability_key] > post_condition_value:
-                post_condition[vulnerability_key] = post_condition_value
-    
-    elif impacts == "PARTIAL":
+    elif rule["impacts"] == "PARTIAL":
         
-        if attack_vector_i == "P" or attack_vector_c == "P":
-            if vulnerability_key not in post_condition or post_condition[vulnerability_key] > post_condition_value:
-                post_condition[vulnerability_key] = post_condition_value
+        if vulnerability["attack_vec"]["I"] == "P" or vulnerability["attack_vec"]["C"] == "P":
+            if vulnerability_key not in post_condition or \
+                    post_condition[vulnerability_key] > get_val(rule["postcondition"]):
+                post_condition[vulnerability_key] = get_val(rule["postcondition"])
         
         else:
-            if vulnerability_key not in post_condition or post_condition[vulnerability_key] > post_condition_value:
-                post_condition[vulnerability_key] = post_condition_value
+            if vulnerability_key not in post_condition or \
+                    post_condition[vulnerability_key] > get_val(rule["postcondition"]):
+                post_condition[vulnerability_key] = get_val(rule["postcondition"])
     
-    elif impacts == "ANY_NONE":
-        if attack_vector_i or attack_vector_c == "N":
-            if vulnerability_key not in post_condition or post_condition[vulnerability_key] > post_condition_value:
-                post_condition[vulnerability_key] = post_condition_value
+    elif rule["impacts"] == "ANY_NONE":
+        if vulnerability["attack_vec"]["I"] == "N" or vulnerability["attack_vec"]["C"] == "N":
+            if vulnerability_key not in post_condition or \
+                    post_condition[vulnerability_key] > get_val(rule["postcondition"]):
+                post_condition[vulnerability_key] = get_val(rule["postcondition"])
     
     return post_condition
 
 
-def is_hit_vocabulary(rule, vulnerability):
+def get_hit_vocabulary(rule, vulnerability):
     sentences = rule["vocabulary"]
     hit_vocabulary = False
-    description = vulnerability["desc"]
     for sentence in sentences:
         if "..." in sentence:
             parts = sentence.split("...")
-            if parts[0] in description and parts[1] in description:
+            if parts[0] in vulnerability["desc"] and parts[1] in vulnerability["desc"]:
                 hit_vocabulary = True
                 break
         elif "?" == sentence:
             hit_vocabulary = True
             break
-        elif sentence in description:
+        elif sentence in vulnerability["desc"]:
             hit_vocabulary = True
             break
     return hit_vocabulary
 
 
-def rule_processing(merged_vulnerabilities, pre_rules, post_rules):
+def rule_processing(merged_vulnerability, pre_rules, post_rules):
     """ This function is responsible for creating the
     precondition and post-condition rules."""
     
-    pre_condition = {}
-    post_condition = {}
-    for vulnerability_key in merged_vulnerabilities:
-        vulnerability = merged_vulnerabilities[vulnerability_key]
+    pre_conditions = {}
+    post_conditions = {}
+    for vulnerability_key in merged_vulnerability:
+        vulnerability = merged_vulnerability[vulnerability_key]
         
         if "attack_vec" not in vulnerability or vulnerability["attack_vec"] == "?":
             continue
         for pre_rule in pre_rules:
             rule = pre_rules[pre_rule]
-            pre_condition = get_rule_precondition(rule, vulnerability, pre_condition, vulnerability_key)
+            pre_conditions = get_rule_precondition(rule, vulnerability, pre_conditions, vulnerability_key)
         
         for post_rule in post_rules:
             rule = post_rules[post_rule]
-            post_condition = get_post_condition_from_rule(rule, vulnerability, post_condition, vulnerability_key)
+            post_conditions = get_post_condition_from_rule(rule, vulnerability, post_conditions, vulnerability_key)
         
         # Assign default values if rules are undefined
-        if vulnerability_key not in pre_condition:
-            pre_condition[vulnerability_key] = 0  # 0 is None level
-        if vulnerability_key not in post_condition:
-            post_condition[vulnerability_key] = 4  # 4 is Admin level
+        if vulnerability_key not in pre_conditions:
+            pre_conditions[vulnerability_key] = 0  # 0 is None level
+        if vulnerability_key not in post_conditions:
+            post_conditions[vulnerability_key] = 4  # 4 is Admin level
     
-    return pre_condition, post_condition
+    return pre_conditions, post_conditions
 
 
-def get_container_exploitable_vulnerabilities(vulnerabilities, container, attack_vector_dict, pre_rules, post_rules):
+def get_container_exploitable_vulnerabilities(vulnerabilities, image, attack_vector_dict, pre_rules, post_rules):
     """Processes and provides exploitable vulnerabilities per container."""
     
     # Remove junk and just take the most important part from each vulnerability
-    cleaned_vulnerabilities = clean_vulnerabilities(vulnerabilities, container)
+    cleaned_vulnerabilities = clean_vulnerabilities(vulnerabilities, image)
     
     # Merging the cleaned vulnerabilities
     merged_vulnerabilities = merge_attack_vector_vulnerabilities(attack_vector_dict, cleaned_vulnerabilities)
@@ -452,40 +435,32 @@ def get_container_exploitable_vulnerabilities(vulnerabilities, container, attack
     return exploit_ability_dict
 
 
-def generate_attack_graph(attack_vector_path, pre_rules, post_rules, topology, vulnerabilities, example_folder):
-    """Main pipeline for the attack graph generation algorithm."""
-    
-    print("Start with attack graph generation...")
-    
-    # Read the attack vector files.
-    attack_vector_files = reader.read_attack_vector_files(attack_vector_path)
+def get_exploitable_vulnerabilities(topology, vulnerabilities, mapping_names, attack_vector_dict, pre_rules,
+                                    post_rules):
     
     time_start = time.time()
     
-    # Read the service to image mapping.
-    services = topology_parser.get_services(example_folder)
-    mapping_names = topology_parser.get_mapping_service_to_image_names(services, example_folder)
-    
-    # Merging the attack vector files and creating an attack vector dictionary.
-    attack_vector_dict = get_attack_vector(attack_vector_files)
-    
     # Getting the potentially exploitable vulnerabilities for each container.
     exploitable_vulnerabilities = {}
-    for container in topology.keys():
-        if container != "outside":
+    for name in topology.keys():
+        if name != "outside" and exploitable_vulnerabilities.get(name) is None:
             # Reading the vulnerability
-            exploitable_vulnerabilities[container] = get_container_exploitable_vulnerabilities(vulnerabilities
-                                                                                               [mapping_names
-                                                                                                [container]],
-                                                                                               container,
-                                                                                               attack_vector_dict,
-                                                                                               pre_rules,
-                                                                                               post_rules)
+            exploitable_vulnerabilities[name] = get_container_exploitable_vulnerabilities(vulnerabilities
+                                                                                          [mapping_names[name]],
+                                                                                          name, attack_vector_dict,
+                                                                                          pre_rules, post_rules)
     
     duration_vulnerabilities_preprocessing = time.time() - time_start
-    print("Vulnerabilities preprocessing finished. Time elapsed: " +
-          str(duration_vulnerabilities_preprocessing) +
+    print("Vulnerabilities preprocessing finished. Time elapsed: " + str(duration_vulnerabilities_preprocessing) +
           " seconds.\n")
+    
+    return exploitable_vulnerabilities, duration_vulnerabilities_preprocessing
+
+
+def generate_attack_graph(topology, exploitable_vulnerabilities):
+    """Main pipeline for the attack graph generation algorithm."""
+    
+    print("Start with attack graph generation...")
     
     # Breadth first search algorithm for generation of attack paths.
     print("Breadth-first search started.")
@@ -494,7 +469,7 @@ def generate_attack_graph(attack_vector_path, pre_rules, post_rules, topology, v
     print("Breadth-first search finished. Time elapsed: " + str(duration_bdf) + " seconds.\n")
     
     # Returns a graph with nodes and edges.
-    return nodes, edges, duration_bdf, duration_vulnerabilities_preprocessing
+    return nodes, edges, duration_bdf
 
 
 def print_graph_properties(label_edges, nodes, edges):
@@ -548,13 +523,17 @@ def print_graph_properties(label_edges, nodes, edges):
     # In-degree and average in-degree
     in_degree = graph.in_degree
     print("The in-degree is:")
+    
     avg_in_degree = get_avg_degree(in_degree, no_nodes)
-    print("The average in-degree is " + str(avg_in_degree) + "\n")
+    print("The average in-degree is " + str(avg_in_degree))
+    print("\n")
     
     out_degree = graph.out_degree
     print("The out-degree is:")
+    
     avg_out_degree = get_avg_degree(out_degree, no_nodes)
-    print("The average out-degree is " + str(avg_out_degree) + "\n")
+    print("The average out-degree is " + str(avg_out_degree))
+    print("\n")
     
     if no_nodes != 0:
         print("Is the graph strongly connected? " + str(networkx.is_strongly_connected(graph)) + "\n")
@@ -562,7 +541,7 @@ def print_graph_properties(label_edges, nodes, edges):
     duration_graph_properties = time.time() - time_start
     print("Time elapsed: " + str(duration_graph_properties) + " seconds.\n")
     
-    return duration_graph_properties
+    return duration_graph_properties, graph
 
 
 def get_avg_degree(degree, no_nodes):

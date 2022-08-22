@@ -3,20 +3,18 @@
 
 import os
 from graphviz import Graph
-from components import reader
-from components import writer
+from mio import reader
 
 
-def get_services(example_folder_path):
+def get_services(example_folder):
     """It returns a dictionary of all services defined in docker-compose.yml"""
-    
-    docker_compose_file = reader.read_docker_compose_file(example_folder_path)
-    
-    services = {}
+
+    docker_compose_file = reader.read_docker_compose_file(example_folder)
+
     if "services" in docker_compose_file:
-        services = docker_compose_file["services"]
-    
-    return services
+        return docker_compose_file["services"]
+    else:
+        return {}
 
 
 def get_mapping_service_to_image_names(services, example_folder_path):
@@ -43,29 +41,24 @@ def get_mapping_service_to_image_names(services, example_folder_path):
     return mapping
 
 
-def create_topology_graph(list_services, example_folder_path, example_results_path=""):
+def create_topology_graph(topology):
     """This function creates a topology graph."""
     
     print("Executing the graph render...")
-    
-    nodes = []
     edges = {}
-    for service in list_services.keys():
-        nodes.append(service)
-        for neighbour in list_services[service]:
-            if neighbour + "|" + service not in edges.keys():
-                edges[service + "|" + neighbour] = [service, neighbour]
     
     dot = Graph(comment="Topology Graph", format='png', engine='sfdp')
-    for node in nodes:
-        dot.node(node)
-    for edge in edges:
-        dot.edge(edges[edge][0], edges[edge][1], contstraint='false')
+    for service in topology.keys():
+        dot.node(service)
+        for neighbour in topology[service]:
+            if neighbour + "|" + service not in edges.keys():
+                edges[service + "|" + neighbour] = [service, neighbour]
+                dot.edge(service, neighbour)
     
-    writer.write_topology_graph(dot, example_folder_path, example_results_path)
+    return dot
 
 
-def parse_topology(example_folder_path, example_results_path=""):
+def parse_topology(example_folder):
     """ Function for parsing the topology of the docker system.
 
     Assumptions:
@@ -74,32 +67,38 @@ def parse_topology(example_folder_path, example_results_path=""):
     2) We assume that port mapping is done exclusively through docker-compose.yml"""
     
     print("Executing the topology parser...")
-    
-    # Checks if the services are specified.
-    services = get_services(example_folder_path)
+
+    services = get_services(example_folder)
     
     # Checks if the services are connected to the outside.
-    list_services = {"outside": []}
+    topology = {"outside": []}
+    networks = {'exposed': []}
     
     # Iteration through the first service.
-    for first_service_name in services:
+    for first_service in services:
         
         # Check if network keyword exists in the first service.
-        if "networks" in services[first_service_name].keys():
-            first_service_networks = services[first_service_name]["networks"]
+        if "networks" in services[first_service].keys():
+            first_service_networks = services[first_service]["networks"]
         else:
             
             # If it does not, it means that it is exposed to every other service.
-            first_service_networks = "exposed"
-        list_services[first_service_name] = []
+            first_service_networks = ["exposed"]
         
+        topology[first_service] = []
+        for fn in first_service_networks:
+            if networks.get(fn) is not None:
+                networks[fn].append(first_service)
+            else:
+                networks[fn] = [first_service]
+
         # Iteration through the second service.
-        for second_service_name in services:
-            if first_service_name != second_service_name:
+        for second_service in services:
+            if first_service != second_service:
                 
                 # Check if network keyword exists in the second service.
-                if "networks" in services[second_service_name].keys():
-                    second_service_networks = services[second_service_name]["networks"]
+                if "networks" in services[second_service].keys():
+                    second_service_networks = services[second_service]["networks"]
                 else:
                     
                     # If it does not, it means that it is exposed to every other service.
@@ -109,15 +108,50 @@ def parse_topology(example_folder_path, example_results_path=""):
                 for first_service_network in first_service_networks:
                     if first_service_network in second_service_networks:
                         # If they do, then they are added.
-                        list_services[first_service_name].append(second_service_name)
+                        topology[first_service].append(second_service)
         
         # Check if the ports are mapped to the host machine
         # i.e. the docker is exposed to outside
-        if "ports" in services[first_service_name].keys():
-            list_services["outside"].append(first_service_name)
-            list_services[first_service_name].append("outside")
+        if "ports" in services[first_service].keys():
+            topology["outside"].append(first_service)
+            topology[first_service].append("outside")
+            networks['exposed'].append(first_service)
     
-    # Writing the dictionary into a json file.
-    writer.write_topology_file(list_services, example_folder_path, example_results_path)
+    return topology, networks, services
+
+
+def add(networks, topology, topology_graph: Graph, services, new_service, name):
     
-    return list_services
+    network = new_service['networks']
+    to_add = []
+    
+    for n in network:
+        if networks.get(n) is None:
+            networks[n] = {name}
+        else:
+            for neighbour in networks[n]:
+                if neighbour not in to_add:
+                    topology[neighbour].append(name)
+                    to_add.append(neighbour)
+            networks[n].append(name)
+    
+    topology[name] = to_add
+    topology_graph.node(name)
+    
+    for neighbour in to_add:
+        topology_graph.edge(neighbour, name)
+    
+    services[name] = new_service
+    
+
+def delete(networks, topology, services, del_service, name):
+    
+    network = del_service['networks']
+    
+    for n in network:
+        for neighbour in networks[n]:
+            if neighbour != name and name in topology[neighbour]:
+                topology[neighbour].remove(name)
+    
+    del topology[name]
+    del services[name]

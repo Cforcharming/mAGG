@@ -8,11 +8,10 @@ import time
 import errno
 import unittest
 
-from components import reader
-from components import writer
-from components import topology_parser
-from components.attack_graph_parser import breadth_first_search
-from components.attack_graph_parser import generate_attack_graph
+from mio import writer, reader
+from parsers import topology_parser
+from parsers.attack_graph_parser import breadth_first_search
+from parsers.attack_graph_parser import generate_attack_graph
 
 sys.path.append(os.path.dirname(os.getcwd()))
 

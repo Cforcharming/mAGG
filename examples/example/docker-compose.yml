@@ -2,13 +2,13 @@ version: "3.8"
 
 services:
 
-  python:
+  py:
     networks:
       - backend
       - db
     image: python
 
-  tomcat:
+  tc:
     networks:
       - frontend
       - backend
@@ -16,7 +16,7 @@ services:
     ports:
       - "3001:8080"
 
-  mysql:
+  ms:
     # build: .
     networks:
       - db

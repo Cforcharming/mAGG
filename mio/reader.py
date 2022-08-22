@@ -46,10 +46,7 @@ def validate_config_file():
     config_file = read_config_file()
     
     # Check if the main keywords are present in the config file.
-    main_keywords = ["attack-vector-folder-path",
-                     "examples-results-path",
-                     "labels_edges",
-                     "generate_graphs",
+    main_keywords = ["attack-vector-folder-path", "examples-results-path", "labels_edges", "generate_graphs",
                      "show_one_vul_per_edge"]
     
     for main_keyword in main_keywords:
@@ -110,22 +107,6 @@ def read_topology(example_folder_path):
     return topology
 
 
-def read_vulnerabilities(vulnerabilities_folder_path, containers):
-    """This function reads the .json file for the vulnerabilities of a container."""
-    
-    vulnerabilities = {}
-    
-    for container in containers:
-        
-        vulnerabilities_path = os.path.join(vulnerabilities_folder_path, container + "-vulnerabilities.json")
-        if os.path.exists(vulnerabilities_path):
-            with open(vulnerabilities_path) as vul_file:
-                vulnerabilities_container = json.load(vul_file)
-            vulnerabilities[container] = vulnerabilities_container
-    
-    return vulnerabilities
-
-
 def read_docker_compose_file(example_folder_path):
     """This function is responsible for reading the docker-compose file of the container."""
     
@@ -148,16 +129,9 @@ def read_config_file(old_root_path=""):
     return config_file
 
 
-def cache_parsed_images(old_root_path: str, parent_folder):
+def cache_parsed_images(example_folder):
     
-    config = read_config_file(old_root_path)
-    parent_folder = os.path.basename(parent_folder)
-    return get_parsed_images(os.path.join(old_root_path, config["examples-results-path"], parent_folder))
-
-
-def get_parsed_images(folder):
-    
-    files = os.listdir(folder)
+    files = os.listdir(example_folder)
     
     parsed_images = {}
     
