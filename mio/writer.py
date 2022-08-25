@@ -6,61 +6,56 @@ import json
 from graphviz import Digraph
 
 
-def write_topology(topology, example_folder, result_folder, i):
+def write_topology(topology, result_folder, i):
     """Writes list of services into a file."""
     
-    if i == 0:
-        topology_writing_path = os.path.join(example_folder, "topology.json")
-    else:
-        topology_writing_path = os.path.join(result_folder, 'topology', str(i) + "-topology.json")
+    topology_writing_path = os.path.join(result_folder, 'topology', str(i) + "-topology.json")
     
-    with open(topology_writing_path, "w") as topology_file:
-        json.dump(topology, topology_file)
+    if not os.path.exists(topology_writing_path):
+        with open(topology_writing_path, "w") as topology_file:
+            json.dump(topology, topology_file)
 
 
-def write_attack_graph(labels_edges, nodes, edges, example_folder, result_folder, i):
+def write_attack_graph(labels_edges, nodes, edges, result_folder, i):
     """Writes the attack graph onto a dot file."""
-
-    attack_dot = Digraph(comment="Attack Graph", format='png')
-    for node in nodes:
-        attack_dot.node(node)
-
-    for edge_name in edges.keys():
-        terminal_points = edge_name.split("|")
     
-        edge_vulnerabilities = edges[edge_name]
+    attack_graph_path = os.path.join(result_folder, 'attack_graph', str(i) + "-attack_graph.dot")
     
-        if labels_edges == "single":
-            for edge_vulnerabilities in edge_vulnerabilities:
-                attack_dot.edge(terminal_points[0], terminal_points[1], label=edge_vulnerabilities, contstraint='false')
-    
-        elif labels_edges == "multiple":
-            descriptions = ""
-            for edge_vulnerabilities in edge_vulnerabilities:
-                if descriptions == "":
-                    descriptions += edge_vulnerabilities
-                else:
-                    descriptions += "\n" + edge_vulnerabilities
-            attack_dot.edge(terminal_points[0], terminal_points[1], label=descriptions, contstraint='false')
-    
-    if i == 0:
-        attack_graph_path = os.path.join(example_folder, "attack_graph.dot")
-    else:
-        attack_graph_path = os.path.join(result_folder, 'attack_graph', str(i) + "-attack_graph.dot")
-    
-    attack_dot.render(attack_graph_path)
+    if not os.path.exists(attack_graph_path):
+        attack_dot = Digraph(comment="Attack Graph", format='png')
+        for node in nodes:
+            attack_dot.node(node)
+        
+        for edge_name in edges.keys():
+            terminal_points = edge_name.split("|")
+        
+            edge_vulnerabilities = edges[edge_name]
+        
+            if labels_edges == "single":
+                for edge_vulnerability in edge_vulnerabilities:
+                    attack_dot.\
+                        edge(terminal_points[0], terminal_points[1], label=edge_vulnerability, contstraint='false')
+        
+            elif labels_edges == "multiple":
+                descriptions = ""
+                for edge_vulnerability in edge_vulnerabilities:
+                    if descriptions == "":
+                        descriptions += edge_vulnerability
+                    else:
+                        descriptions += "\n" + edge_vulnerability
+                attack_dot.edge(terminal_points[0], terminal_points[1], label=descriptions, contstraint='false')
+        
+        attack_dot.render(attack_graph_path)
     print("Attack graph is at: " + attack_graph_path + ".png")
 
 
-def write_topology_graph(topology_graph, example_folder, result_folder, i):
+def write_topology_graph(topology_graph, result_folder, i):
     """Writes the topology graph onto a dot file."""
     
-    if i == 0:
-        topology_graph_path = os.path.join(example_folder, "topology_graph.dot")
-    else:
-        topology_graph_path = os.path.join(result_folder, 'topology_graph', str(i) + "-topology_graph.dot")
+    topology_graph_path = os.path.join(result_folder, 'topology_graph', str(i) + "-topology_graph.dot")
     
-    topology_graph.render(topology_graph_path)
+    if not os.path.exists(topology_graph_path):
+        topology_graph.render(topology_graph_path)
     print("Topology graph is at: " + topology_graph_path + ".png")
 
 

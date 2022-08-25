@@ -130,21 +130,14 @@ def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_
     Adding an edge to the attack graph and checking if nodes already exist.
     """
     
-    """for key in edges.keys():
-        if key.endswith(node_start):
-            container = node_end.split("(")[0]
-            if key.startswith(container):
-                return nodes, edges, passed_edges"""
-    
     # Checks if the opposite edge is already in the collection. If it is, don't add the edge.
     node_start_full = node_start + "(" + node_start_privilege + ")"
     node_end_full = node_end + "(" + node_end_privilege + ")"
     
-    node = passed_edges.get(node_end + "|" + node_start_full)
-    if node is None:
+    if passed_edges.get(node_end + "|" + node_start_full) is None:
         passed_edges[node_start + "|" + node_end_full] = True
     else:
-        return nodes, edges, passed_edges
+        return
     
     if node_start_full not in nodes:
         nodes.add(node_start_full)
@@ -154,33 +147,21 @@ def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_
     
     key = node_start_full + "|" + node_end_full
     
-    edge = edges.get(key)
-    if edge is None:
-        edges[key] = [edge_desc]
-    else:
-        edge.append(edge_desc)
-        edges[key] = edge
-    
-    return nodes, edges, passed_edges
+    # if edge := edges.get(key) is None:
+    edges[key] = [edge_desc]
+    # elif edge_desc not in edge:
+    #     edge.append(edge_desc)
 
 
-def breadth_first_search(topology, container_exploit_ability):
+def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
     
-    # This is where the nodes and edges are going to be stored.
-    edges = {}
-    nodes = set()
-    passed_nodes = {}
-    passed_edges = {}
-    
-    # Putting the attacker in the queue
-    queue = Queue()
-    queue.put("outside|4")
-    passed_nodes["outside|4"] = True
-    
     # Starting the time
     bds_start = time.time()
+
+    # Breadth first search algorithm for generation of attack paths.
+    print("Breadth-first search started.")
     
     while not queue.empty():
         
@@ -195,8 +176,8 @@ def breadth_first_search(topology, container_exploit_ability):
             
             # Checks if the attacker has access to the docker host.
             if neighbour != "outside":
-                pre_conditions = container_exploit_ability[neighbour]["precond"]
-                post_conditions = container_exploit_ability[neighbour]["postcond"]
+                pre_conditions = exploitable_vulnerabilities[neighbour]["precond"]
+                post_conditions = exploitable_vulnerabilities[neighbour]["postcond"]
                 
                 for vulnerability in pre_conditions.keys():
                     
@@ -205,25 +186,21 @@ def breadth_first_search(topology, container_exploit_ability):
                              (neighbour == current_node and current_privilege < post_conditions[vulnerability])):
                         
                         # Add the edge
-                        nodes, edges, passed_edges = add_edge(nodes,
-                                                              edges,
-                                                              current_node,
-                                                              get_privilege_level(current_privilege),
-                                                              neighbour,
-                                                              get_privilege_level(post_conditions[vulnerability]),
-                                                              vulnerability,
-                                                              passed_edges)
+                        add_edge(nodes, edges, current_node, get_privilege_level(current_privilege), neighbour,
+                                 get_privilege_level(post_conditions[vulnerability]), vulnerability, passed_edges)
                         
                         # If the neighbour was not passed, or it has a lower privilege...
                         passed_nodes_key = neighbour + "|" + str(post_conditions[vulnerability])
-                        if passed_nodes.get(passed_nodes_key) is None:
+                        pn = passed_nodes.get(passed_nodes_key)
+                        if pn is None or not pn:
                             # ... put it in the queue
                             queue.put(passed_nodes_key)
                             passed_nodes[passed_nodes_key] = True
     
     duration_bdf = time.time() - bds_start
+    print("Breadth-first search finished. Time elapsed: " + str(duration_bdf) + " seconds.\n")
     print("Breadth-first-search took " + str(duration_bdf) + " seconds.")
-    return nodes, edges, duration_bdf
+    return duration_bdf
 
 
 def attack_vector_string_to_dict(av_string):
@@ -437,7 +414,6 @@ def get_container_exploitable_vulnerabilities(vulnerabilities, image, attack_vec
 
 def get_exploitable_vulnerabilities(topology, vulnerabilities, mapping_names, attack_vector_dict, pre_rules,
                                     post_rules):
-    
     time_start = time.time()
     
     # Getting the potentially exploitable vulnerabilities for each container.
@@ -460,16 +436,75 @@ def get_exploitable_vulnerabilities(topology, vulnerabilities, mapping_names, at
 def generate_attack_graph(topology, exploitable_vulnerabilities):
     """Main pipeline for the attack graph generation algorithm."""
     
-    print("Start with attack graph generation...")
+    # This is where the nodes and edges are going to be stored.
+    edges = {}
+    nodes = set()
+    passed_nodes = {}
+    passed_edges = {}
     
-    # Breadth first search algorithm for generation of attack paths.
-    print("Breadth-first search started.")
-    nodes, edges, duration_bdf = breadth_first_search(topology, exploitable_vulnerabilities)
+    # Putting the attacker in the queue
+    queue = Queue()
+
+    queue.put("outside|4")
+    passed_nodes["outside|4"] = True
+
+    bdf = breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities)
     
-    print("Breadth-first search finished. Time elapsed: " + str(duration_bdf) + " seconds.\n")
+    return nodes, edges, passed_nodes, passed_edges, bdf
+
+
+def add(nodes, edges, passed_nodes, passed_edges, topology, name, exploitable_vulnerabilities):
     
-    # Returns a graph with nodes and edges.
-    return nodes, edges, duration_bdf
+    # Putting the attacker in the queue
+    queue = Queue()
+    neighbours = topology[name]
+    
+    for edge in list(edges):
+        neighbour = edge.split('|')[1].split('(')[0]
+        
+        if neighbour in neighbours:
+            current_privilege = edge.split('(')[1].split(')')[0]
+
+            pre_conditions = exploitable_vulnerabilities[name]["precond"]
+            post_conditions = exploitable_vulnerabilities[name]["postcond"]
+
+            for vulnerability in pre_conditions.keys():
+    
+                if get_val(current_privilege) >= pre_conditions[vulnerability] and post_conditions[vulnerability] != 0:
+                    # Add the edge
+                    add_edge(nodes, edges, neighbour, current_privilege, name,
+                             get_privilege_level(post_conditions[vulnerability]), vulnerability, passed_edges)
+
+                    passed_nodes_key = name + "|" + str(post_conditions[vulnerability])
+                    if passed_nodes.get(passed_nodes_key) is None:
+                        queue.put(passed_nodes_key)
+                        passed_nodes[passed_nodes_key] = True
+
+    breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities)
+    
+
+def delete(name, nodes: set, edges, passed_nodes, passed_edges, attack_graph: networkx.DiGraph):
+    
+    for node in nodes.copy():
+        if node.split('(')[0] == name:
+            nodes.remove(node)
+    
+    for node in passed_nodes.copy():
+        if node.split('|')[0] == name:
+            del passed_nodes[node]
+    
+    del_edge(edges, name)
+    del_edge(passed_edges, name)
+    
+    attack_graph.remove_node(name)
+    
+
+def del_edge(edge_list, name):
+    for edge in list(edge_list):
+        node1 = edge.split('|')[0].split('(')[0]
+        node2 = edge.split('|')[1].split('(')[0]
+        if node1 == name or node2 == name:
+            del edge_list[edge]
 
 
 def print_graph_properties(label_edges, nodes, edges):
@@ -518,6 +553,7 @@ def print_graph_properties(label_edges, nodes, edges):
         avg_degree_centrality = avg_degree_centrality + degree_centrality[node]
     if no_nodes != 0:
         avg_degree_centrality = avg_degree_centrality / no_nodes
+    
     print("The average degree centrality of the graph is: " + str(avg_degree_centrality) + "\n")
     
     # In-degree and average in-degree

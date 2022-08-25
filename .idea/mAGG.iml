@@ -6,9 +6,9 @@
       <excludeFolder url="file://$MODULE_DIR$/output_samples" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/ZeppelinRemoteNotebooks" />
       <excludeFolder url="file://$MODULE_DIR$/data/attack_vector_files" />
-      <excludeFolder url="file://$MODULE_DIR$/examples-results" />
+      <excludeFolder url="file://$MODULE_DIR$/example-results" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (mAGG)" jdkType="Python SDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">

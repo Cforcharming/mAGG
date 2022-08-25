@@ -2,14 +2,14 @@
 attack-vector-folder-path: data/attack_vector_files
 
 # The locations from where the example-folders are read and where their results are being stored.
-examples-results-path: examples-results
+examples-results-path: example-results
 
 # This property states if topology and attack graphs are going to be produced.
 generate_graphs: True # Options {True, False}
 
 # This property states if single or multiple vulnerabilities constitute
 # an edge between two same nodes
-labels_edges: multiple # Options {"single", "multiple"}
+labels_edges: single # Options {"single", "multiple"}
 
 # This property only shows one vulnerability per edge in the attack graph
 # We use this in order to have more readable attack graphs.

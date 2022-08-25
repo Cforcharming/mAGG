@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Main module responsible for the attack graph generation pipeline."""
 
+# %%
 import os
 import sys
 import time
@@ -12,14 +13,15 @@ from mio import writer, reader
 __version__ = "1.0-dev2"
 
 
+# %%
 def main(argv):
     """
     Main function responsible for running the attack graph generation pipeline.
     """
-
-    times = 0
     
     # %% Checks if the command-line input and config file content is valid.
+    
+    times = 0
     reader.validate_command_line_input(argv)
     # Opening the configuration file.
     config = reader.validate_config_file()
@@ -53,29 +55,32 @@ def main(argv):
         print("There is a mistake with the vulnerabilities. Terminating the function...")
         return errno.ENOENT
 
-    # Read the attack vector files.
+    # %% Read the attack vector files.
+
+    print("Start with attack graph generation...")
+    
     attack_vector_files = reader.read_attack_vector_files(config["attack-vector-folder-path"])
+    
     # Merging the attack vector files and creating an attack vector dictionary.
     attack_vector_dict = attack_graph_parser.get_attack_vector(attack_vector_files)
     exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
-            topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
-            config["postconditions-rules"], )
+        topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
+        config["postconditions-rules"])
 
-    # Getting the attack graph nodes and edges from the attack paths.
-    # Returns a tuple of the form:
-    # (attack_graph_nodes, attack_graph_edges, duration_bdf, duration_vul_preprocessing)
-    nodes, edges, duration_bdf = attack_graph_parser.generate_attack_graph(topology, exploitable_vulnerabilities)
+    # %% Getting the attack graph nodes and edges from the attack paths.
     
+    nodes, edges, passed_nodes, passed_edges, duration_bdf = attack_graph_parser.\
+        generate_attack_graph(topology, exploitable_vulnerabilities)
     print("Time elapsed: " + str(duration_bdf + dvp) + " seconds.\n")
     
-    duration_graph_properties, attach_graph = attack_graph_parser.print_graph_properties(config["labels_edges"], nodes,
-                                                                                         edges)
+    duration_graph_properties, attack_graph = attack_graph_parser.\
+        print_graph_properties(config["labels_edges"], nodes, edges)
     
     for element in edges.keys():
         edges[element] = [edges[element][0]]
     
     # %% Visualizing the attack graph.
-    times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
+    times = visualise(topology, result_folder, times, config['labels_edges'], nodes, edges)
     
     # %% Printing time summary of the attack graph generation.
     writer.print_summary(config['generate_graphs'], duration_topology=duration_topology,
@@ -89,37 +94,35 @@ def main(argv):
     while True:
         
         try:
-            # option = input('>>> ')
-
-            # if option == 'exit' or option == 'bye' or option == 'quit':
-            #     raise EOFError
-
-            option = 'add test nginx'
+            option = input('>>> ')
+            
+            if option == 'exit' or option == 'bye' or option == 'quit':
+                raise EOFError
+            
+            # option = 'add test nginx'
             
             option = option.split(' ')
             
             if option[0] == 'add':
-                
                 name = option[1]
                 image = option[2]
                 # network = input('networks to add: ').split(' ')
                 network = ['db', 'backend']
                 add_node(name, image, network, vulnerabilities, parsed_images, example_folder, networks, topology,
-                         topology_graph, services)
+                         topology_graph, services, mapping_names, attack_vector_dict, config, nodes, edges,
+                         passed_nodes, passed_edges)
             
-            times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
-            option = 'del test'
-            option = option.split(' ')
-            
-            if option[0] == 'del':
-                name = option[1]
-                del_node(name, networks, topology, services)
-                
-            times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
-            
-            if option[0] == 'v':
-                times = visualise(topology, example_folder, result_folder, times, config['labels_edges'], nodes, edges)
+            # times = visualise(topology, result_folder, times, config['labels_edges'], nodes, edges)
+            # option = ['del', 'test']
 
+            elif option[0] == 'del':
+                name = option[1]
+                del_node(name, networks, topology, services, mapping_names, nodes, edges, passed_nodes, passed_edges,
+                         attack_graph)
+
+            elif option[0] == 'v':
+                times = visualise(topology, result_folder, times, config['labels_edges'], nodes, edges)
+            
             raise EOFError
         except KeyboardInterrupt:
             continue
@@ -128,34 +131,42 @@ def main(argv):
             return 0
 
 
+# %%
 def add_node(name, image, network, vulnerabilities, parsed_images, example_folder, networks, topology, topology_graph,
-             services):
+             services, mapping_names, attack_vector_dict, config, nodes, edges, passed_nodes, passed_edges):
     
     new_service = {'image': image, 'networks': network}
     
     vulnerability_parser.add(vulnerabilities, parsed_images, example_folder, image)
+    
     topology_parser.add(networks, topology, topology_graph, services, new_service, name)
+    
+    mapping_names[name] = image
+    exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
+        topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
+        config["postconditions-rules"])
+    attack_graph_parser.add(nodes, edges, passed_nodes, passed_edges, topology, name, exploitable_vulnerabilities)
     
     print("Node added")
 
 
-def del_node(name, networks, topology, services):
-    
+def del_node(name, networks, topology, services, mapping_names, nodes, edges, passed_nodes, passed_edges, attack_graph):
     del_service = services[name]
     
     topology_parser.delete(networks, topology, services, del_service, name)
+    attack_graph_parser.delete(name, nodes, edges, passed_nodes, passed_edges, attack_graph)
+    del mapping_names[name]
     
     print("Node deleted")
 
 
-def visualise(topology, example_folder, result_folder, times, labels_edges, nodes, edges):
-    
+def visualise(topology, result_folder, times, labels_edges, nodes, edges):
     time_start = time.time()
-    
-    writer.write_topology(topology, example_folder, result_folder, times)
+
+    writer.write_topology(topology, result_folder, times)
     topology_graph = topology_parser.create_topology_graph(topology)
-    writer.write_topology_graph(topology_graph, example_folder, result_folder, times)
-    writer.write_attack_graph(labels_edges, nodes, edges, example_folder, result_folder, times)
+    writer.write_topology_graph(topology_graph, result_folder, times)
+    writer.write_attack_graph(labels_edges, nodes, edges, result_folder, times)
     
     duration_visualization = time.time() - time_start
     print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
@@ -163,5 +174,6 @@ def visualise(topology, example_folder, result_folder, times, labels_edges, node
     return times + 1
 
 
+# %%
 if __name__ == "__main__":
     exit(main(sys.argv))

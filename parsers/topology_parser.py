@@ -130,7 +130,7 @@ def add(networks, topology, topology_graph: Graph, services, new_service, name):
             networks[n] = {name}
         else:
             for neighbour in networks[n]:
-                if neighbour not in to_add:
+                if neighbour not in to_add and name not in topology[neighbour]:
                     topology[neighbour].append(name)
                     to_add.append(neighbour)
             networks[n].append(name)
