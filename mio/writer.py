@@ -3,6 +3,8 @@
 
 import os
 import json
+import shutil
+
 from graphviz import Digraph
 
 
@@ -28,14 +30,14 @@ def write_attack_graph(labels_edges, nodes, edges, result_folder, i):
         
         for edge_name in edges.keys():
             terminal_points = edge_name.split("|")
-        
+            
             edge_vulnerabilities = edges[edge_name]
-        
+            
             if labels_edges == "single":
                 for edge_vulnerability in edge_vulnerabilities:
-                    attack_dot.\
+                    attack_dot. \
                         edge(terminal_points[0], terminal_points[1], label=edge_vulnerability, contstraint='false')
-        
+            
             elif labels_edges == "multiple":
                 descriptions = ""
                 for edge_vulnerability in edge_vulnerabilities:
@@ -61,11 +63,11 @@ def write_topology_graph(topology_graph, result_folder, i):
 
 def copy_vulnerability_file(clairctl_home, image_name, example_folder):
     """Copies the vulnerability file from clairctl to the local location."""
-
+    
     json_name = os.path.join(example_folder, image_name + "-vulnerabilities.json")
     
-    os.rename(os.path.join(clairctl_home, "docker-compose-data", "clairctl-reports", "json", "analysis-" + image_name
-                           + "-latest.json"), json_name)
+    shutil.copy(os.path.join(clairctl_home, "docker-compose-data", "clairctl-reports", "json", "analysis-" + image_name
+                             + "-latest.json"), json_name)
 
 
 def create_result_folder(example_folder, config):

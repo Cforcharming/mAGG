@@ -1,0 +1,213 @@
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+services:
+  py1:
+    image: python
+    networks:
+    - frontend
+  py10:
+    image: python
+    networks:
+    - frontend
+  py11:
+    image: python
+    networks:
+    - frontend
+  py12:
+    image: python
+    networks:
+    - frontend
+  py13:
+    image: python
+    networks:
+    - frontend
+  py14:
+    image: python
+    networks:
+    - frontend
+  py15:
+    image: python
+    networks:
+    - frontend
+  py16:
+    image: python
+    networks:
+    - frontend
+  py17:
+    image: python
+    networks:
+    - frontend
+  py18:
+    image: python
+    networks:
+    - frontend
+  py19:
+    image: python
+    networks:
+    - frontend
+  py2:
+    image: python
+    networks:
+    - frontend
+  py20:
+    image: python
+    networks:
+    - frontend
+  py21:
+    image: python
+    networks:
+    - frontend
+  py22:
+    image: python
+    networks:
+    - frontend
+  py23:
+    image: python
+    networks:
+    - frontend
+  py24:
+    image: python
+    networks:
+    - frontend
+  py25:
+    image: python
+    networks:
+    - frontend
+  py26:
+    image: python
+    networks:
+    - frontend
+  py27:
+    image: python
+    networks:
+    - frontend
+  py28:
+    image: python
+    networks:
+    - frontend
+  py29:
+    image: python
+    networks:
+    - frontend
+  py3:
+    image: python
+    networks:
+    - frontend
+  py30:
+    image: python
+    networks:
+    - frontend
+  py31:
+    image: python
+    networks:
+    - frontend
+  py32:
+    image: python
+    networks:
+    - frontend
+  py33:
+    image: python
+    networks:
+    - frontend
+  py34:
+    image: python
+    networks:
+    - frontend
+  py35:
+    image: python
+    networks:
+    - frontend
+  py36:
+    image: python
+    networks:
+    - frontend
+  py37:
+    image: python
+    networks:
+    - frontend
+  py38:
+    image: python
+    networks:
+    - frontend
+  py39:
+    image: python
+    networks:
+    - frontend
+  py4:
+    image: python
+    networks:
+    - frontend
+  py40:
+    image: python
+    networks:
+    - frontend
+  py41:
+    image: python
+    networks:
+    - frontend
+  py42:
+    image: python
+    networks:
+    - frontend
+  py43:
+    image: python
+    networks:
+    - frontend
+  py44:
+    image: python
+    networks:
+    - frontend
+  py45:
+    image: python
+    networks:
+    - frontend
+  py46:
+    image: python
+    networks:
+    - frontend
+  py47:
+    image: python
+    networks:
+    - frontend
+  py48:
+    image: python
+    networks:
+    - frontend
+  py49:
+    image: python
+    networks:
+    - frontend
+  py5:
+    image: python
+    networks:
+    - frontend
+  py50:
+    image: python
+    networks:
+    - frontend
+  py6:
+    image: python
+    networks:
+    - frontend
+  py7:
+    image: python
+    networks:
+    - frontend
+  py8:
+    image: python
+    networks:
+    - frontend
+  py9:
+    image: python
+    networks:
+    - frontend
+  tc:
+    image: tomcat
+    networks:
+    - frontend
+    ports:
+    - '80'
+version: '3.8'

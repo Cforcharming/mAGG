@@ -77,14 +77,15 @@ def validate_config_file():
 
 def read_attack_vector_files(attack_vector_folder_path):
     """It reads the attack vector files."""
-    
+
+    print('read config vector files...')
     attack_vector_list = []
     
     attack_vector_filenames = os.listdir(attack_vector_folder_path)
     
     # Iterating through the attack vector files.
     for attack_vector_filename in attack_vector_filenames:
-        
+        print('Reading ' + attack_vector_filename)
         # Load the attack vector.
         if not attack_vector_filename.startswith("nvdcve"):
             continue
@@ -107,10 +108,10 @@ def read_topology(example_folder_path):
     return topology
 
 
-def read_docker_compose_file(example_folder_path):
+def read_docker_compose_file(example_folder):
     """This function is responsible for reading the docker-compose file of the container."""
     
-    with open(os.path.join(example_folder_path, "docker-compose.yml"), "r") as compose_file:
+    with open(os.path.join(example_folder, "docker-compose.yml"), "r") as compose_file:
         docker_compose_file = yaml.full_load(compose_file)
     
     return docker_compose_file

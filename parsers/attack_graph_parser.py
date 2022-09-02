@@ -44,7 +44,7 @@ def clean_vulnerabilities(raw_vulnerabilities, container):
                         vulnerability_new["attack_vec"] = vec
                 vulnerabilities[vulnerability["Name"]] = vulnerability_new
     
-    print("Total " + str(len(vulnerabilities)) + " vulnerabilities in container " + container + ".")
+    # print("Total " + str(len(vulnerabilities)) + " vulnerabilities in container " + container + ".")
     
     return vulnerabilities
 
@@ -76,6 +76,8 @@ def get_graph(attack_paths):
 
 def get_attack_vector(attack_vector_files):
     """Merging the attack vector files into a dictionary."""
+    
+    print('Pre-processing vulnerabilitles...')
     
     # Initializing the attack vector dictionary.
     attack_vector_dict = {}

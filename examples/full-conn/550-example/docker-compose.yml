@@ -1,0 +1,2213 @@
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+services:
+  py1:
+    image: python
+    networks:
+    - frontend
+  py10:
+    image: python
+    networks:
+    - frontend
+  py100:
+    image: python
+    networks:
+    - frontend
+  py101:
+    image: python
+    networks:
+    - frontend
+  py102:
+    image: python
+    networks:
+    - frontend
+  py103:
+    image: python
+    networks:
+    - frontend
+  py104:
+    image: python
+    networks:
+    - frontend
+  py105:
+    image: python
+    networks:
+    - frontend
+  py106:
+    image: python
+    networks:
+    - frontend
+  py107:
+    image: python
+    networks:
+    - frontend
+  py108:
+    image: python
+    networks:
+    - frontend
+  py109:
+    image: python
+    networks:
+    - frontend
+  py11:
+    image: python
+    networks:
+    - frontend
+  py110:
+    image: python
+    networks:
+    - frontend
+  py111:
+    image: python
+    networks:
+    - frontend
+  py112:
+    image: python
+    networks:
+    - frontend
+  py113:
+    image: python
+    networks:
+    - frontend
+  py114:
+    image: python
+    networks:
+    - frontend
+  py115:
+    image: python
+    networks:
+    - frontend
+  py116:
+    image: python
+    networks:
+    - frontend
+  py117:
+    image: python
+    networks:
+    - frontend
+  py118:
+    image: python
+    networks:
+    - frontend
+  py119:
+    image: python
+    networks:
+    - frontend
+  py12:
+    image: python
+    networks:
+    - frontend
+  py120:
+    image: python
+    networks:
+    - frontend
+  py121:
+    image: python
+    networks:
+    - frontend
+  py122:
+    image: python
+    networks:
+    - frontend
+  py123:
+    image: python
+    networks:
+    - frontend
+  py124:
+    image: python
+    networks:
+    - frontend
+  py125:
+    image: python
+    networks:
+    - frontend
+  py126:
+    image: python
+    networks:
+    - frontend
+  py127:
+    image: python
+    networks:
+    - frontend
+  py128:
+    image: python
+    networks:
+    - frontend
+  py129:
+    image: python
+    networks:
+    - frontend
+  py13:
+    image: python
+    networks:
+    - frontend
+  py130:
+    image: python
+    networks:
+    - frontend
+  py131:
+    image: python
+    networks:
+    - frontend
+  py132:
+    image: python
+    networks:
+    - frontend
+  py133:
+    image: python
+    networks:
+    - frontend
+  py134:
+    image: python
+    networks:
+    - frontend
+  py135:
+    image: python
+    networks:
+    - frontend
+  py136:
+    image: python
+    networks:
+    - frontend
+  py137:
+    image: python
+    networks:
+    - frontend
+  py138:
+    image: python
+    networks:
+    - frontend
+  py139:
+    image: python
+    networks:
+    - frontend
+  py14:
+    image: python
+    networks:
+    - frontend
+  py140:
+    image: python
+    networks:
+    - frontend
+  py141:
+    image: python
+    networks:
+    - frontend
+  py142:
+    image: python
+    networks:
+    - frontend
+  py143:
+    image: python
+    networks:
+    - frontend
+  py144:
+    image: python
+    networks:
+    - frontend
+  py145:
+    image: python
+    networks:
+    - frontend
+  py146:
+    image: python
+    networks:
+    - frontend
+  py147:
+    image: python
+    networks:
+    - frontend
+  py148:
+    image: python
+    networks:
+    - frontend
+  py149:
+    image: python
+    networks:
+    - frontend
+  py15:
+    image: python
+    networks:
+    - frontend
+  py150:
+    image: python
+    networks:
+    - frontend
+  py151:
+    image: python
+    networks:
+    - frontend
+  py152:
+    image: python
+    networks:
+    - frontend
+  py153:
+    image: python
+    networks:
+    - frontend
+  py154:
+    image: python
+    networks:
+    - frontend
+  py155:
+    image: python
+    networks:
+    - frontend
+  py156:
+    image: python
+    networks:
+    - frontend
+  py157:
+    image: python
+    networks:
+    - frontend
+  py158:
+    image: python
+    networks:
+    - frontend
+  py159:
+    image: python
+    networks:
+    - frontend
+  py16:
+    image: python
+    networks:
+    - frontend
+  py160:
+    image: python
+    networks:
+    - frontend
+  py161:
+    image: python
+    networks:
+    - frontend
+  py162:
+    image: python
+    networks:
+    - frontend
+  py163:
+    image: python
+    networks:
+    - frontend
+  py164:
+    image: python
+    networks:
+    - frontend
+  py165:
+    image: python
+    networks:
+    - frontend
+  py166:
+    image: python
+    networks:
+    - frontend
+  py167:
+    image: python
+    networks:
+    - frontend
+  py168:
+    image: python
+    networks:
+    - frontend
+  py169:
+    image: python
+    networks:
+    - frontend
+  py17:
+    image: python
+    networks:
+    - frontend
+  py170:
+    image: python
+    networks:
+    - frontend
+  py171:
+    image: python
+    networks:
+    - frontend
+  py172:
+    image: python
+    networks:
+    - frontend
+  py173:
+    image: python
+    networks:
+    - frontend
+  py174:
+    image: python
+    networks:
+    - frontend
+  py175:
+    image: python
+    networks:
+    - frontend
+  py176:
+    image: python
+    networks:
+    - frontend
+  py177:
+    image: python
+    networks:
+    - frontend
+  py178:
+    image: python
+    networks:
+    - frontend
+  py179:
+    image: python
+    networks:
+    - frontend
+  py18:
+    image: python
+    networks:
+    - frontend
+  py180:
+    image: python
+    networks:
+    - frontend
+  py181:
+    image: python
+    networks:
+    - frontend
+  py182:
+    image: python
+    networks:
+    - frontend
+  py183:
+    image: python
+    networks:
+    - frontend
+  py184:
+    image: python
+    networks:
+    - frontend
+  py185:
+    image: python
+    networks:
+    - frontend
+  py186:
+    image: python
+    networks:
+    - frontend
+  py187:
+    image: python
+    networks:
+    - frontend
+  py188:
+    image: python
+    networks:
+    - frontend
+  py189:
+    image: python
+    networks:
+    - frontend
+  py19:
+    image: python
+    networks:
+    - frontend
+  py190:
+    image: python
+    networks:
+    - frontend
+  py191:
+    image: python
+    networks:
+    - frontend
+  py192:
+    image: python
+    networks:
+    - frontend
+  py193:
+    image: python
+    networks:
+    - frontend
+  py194:
+    image: python
+    networks:
+    - frontend
+  py195:
+    image: python
+    networks:
+    - frontend
+  py196:
+    image: python
+    networks:
+    - frontend
+  py197:
+    image: python
+    networks:
+    - frontend
+  py198:
+    image: python
+    networks:
+    - frontend
+  py199:
+    image: python
+    networks:
+    - frontend
+  py2:
+    image: python
+    networks:
+    - frontend
+  py20:
+    image: python
+    networks:
+    - frontend
+  py200:
+    image: python
+    networks:
+    - frontend
+  py201:
+    image: python
+    networks:
+    - frontend
+  py202:
+    image: python
+    networks:
+    - frontend
+  py203:
+    image: python
+    networks:
+    - frontend
+  py204:
+    image: python
+    networks:
+    - frontend
+  py205:
+    image: python
+    networks:
+    - frontend
+  py206:
+    image: python
+    networks:
+    - frontend
+  py207:
+    image: python
+    networks:
+    - frontend
+  py208:
+    image: python
+    networks:
+    - frontend
+  py209:
+    image: python
+    networks:
+    - frontend
+  py21:
+    image: python
+    networks:
+    - frontend
+  py210:
+    image: python
+    networks:
+    - frontend
+  py211:
+    image: python
+    networks:
+    - frontend
+  py212:
+    image: python
+    networks:
+    - frontend
+  py213:
+    image: python
+    networks:
+    - frontend
+  py214:
+    image: python
+    networks:
+    - frontend
+  py215:
+    image: python
+    networks:
+    - frontend
+  py216:
+    image: python
+    networks:
+    - frontend
+  py217:
+    image: python
+    networks:
+    - frontend
+  py218:
+    image: python
+    networks:
+    - frontend
+  py219:
+    image: python
+    networks:
+    - frontend
+  py22:
+    image: python
+    networks:
+    - frontend
+  py220:
+    image: python
+    networks:
+    - frontend
+  py221:
+    image: python
+    networks:
+    - frontend
+  py222:
+    image: python
+    networks:
+    - frontend
+  py223:
+    image: python
+    networks:
+    - frontend
+  py224:
+    image: python
+    networks:
+    - frontend
+  py225:
+    image: python
+    networks:
+    - frontend
+  py226:
+    image: python
+    networks:
+    - frontend
+  py227:
+    image: python
+    networks:
+    - frontend
+  py228:
+    image: python
+    networks:
+    - frontend
+  py229:
+    image: python
+    networks:
+    - frontend
+  py23:
+    image: python
+    networks:
+    - frontend
+  py230:
+    image: python
+    networks:
+    - frontend
+  py231:
+    image: python
+    networks:
+    - frontend
+  py232:
+    image: python
+    networks:
+    - frontend
+  py233:
+    image: python
+    networks:
+    - frontend
+  py234:
+    image: python
+    networks:
+    - frontend
+  py235:
+    image: python
+    networks:
+    - frontend
+  py236:
+    image: python
+    networks:
+    - frontend
+  py237:
+    image: python
+    networks:
+    - frontend
+  py238:
+    image: python
+    networks:
+    - frontend
+  py239:
+    image: python
+    networks:
+    - frontend
+  py24:
+    image: python
+    networks:
+    - frontend
+  py240:
+    image: python
+    networks:
+    - frontend
+  py241:
+    image: python
+    networks:
+    - frontend
+  py242:
+    image: python
+    networks:
+    - frontend
+  py243:
+    image: python
+    networks:
+    - frontend
+  py244:
+    image: python
+    networks:
+    - frontend
+  py245:
+    image: python
+    networks:
+    - frontend
+  py246:
+    image: python
+    networks:
+    - frontend
+  py247:
+    image: python
+    networks:
+    - frontend
+  py248:
+    image: python
+    networks:
+    - frontend
+  py249:
+    image: python
+    networks:
+    - frontend
+  py25:
+    image: python
+    networks:
+    - frontend
+  py250:
+    image: python
+    networks:
+    - frontend
+  py251:
+    image: python
+    networks:
+    - frontend
+  py252:
+    image: python
+    networks:
+    - frontend
+  py253:
+    image: python
+    networks:
+    - frontend
+  py254:
+    image: python
+    networks:
+    - frontend
+  py255:
+    image: python
+    networks:
+    - frontend
+  py256:
+    image: python
+    networks:
+    - frontend
+  py257:
+    image: python
+    networks:
+    - frontend
+  py258:
+    image: python
+    networks:
+    - frontend
+  py259:
+    image: python
+    networks:
+    - frontend
+  py26:
+    image: python
+    networks:
+    - frontend
+  py260:
+    image: python
+    networks:
+    - frontend
+  py261:
+    image: python
+    networks:
+    - frontend
+  py262:
+    image: python
+    networks:
+    - frontend
+  py263:
+    image: python
+    networks:
+    - frontend
+  py264:
+    image: python
+    networks:
+    - frontend
+  py265:
+    image: python
+    networks:
+    - frontend
+  py266:
+    image: python
+    networks:
+    - frontend
+  py267:
+    image: python
+    networks:
+    - frontend
+  py268:
+    image: python
+    networks:
+    - frontend
+  py269:
+    image: python
+    networks:
+    - frontend
+  py27:
+    image: python
+    networks:
+    - frontend
+  py270:
+    image: python
+    networks:
+    - frontend
+  py271:
+    image: python
+    networks:
+    - frontend
+  py272:
+    image: python
+    networks:
+    - frontend
+  py273:
+    image: python
+    networks:
+    - frontend
+  py274:
+    image: python
+    networks:
+    - frontend
+  py275:
+    image: python
+    networks:
+    - frontend
+  py276:
+    image: python
+    networks:
+    - frontend
+  py277:
+    image: python
+    networks:
+    - frontend
+  py278:
+    image: python
+    networks:
+    - frontend
+  py279:
+    image: python
+    networks:
+    - frontend
+  py28:
+    image: python
+    networks:
+    - frontend
+  py280:
+    image: python
+    networks:
+    - frontend
+  py281:
+    image: python
+    networks:
+    - frontend
+  py282:
+    image: python
+    networks:
+    - frontend
+  py283:
+    image: python
+    networks:
+    - frontend
+  py284:
+    image: python
+    networks:
+    - frontend
+  py285:
+    image: python
+    networks:
+    - frontend
+  py286:
+    image: python
+    networks:
+    - frontend
+  py287:
+    image: python
+    networks:
+    - frontend
+  py288:
+    image: python
+    networks:
+    - frontend
+  py289:
+    image: python
+    networks:
+    - frontend
+  py29:
+    image: python
+    networks:
+    - frontend
+  py290:
+    image: python
+    networks:
+    - frontend
+  py291:
+    image: python
+    networks:
+    - frontend
+  py292:
+    image: python
+    networks:
+    - frontend
+  py293:
+    image: python
+    networks:
+    - frontend
+  py294:
+    image: python
+    networks:
+    - frontend
+  py295:
+    image: python
+    networks:
+    - frontend
+  py296:
+    image: python
+    networks:
+    - frontend
+  py297:
+    image: python
+    networks:
+    - frontend
+  py298:
+    image: python
+    networks:
+    - frontend
+  py299:
+    image: python
+    networks:
+    - frontend
+  py3:
+    image: python
+    networks:
+    - frontend
+  py30:
+    image: python
+    networks:
+    - frontend
+  py300:
+    image: python
+    networks:
+    - frontend
+  py301:
+    image: python
+    networks:
+    - frontend
+  py302:
+    image: python
+    networks:
+    - frontend
+  py303:
+    image: python
+    networks:
+    - frontend
+  py304:
+    image: python
+    networks:
+    - frontend
+  py305:
+    image: python
+    networks:
+    - frontend
+  py306:
+    image: python
+    networks:
+    - frontend
+  py307:
+    image: python
+    networks:
+    - frontend
+  py308:
+    image: python
+    networks:
+    - frontend
+  py309:
+    image: python
+    networks:
+    - frontend
+  py31:
+    image: python
+    networks:
+    - frontend
+  py310:
+    image: python
+    networks:
+    - frontend
+  py311:
+    image: python
+    networks:
+    - frontend
+  py312:
+    image: python
+    networks:
+    - frontend
+  py313:
+    image: python
+    networks:
+    - frontend
+  py314:
+    image: python
+    networks:
+    - frontend
+  py315:
+    image: python
+    networks:
+    - frontend
+  py316:
+    image: python
+    networks:
+    - frontend
+  py317:
+    image: python
+    networks:
+    - frontend
+  py318:
+    image: python
+    networks:
+    - frontend
+  py319:
+    image: python
+    networks:
+    - frontend
+  py32:
+    image: python
+    networks:
+    - frontend
+  py320:
+    image: python
+    networks:
+    - frontend
+  py321:
+    image: python
+    networks:
+    - frontend
+  py322:
+    image: python
+    networks:
+    - frontend
+  py323:
+    image: python
+    networks:
+    - frontend
+  py324:
+    image: python
+    networks:
+    - frontend
+  py325:
+    image: python
+    networks:
+    - frontend
+  py326:
+    image: python
+    networks:
+    - frontend
+  py327:
+    image: python
+    networks:
+    - frontend
+  py328:
+    image: python
+    networks:
+    - frontend
+  py329:
+    image: python
+    networks:
+    - frontend
+  py33:
+    image: python
+    networks:
+    - frontend
+  py330:
+    image: python
+    networks:
+    - frontend
+  py331:
+    image: python
+    networks:
+    - frontend
+  py332:
+    image: python
+    networks:
+    - frontend
+  py333:
+    image: python
+    networks:
+    - frontend
+  py334:
+    image: python
+    networks:
+    - frontend
+  py335:
+    image: python
+    networks:
+    - frontend
+  py336:
+    image: python
+    networks:
+    - frontend
+  py337:
+    image: python
+    networks:
+    - frontend
+  py338:
+    image: python
+    networks:
+    - frontend
+  py339:
+    image: python
+    networks:
+    - frontend
+  py34:
+    image: python
+    networks:
+    - frontend
+  py340:
+    image: python
+    networks:
+    - frontend
+  py341:
+    image: python
+    networks:
+    - frontend
+  py342:
+    image: python
+    networks:
+    - frontend
+  py343:
+    image: python
+    networks:
+    - frontend
+  py344:
+    image: python
+    networks:
+    - frontend
+  py345:
+    image: python
+    networks:
+    - frontend
+  py346:
+    image: python
+    networks:
+    - frontend
+  py347:
+    image: python
+    networks:
+    - frontend
+  py348:
+    image: python
+    networks:
+    - frontend
+  py349:
+    image: python
+    networks:
+    - frontend
+  py35:
+    image: python
+    networks:
+    - frontend
+  py350:
+    image: python
+    networks:
+    - frontend
+  py351:
+    image: python
+    networks:
+    - frontend
+  py352:
+    image: python
+    networks:
+    - frontend
+  py353:
+    image: python
+    networks:
+    - frontend
+  py354:
+    image: python
+    networks:
+    - frontend
+  py355:
+    image: python
+    networks:
+    - frontend
+  py356:
+    image: python
+    networks:
+    - frontend
+  py357:
+    image: python
+    networks:
+    - frontend
+  py358:
+    image: python
+    networks:
+    - frontend
+  py359:
+    image: python
+    networks:
+    - frontend
+  py36:
+    image: python
+    networks:
+    - frontend
+  py360:
+    image: python
+    networks:
+    - frontend
+  py361:
+    image: python
+    networks:
+    - frontend
+  py362:
+    image: python
+    networks:
+    - frontend
+  py363:
+    image: python
+    networks:
+    - frontend
+  py364:
+    image: python
+    networks:
+    - frontend
+  py365:
+    image: python
+    networks:
+    - frontend
+  py366:
+    image: python
+    networks:
+    - frontend
+  py367:
+    image: python
+    networks:
+    - frontend
+  py368:
+    image: python
+    networks:
+    - frontend
+  py369:
+    image: python
+    networks:
+    - frontend
+  py37:
+    image: python
+    networks:
+    - frontend
+  py370:
+    image: python
+    networks:
+    - frontend
+  py371:
+    image: python
+    networks:
+    - frontend
+  py372:
+    image: python
+    networks:
+    - frontend
+  py373:
+    image: python
+    networks:
+    - frontend
+  py374:
+    image: python
+    networks:
+    - frontend
+  py375:
+    image: python
+    networks:
+    - frontend
+  py376:
+    image: python
+    networks:
+    - frontend
+  py377:
+    image: python
+    networks:
+    - frontend
+  py378:
+    image: python
+    networks:
+    - frontend
+  py379:
+    image: python
+    networks:
+    - frontend
+  py38:
+    image: python
+    networks:
+    - frontend
+  py380:
+    image: python
+    networks:
+    - frontend
+  py381:
+    image: python
+    networks:
+    - frontend
+  py382:
+    image: python
+    networks:
+    - frontend
+  py383:
+    image: python
+    networks:
+    - frontend
+  py384:
+    image: python
+    networks:
+    - frontend
+  py385:
+    image: python
+    networks:
+    - frontend
+  py386:
+    image: python
+    networks:
+    - frontend
+  py387:
+    image: python
+    networks:
+    - frontend
+  py388:
+    image: python
+    networks:
+    - frontend
+  py389:
+    image: python
+    networks:
+    - frontend
+  py39:
+    image: python
+    networks:
+    - frontend
+  py390:
+    image: python
+    networks:
+    - frontend
+  py391:
+    image: python
+    networks:
+    - frontend
+  py392:
+    image: python
+    networks:
+    - frontend
+  py393:
+    image: python
+    networks:
+    - frontend
+  py394:
+    image: python
+    networks:
+    - frontend
+  py395:
+    image: python
+    networks:
+    - frontend
+  py396:
+    image: python
+    networks:
+    - frontend
+  py397:
+    image: python
+    networks:
+    - frontend
+  py398:
+    image: python
+    networks:
+    - frontend
+  py399:
+    image: python
+    networks:
+    - frontend
+  py4:
+    image: python
+    networks:
+    - frontend
+  py40:
+    image: python
+    networks:
+    - frontend
+  py400:
+    image: python
+    networks:
+    - frontend
+  py401:
+    image: python
+    networks:
+    - frontend
+  py402:
+    image: python
+    networks:
+    - frontend
+  py403:
+    image: python
+    networks:
+    - frontend
+  py404:
+    image: python
+    networks:
+    - frontend
+  py405:
+    image: python
+    networks:
+    - frontend
+  py406:
+    image: python
+    networks:
+    - frontend
+  py407:
+    image: python
+    networks:
+    - frontend
+  py408:
+    image: python
+    networks:
+    - frontend
+  py409:
+    image: python
+    networks:
+    - frontend
+  py41:
+    image: python
+    networks:
+    - frontend
+  py410:
+    image: python
+    networks:
+    - frontend
+  py411:
+    image: python
+    networks:
+    - frontend
+  py412:
+    image: python
+    networks:
+    - frontend
+  py413:
+    image: python
+    networks:
+    - frontend
+  py414:
+    image: python
+    networks:
+    - frontend
+  py415:
+    image: python
+    networks:
+    - frontend
+  py416:
+    image: python
+    networks:
+    - frontend
+  py417:
+    image: python
+    networks:
+    - frontend
+  py418:
+    image: python
+    networks:
+    - frontend
+  py419:
+    image: python
+    networks:
+    - frontend
+  py42:
+    image: python
+    networks:
+    - frontend
+  py420:
+    image: python
+    networks:
+    - frontend
+  py421:
+    image: python
+    networks:
+    - frontend
+  py422:
+    image: python
+    networks:
+    - frontend
+  py423:
+    image: python
+    networks:
+    - frontend
+  py424:
+    image: python
+    networks:
+    - frontend
+  py425:
+    image: python
+    networks:
+    - frontend
+  py426:
+    image: python
+    networks:
+    - frontend
+  py427:
+    image: python
+    networks:
+    - frontend
+  py428:
+    image: python
+    networks:
+    - frontend
+  py429:
+    image: python
+    networks:
+    - frontend
+  py43:
+    image: python
+    networks:
+    - frontend
+  py430:
+    image: python
+    networks:
+    - frontend
+  py431:
+    image: python
+    networks:
+    - frontend
+  py432:
+    image: python
+    networks:
+    - frontend
+  py433:
+    image: python
+    networks:
+    - frontend
+  py434:
+    image: python
+    networks:
+    - frontend
+  py435:
+    image: python
+    networks:
+    - frontend
+  py436:
+    image: python
+    networks:
+    - frontend
+  py437:
+    image: python
+    networks:
+    - frontend
+  py438:
+    image: python
+    networks:
+    - frontend
+  py439:
+    image: python
+    networks:
+    - frontend
+  py44:
+    image: python
+    networks:
+    - frontend
+  py440:
+    image: python
+    networks:
+    - frontend
+  py441:
+    image: python
+    networks:
+    - frontend
+  py442:
+    image: python
+    networks:
+    - frontend
+  py443:
+    image: python
+    networks:
+    - frontend
+  py444:
+    image: python
+    networks:
+    - frontend
+  py445:
+    image: python
+    networks:
+    - frontend
+  py446:
+    image: python
+    networks:
+    - frontend
+  py447:
+    image: python
+    networks:
+    - frontend
+  py448:
+    image: python
+    networks:
+    - frontend
+  py449:
+    image: python
+    networks:
+    - frontend
+  py45:
+    image: python
+    networks:
+    - frontend
+  py450:
+    image: python
+    networks:
+    - frontend
+  py451:
+    image: python
+    networks:
+    - frontend
+  py452:
+    image: python
+    networks:
+    - frontend
+  py453:
+    image: python
+    networks:
+    - frontend
+  py454:
+    image: python
+    networks:
+    - frontend
+  py455:
+    image: python
+    networks:
+    - frontend
+  py456:
+    image: python
+    networks:
+    - frontend
+  py457:
+    image: python
+    networks:
+    - frontend
+  py458:
+    image: python
+    networks:
+    - frontend
+  py459:
+    image: python
+    networks:
+    - frontend
+  py46:
+    image: python
+    networks:
+    - frontend
+  py460:
+    image: python
+    networks:
+    - frontend
+  py461:
+    image: python
+    networks:
+    - frontend
+  py462:
+    image: python
+    networks:
+    - frontend
+  py463:
+    image: python
+    networks:
+    - frontend
+  py464:
+    image: python
+    networks:
+    - frontend
+  py465:
+    image: python
+    networks:
+    - frontend
+  py466:
+    image: python
+    networks:
+    - frontend
+  py467:
+    image: python
+    networks:
+    - frontend
+  py468:
+    image: python
+    networks:
+    - frontend
+  py469:
+    image: python
+    networks:
+    - frontend
+  py47:
+    image: python
+    networks:
+    - frontend
+  py470:
+    image: python
+    networks:
+    - frontend
+  py471:
+    image: python
+    networks:
+    - frontend
+  py472:
+    image: python
+    networks:
+    - frontend
+  py473:
+    image: python
+    networks:
+    - frontend
+  py474:
+    image: python
+    networks:
+    - frontend
+  py475:
+    image: python
+    networks:
+    - frontend
+  py476:
+    image: python
+    networks:
+    - frontend
+  py477:
+    image: python
+    networks:
+    - frontend
+  py478:
+    image: python
+    networks:
+    - frontend
+  py479:
+    image: python
+    networks:
+    - frontend
+  py48:
+    image: python
+    networks:
+    - frontend
+  py480:
+    image: python
+    networks:
+    - frontend
+  py481:
+    image: python
+    networks:
+    - frontend
+  py482:
+    image: python
+    networks:
+    - frontend
+  py483:
+    image: python
+    networks:
+    - frontend
+  py484:
+    image: python
+    networks:
+    - frontend
+  py485:
+    image: python
+    networks:
+    - frontend
+  py486:
+    image: python
+    networks:
+    - frontend
+  py487:
+    image: python
+    networks:
+    - frontend
+  py488:
+    image: python
+    networks:
+    - frontend
+  py489:
+    image: python
+    networks:
+    - frontend
+  py49:
+    image: python
+    networks:
+    - frontend
+  py490:
+    image: python
+    networks:
+    - frontend
+  py491:
+    image: python
+    networks:
+    - frontend
+  py492:
+    image: python
+    networks:
+    - frontend
+  py493:
+    image: python
+    networks:
+    - frontend
+  py494:
+    image: python
+    networks:
+    - frontend
+  py495:
+    image: python
+    networks:
+    - frontend
+  py496:
+    image: python
+    networks:
+    - frontend
+  py497:
+    image: python
+    networks:
+    - frontend
+  py498:
+    image: python
+    networks:
+    - frontend
+  py499:
+    image: python
+    networks:
+    - frontend
+  py5:
+    image: python
+    networks:
+    - frontend
+  py50:
+    image: python
+    networks:
+    - frontend
+  py500:
+    image: python
+    networks:
+    - frontend
+  py501:
+    image: python
+    networks:
+    - frontend
+  py502:
+    image: python
+    networks:
+    - frontend
+  py503:
+    image: python
+    networks:
+    - frontend
+  py504:
+    image: python
+    networks:
+    - frontend
+  py505:
+    image: python
+    networks:
+    - frontend
+  py506:
+    image: python
+    networks:
+    - frontend
+  py507:
+    image: python
+    networks:
+    - frontend
+  py508:
+    image: python
+    networks:
+    - frontend
+  py509:
+    image: python
+    networks:
+    - frontend
+  py51:
+    image: python
+    networks:
+    - frontend
+  py510:
+    image: python
+    networks:
+    - frontend
+  py511:
+    image: python
+    networks:
+    - frontend
+  py512:
+    image: python
+    networks:
+    - frontend
+  py513:
+    image: python
+    networks:
+    - frontend
+  py514:
+    image: python
+    networks:
+    - frontend
+  py515:
+    image: python
+    networks:
+    - frontend
+  py516:
+    image: python
+    networks:
+    - frontend
+  py517:
+    image: python
+    networks:
+    - frontend
+  py518:
+    image: python
+    networks:
+    - frontend
+  py519:
+    image: python
+    networks:
+    - frontend
+  py52:
+    image: python
+    networks:
+    - frontend
+  py520:
+    image: python
+    networks:
+    - frontend
+  py521:
+    image: python
+    networks:
+    - frontend
+  py522:
+    image: python
+    networks:
+    - frontend
+  py523:
+    image: python
+    networks:
+    - frontend
+  py524:
+    image: python
+    networks:
+    - frontend
+  py525:
+    image: python
+    networks:
+    - frontend
+  py526:
+    image: python
+    networks:
+    - frontend
+  py527:
+    image: python
+    networks:
+    - frontend
+  py528:
+    image: python
+    networks:
+    - frontend
+  py529:
+    image: python
+    networks:
+    - frontend
+  py53:
+    image: python
+    networks:
+    - frontend
+  py530:
+    image: python
+    networks:
+    - frontend
+  py531:
+    image: python
+    networks:
+    - frontend
+  py532:
+    image: python
+    networks:
+    - frontend
+  py533:
+    image: python
+    networks:
+    - frontend
+  py534:
+    image: python
+    networks:
+    - frontend
+  py535:
+    image: python
+    networks:
+    - frontend
+  py536:
+    image: python
+    networks:
+    - frontend
+  py537:
+    image: python
+    networks:
+    - frontend
+  py538:
+    image: python
+    networks:
+    - frontend
+  py539:
+    image: python
+    networks:
+    - frontend
+  py54:
+    image: python
+    networks:
+    - frontend
+  py540:
+    image: python
+    networks:
+    - frontend
+  py541:
+    image: python
+    networks:
+    - frontend
+  py542:
+    image: python
+    networks:
+    - frontend
+  py543:
+    image: python
+    networks:
+    - frontend
+  py544:
+    image: python
+    networks:
+    - frontend
+  py545:
+    image: python
+    networks:
+    - frontend
+  py546:
+    image: python
+    networks:
+    - frontend
+  py547:
+    image: python
+    networks:
+    - frontend
+  py548:
+    image: python
+    networks:
+    - frontend
+  py549:
+    image: python
+    networks:
+    - frontend
+  py55:
+    image: python
+    networks:
+    - frontend
+  py550:
+    image: python
+    networks:
+    - frontend
+  py56:
+    image: python
+    networks:
+    - frontend
+  py57:
+    image: python
+    networks:
+    - frontend
+  py58:
+    image: python
+    networks:
+    - frontend
+  py59:
+    image: python
+    networks:
+    - frontend
+  py6:
+    image: python
+    networks:
+    - frontend
+  py60:
+    image: python
+    networks:
+    - frontend
+  py61:
+    image: python
+    networks:
+    - frontend
+  py62:
+    image: python
+    networks:
+    - frontend
+  py63:
+    image: python
+    networks:
+    - frontend
+  py64:
+    image: python
+    networks:
+    - frontend
+  py65:
+    image: python
+    networks:
+    - frontend
+  py66:
+    image: python
+    networks:
+    - frontend
+  py67:
+    image: python
+    networks:
+    - frontend
+  py68:
+    image: python
+    networks:
+    - frontend
+  py69:
+    image: python
+    networks:
+    - frontend
+  py7:
+    image: python
+    networks:
+    - frontend
+  py70:
+    image: python
+    networks:
+    - frontend
+  py71:
+    image: python
+    networks:
+    - frontend
+  py72:
+    image: python
+    networks:
+    - frontend
+  py73:
+    image: python
+    networks:
+    - frontend
+  py74:
+    image: python
+    networks:
+    - frontend
+  py75:
+    image: python
+    networks:
+    - frontend
+  py76:
+    image: python
+    networks:
+    - frontend
+  py77:
+    image: python
+    networks:
+    - frontend
+  py78:
+    image: python
+    networks:
+    - frontend
+  py79:
+    image: python
+    networks:
+    - frontend
+  py8:
+    image: python
+    networks:
+    - frontend
+  py80:
+    image: python
+    networks:
+    - frontend
+  py81:
+    image: python
+    networks:
+    - frontend
+  py82:
+    image: python
+    networks:
+    - frontend
+  py83:
+    image: python
+    networks:
+    - frontend
+  py84:
+    image: python
+    networks:
+    - frontend
+  py85:
+    image: python
+    networks:
+    - frontend
+  py86:
+    image: python
+    networks:
+    - frontend
+  py87:
+    image: python
+    networks:
+    - frontend
+  py88:
+    image: python
+    networks:
+    - frontend
+  py89:
+    image: python
+    networks:
+    - frontend
+  py9:
+    image: python
+    networks:
+    - frontend
+  py90:
+    image: python
+    networks:
+    - frontend
+  py91:
+    image: python
+    networks:
+    - frontend
+  py92:
+    image: python
+    networks:
+    - frontend
+  py93:
+    image: python
+    networks:
+    - frontend
+  py94:
+    image: python
+    networks:
+    - frontend
+  py95:
+    image: python
+    networks:
+    - frontend
+  py96:
+    image: python
+    networks:
+    - frontend
+  py97:
+    image: python
+    networks:
+    - frontend
+  py98:
+    image: python
+    networks:
+    - frontend
+  py99:
+    image: python
+    networks:
+    - frontend
+  tc:
+    image: tomcat
+    networks:
+    - frontend
+    ports:
+    - '80'
+version: '3.8'
