@@ -1,15 +1,17 @@
-#!/usr/bin/env python
 """Module responsible for generating the attack graph."""
 
 import time
-import networkx
+import networkx as nx
+from concurrent.futures import ProcessPoolExecutor
 from queue import Queue
 
+from mio import reader
 
-def clean_vulnerabilities(raw_vulnerabilities, container):
+
+def clean_vulnerabilities(raw_vulnerabilities: dict[str, ], image) -> dict[str, dict[str, ]]:
     """Cleans the vulnerabilities for a given container."""
     
-    vulnerabilities = {}
+    cleaned_vulnerabilities = {}
     
     # Going to the .json hierarchy to get the CVE ids.
     layers = raw_vulnerabilities["Layers"]
@@ -42,11 +44,12 @@ def clean_vulnerabilities(raw_vulnerabilities, container):
                     if "Vectors" in metadata["NVD"]["CVSSv2"]:
                         vec = metadata["NVD"]["CVSSv2"]["Vectors"]
                         vulnerability_new["attack_vec"] = vec
-                vulnerabilities[vulnerability["Name"]] = vulnerability_new
+                cleaned_vulnerabilities[vulnerability["Name"]] = vulnerability_new
     
+    print("Total " + str(len(cleaned_vulnerabilities)) + " vulnerabilities in container " + image + ".")
     # print("Total " + str(len(vulnerabilities)) + " vulnerabilities in container " + container + ".")
     
-    return vulnerabilities
+    return cleaned_vulnerabilities
 
 
 def get_graph(attack_paths):
@@ -74,13 +77,16 @@ def get_graph(attack_paths):
     return nodes, edges
 
 
-def get_attack_vector(attack_vector_files):
+def get_attack_vectors(attack_vector_path) -> dict[str, dict[str, ]]:
     """Merging the attack vector files into a dictionary."""
-    
+
     print('Pre-processing vulnerabilitles...')
     
+    # Read the attack vector files.
+    attack_vector_files: list[dict[str, ]] = reader.read_attack_vector_files(attack_vector_path)
+
     # Initializing the attack vector dictionary.
-    attack_vector_dict = {}
+    attack_vectors = dict()
     
     count = 0
     # Iterating through the attack vector files.
@@ -123,8 +129,8 @@ def get_attack_vector(attack_vector_files):
             
             if dictionary_cve["cpe"] != "?":
                 dictionary_cve["cpe"] = dictionary_cve["cpe"][5]
-            attack_vector_dict[cve_id] = dictionary_cve
-    return attack_vector_dict
+            attack_vectors[cve_id] = dictionary_cve
+    return attack_vectors
 
 
 def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_privilege, edge_desc, passed_edges):
@@ -155,7 +161,8 @@ def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_
     #     edge.append(edge_desc)
 
 
-def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities):
+def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology: dict[str, set[str]], queue,
+                         exploitable_vulnerabilities):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
     
@@ -174,7 +181,7 @@ def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, que
         neighbours = topology[current_node]
         
         # Iterate through all of neighbours
-        for neighbour in neighbours + [current_node]:
+        for neighbour in neighbours:
             
             # Checks if the attacker has access to the docker host.
             if neighbour != "outside":
@@ -374,8 +381,8 @@ def rule_processing(merged_vulnerability, pre_rules, post_rules):
     """ This function is responsible for creating the
     precondition and post-condition rules."""
     
-    pre_conditions = {}
-    post_conditions = {}
+    pre_conditions = dict()
+    post_conditions = dict()
     for vulnerability_key in merged_vulnerability:
         vulnerability = merged_vulnerability[vulnerability_key]
         
@@ -398,14 +405,16 @@ def rule_processing(merged_vulnerability, pre_rules, post_rules):
     return pre_conditions, post_conditions
 
 
-def get_container_exploitable_vulnerabilities(vulnerabilities, image, attack_vector_dict, pre_rules, post_rules):
+def get_image_exploitable_vulnerabilities(vulnerabilities: dict[str, ], image: str,
+                                          attack_vectors: dict[str, dict[str, ]],
+                                          pre_rules: dict[str, dict[str, ]], post_rules: dict[str, dict[str, ]]):
     """Processes and provides exploitable vulnerabilities per container."""
     
     # Remove junk and just take the most important part from each vulnerability
     cleaned_vulnerabilities = clean_vulnerabilities(vulnerabilities, image)
     
     # Merging the cleaned vulnerabilities
-    merged_vulnerabilities = merge_attack_vector_vulnerabilities(attack_vector_dict, cleaned_vulnerabilities)
+    merged_vulnerabilities = merge_attack_vector_vulnerabilities(attack_vectors, cleaned_vulnerabilities)
     
     # Get the preconditions and postconditions for each vulnerability.
     pre_conditions, post_conditions = rule_processing(merged_vulnerabilities, pre_rules, post_rules)
@@ -414,19 +423,23 @@ def get_container_exploitable_vulnerabilities(vulnerabilities, image, attack_vec
     return exploit_ability_dict
 
 
-def get_exploitable_vulnerabilities(topology, vulnerabilities, mapping_names, attack_vector_dict, pre_rules,
-                                    post_rules):
+def get_exploitable_vulnerabilities(services: dict[str, dict[str, ]], vulnerabilities: dict[str, dict[str, ]],
+                                    attack_vector_path: str,
+                                    pre_rules: dict[str, dict[str, ]], post_rules: dict[str, dict[str, ]])\
+        -> (dict[str, dict[str, dict[str, int]]], int):
     time_start = time.time()
+
+    attack_vectors: dict[str, dict[str, ]] = get_attack_vectors(attack_vector_path)
     
     # Getting the potentially exploitable vulnerabilities for each container.
     exploitable_vulnerabilities = {}
-    for name in topology.keys():
+    for name in services:
+        image = services[name]['image']
         if name != "outside" and exploitable_vulnerabilities.get(name) is None:
             # Reading the vulnerability
-            exploitable_vulnerabilities[name] = get_container_exploitable_vulnerabilities(vulnerabilities
-                                                                                          [mapping_names[name]],
-                                                                                          name, attack_vector_dict,
-                                                                                          pre_rules, post_rules)
+            exploitable_vulnerabilities[name] = get_image_exploitable_vulnerabilities(vulnerabilities[image],
+                                                                                      name, attack_vectors,
+                                                                                      pre_rules, post_rules)
     
     duration_vulnerabilities_preprocessing = time.time() - time_start
     print("Vulnerabilities preprocessing finished. Time elapsed: " + str(duration_vulnerabilities_preprocessing) +
@@ -435,7 +448,10 @@ def get_exploitable_vulnerabilities(topology, vulnerabilities, mapping_names, at
     return exploitable_vulnerabilities, duration_vulnerabilities_preprocessing
 
 
-def generate_attack_graph(topology, exploitable_vulnerabilities):
+def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
+                          gateway_graph: nx.Graph, exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]],
+                          executor: ProcessPoolExecutor):
+    # TODO
     """Main pipeline for the attack graph generation algorithm."""
     
     # This is where the nodes and edges are going to be stored.
@@ -449,15 +465,16 @@ def generate_attack_graph(topology, exploitable_vulnerabilities):
 
     queue.put("outside|4")
     passed_nodes["outside|4"] = True
-
-    bdf = breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities)
     
-    return nodes, edges, passed_nodes, passed_edges, bdf
+    # bdf = breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities)
+    
+    return nodes, edges, passed_nodes, passed_edges  # , bdf
 
 
-def add(nodes, edges, passed_nodes, passed_edges, topology, name, exploitable_vulnerabilities):
+def add(nodes, edges, passed_nodes, passed_edges, topology, name, exploitable_vulnerabilities, attack_graph):
     
     # Putting the attacker in the queue
+    # TODO
     queue = Queue()
     neighbours = topology[name]
     
@@ -485,8 +502,8 @@ def add(nodes, edges, passed_nodes, passed_edges, topology, name, exploitable_vu
     breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities)
     
 
-def delete(name, nodes: set, edges, passed_nodes, passed_edges, attack_graph: networkx.DiGraph):
-    
+def delete(name, nodes: set, edges, passed_nodes, passed_edges, attack_graph: nx.DiGraph):
+    # TODO
     for node in nodes.copy():
         if node.split('(')[0] == name:
             nodes.remove(node)
@@ -517,7 +534,7 @@ def print_graph_properties(label_edges, nodes, edges):
     time_start = time.time()
     
     # Create the graph
-    graph = networkx.DiGraph()
+    graph = nx.DiGraph()
     
     for node in nodes:
         graph.add_node(node)
@@ -544,7 +561,7 @@ def print_graph_properties(label_edges, nodes, edges):
     print("The number of edges in the graph is " + str(no_edges) + "\n")
     
     # Degree centrality
-    degree_centrality = networkx.degree_centrality(graph)
+    degree_centrality = nx.degree_centrality(graph)
     print("The degree centrality of the graph is: ")
     for item in degree_centrality.keys():
         print(str(item) + " " + str(degree_centrality[item]))
@@ -574,7 +591,7 @@ def print_graph_properties(label_edges, nodes, edges):
     print("\n")
     
     if no_nodes != 0:
-        print("Is the graph strongly connected? " + str(networkx.is_strongly_connected(graph)) + "\n")
+        print("Is the graph strongly connected? " + str(nx.is_strongly_connected(graph)) + "\n")
     
     duration_graph_properties = time.time() - time_start
     print("Time elapsed: " + str(duration_graph_properties) + " seconds.\n")

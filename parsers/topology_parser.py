@@ -1,64 +1,60 @@
-#!/usr/bin/env python
 """Module responsible for manipulation of the topology of the docker system."""
 
-import os
-from graphviz import Graph
 from mio import reader
+import networkx as nx
+import time
 
 
-def get_services(example_folder):
+def parse_compose(example_folder: str) -> (dict[str, dict[str, ]], dict[str, dict[str, set]]):
     """It returns a dictionary of all services defined in docker-compose.yml"""
 
-    docker_compose_file = reader.read_docker_compose_file(example_folder)
+    docker_compose: dict[str, ] = reader.read_docker_compose_file(example_folder)
 
-    if "services" in docker_compose_file:
-        return docker_compose_file["services"]
-    else:
-        return {}
-
-
-def get_mapping_service_to_image_names(services, example_folder_path):
-    """This function maps the service name to the real image name.
-
-    In docker images get assigned different names based on how the
-    docker-compose.yml file is constructed.
-    This function helps us with that issue."""
+    services: dict[str, dict[str, ]] = docker_compose.get("services", dict())
+    networks: dict[str, ] = docker_compose.get('networks', dict())
     
-    mapping = {}
-    for service in services:
-        content_service = services[service]
-        
-        # Checks if the 'image' keyword is present and names the service after it.
-        if 'image' in content_service.keys():
-            mapping[service] = content_service['image']
-        
-        # If not, it appends the folder name as a prefix to the service name.
-        else:
-            # Specific to docker: '-' and '_' are removed.
-            parent_name = os.path.basename(example_folder_path).replace("-", "").replace("_", "")
-            mapping[service] = os.path.basename(parent_name) + "_" + service
+    for network in networks:
+        nodes = set(networks[network])
+        networks[network] = {'nodes': nodes, 'gateways': set()}
     
-    return mapping
+    networks['exposed'] = {'nodes': {'outside'}, 'gateways': set()}
+    return services, networks
 
 
-def create_topology_graph(topology):
+def create_graphs(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]]) \
+        -> (nx.Graph, nx.Graph, dict[(str, str), str]):
     """This function creates a topology graph."""
+
+    topology_graph = nx.Graph()
+    gateway_graph = nx.Graph()
     
-    print("Executing the graph render...")
-    edges = {}
+    gateway_graph_labels = dict()
     
-    dot = Graph(comment="Topology Graph", format='png', engine='sfdp')
-    for service in topology.keys():
-        dot.node(service)
-        for neighbour in topology[service]:
-            if neighbour + "|" + service not in edges.keys():
-                edges[service + "|" + neighbour] = [service, neighbour]
-                dot.edge(service, neighbour)
+    for name in services:
+        service: dict[str, ] = services[name]
+        service_network = service['networks']
+        for sn in service_network:
+            neighbours = networks[sn]['nodes']
+            for neighbour in neighbours:
+                if neighbour != name:
+                    topology_graph.add_edge(name, neighbour)
+            
+            if len(service_network) > 1:
+                for s2 in service_network:
+                    if sn != s2:
+                        gateway_graph.add_edge(sn, s2)
+                        gateway_graph_labels[(sn, s2)] = name
+                        
+            if "ports" in service.keys():
+                topology_graph.add_edge('outside', name)
+                gateway_graph.add_edge('exposed', sn)
+                gateway_graph_labels[('exposed', sn)] = name
     
-    return dot
+    return topology_graph, gateway_graph, gateway_graph_labels
 
 
-def parse_topology(example_folder):
+def parse_topology(example_folder: str) -> (dict[str, dict[str, set]], dict[str, dict[str, ]], set[str]):
+    
     """ Function for parsing the topology of the docker system.
 
     Assumptions:
@@ -66,91 +62,78 @@ def parse_topology(example_folder):
     and the dockers are connected through these networks
     2) We assume that port mapping is done exclusively through docker-compose.yml"""
     
+    time_start = time.time()
     print("Executing the topology parser...")
 
-    services = get_services(example_folder)
+    services, networks = parse_compose(example_folder)
+    services: dict[str, dict[str, ]]
     
-    # Checks if the services are connected to the outside.
-    topology = {"outside": []}
-    networks = {'exposed': []}
+    gateway_nodes = set()
     
-    # Iteration through the first service.
-    for first_service in services:
+    networks: dict[str, dict[str, set]]
+    
+    for name in services:
+        service: dict[str, ] = services[name]
+        service_network: list = service['networks']
         
-        # Check if network keyword exists in the first service.
-        if "networks" in services[first_service].keys():
-            first_service_networks = services[first_service]["networks"]
-        else:
+        if len(service_network) >= 1:
             
-            # If it does not, it means that it is exposed to every other service.
-            first_service_networks = ["exposed"]
-        
-        topology[first_service] = []
-        for fn in first_service_networks:
-            if networks.get(fn) is not None:
-                networks[fn].append(first_service)
-            else:
-                networks[fn] = [first_service]
-
-        # Iteration through the second service.
-        for second_service in services:
-            if first_service != second_service:
-                
-                # Check if network keyword exists in the second service.
-                if "networks" in services[second_service].keys():
-                    second_service_networks = services[second_service]["networks"]
+            if len(service_network) > 1:
+                gateway_nodes.add(name)
+            
+            for sn in service_network:
+    
+                if sn in networks:
+                    networks[sn]['nodes'].add(name)
+                    if len(service_network) > 1:
+                        networks[sn]['gateways'].add(name)
                 else:
-                    
-                    # If it does not, it means that it is exposed to every other service.
-                    second_service_networks = "exposed"
+                    if len(service_network) > 1:
+                        networks[sn] = {'nodes': {name}, 'gateways': {name}}
+                    else:
+                        networks[sn] = {'nodes': {name}, 'gateways': set()}
                 
-                # Checks if the first and second service belong to the same network.
-                for first_service_network in first_service_networks:
-                    if first_service_network in second_service_networks:
-                        # If they do, then they are added.
-                        topology[first_service].append(second_service)
-        
-        # Check if the ports are mapped to the host machine
-        # i.e. the docker is exposed to outside
-        if "ports" in services[first_service].keys():
-            topology["outside"].append(first_service)
-            topology[first_service].append("outside")
-            networks['exposed'].append(first_service)
+                if "ports" in service.keys():
+                    networks[sn]['gateways'].add(name)
+                    gateway_nodes.add(name)
+                
+        if "ports" in service.keys():
+            networks['exposed']['nodes'].add(name)
+            networks['exposed']['gateways'].add(name)
+            gateway_nodes.add(name)
+            
+    duration_topology = time.time() - time_start
+    print("Time elapsed: " + str(duration_topology) + " seconds.\n")
     
-    return topology, networks, services
+    return networks, services, gateway_nodes
 
 
-def add(networks, topology, topology_graph: Graph, services, new_service, name):
+def add(networks: dict[str, set[str]], topology: dict[str, set[str]], topology_graph: nx.Graph,
+        services: dict[str, dict[str, ]], new_service: dict[str, ], name: str):
+    # TODO
     
-    network = new_service['networks']
-    to_add = []
+    network: set = new_service['networks']
+    to_add = set()
     
     for n in network:
-        if networks.get(n) is None:
-            networks[n] = {name}
-        else:
-            for neighbour in networks[n]:
-                if neighbour not in to_add and name not in topology[neighbour]:
-                    topology[neighbour].append(name)
-                    to_add.append(neighbour)
-            networks[n].append(name)
+        network_to_update = networks.get(n, set())
+        network_to_update.add(name)
+        networks[n] = network_to_update
     
     topology[name] = to_add
-    topology_graph.node(name)
     
     for neighbour in to_add:
-        topology_graph.edge(neighbour, name)
+        topology_graph.add_edge(neighbour, name)
     
     services[name] = new_service
     
 
-def delete(networks, topology, services, del_service, name):
-    
-    network = del_service['networks']
-    
-    for n in network:
+def delete(networks: dict[str, set[str]], topology: dict[str, set[str]], services: dict[str, dict[str, ]], name: str):
+    # TODO
+    for n in services[name]['networks']:
         for neighbour in networks[n]:
             if neighbour != name and name in topology[neighbour]:
+                topology[neighbour]: set
                 topology[neighbour].remove(name)
     
     del topology[name]

@@ -1,8 +1,5 @@
 networks:
-  backend:
-    driver: bridge
-  frontend:
-    driver: bridge
+  frontend: {}
 services:
   py1:
     image: python
