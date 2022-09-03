@@ -53,12 +53,8 @@ echo -e "\nChecking if dependencies are installed...\n"
 function add() {
     pac=$1
     if ! [[ $(type -p "$pac") ]]; then
-        if ! [[ $pac != "graphviz" ]]; then
-            type "$pac"
-            not_installed+=("$pac")
-        else
-            type dot || not_installed+=("graphviz")
-        fi
+        type "$pac"
+        not_installed+=("$pac")
     else
         type "$pac"
     fi
@@ -70,7 +66,6 @@ add python3
 add docker
 add docker-compose
 add go
-add graphviz
 
 echo installing following dependencies:
 
@@ -94,9 +89,10 @@ case $ID_LIKE in
         fi
 
         for t in "${not_installed[@]}"; do
-             brew install "$t"
+             brew install python
+             brew install --cask docker
+             brew install go
         done
-        type docker || brew link --overwrite docker
     ;;
 
     arch)

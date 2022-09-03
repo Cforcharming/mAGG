@@ -10,7 +10,6 @@ The following dependencies are needed:
 * Python3
 * Docker Desktop (Engine >= 19.03, Compose >= 1.27)
 * go
-* graphviz
 
 You may install them with 
 ```
