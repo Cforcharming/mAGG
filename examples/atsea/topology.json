@@ -1,1 +1,0 @@
-{"atsea_payment_gateway": ["docker host"], "atsea_reverse_proxy": ["docker host"], "outside": ["atsea_app", "atsea_db"], "atsea_app": ["atsea_db", "outside", "docker host"], "atsea_db": ["atsea_app", "outside", "docker host"], "docker host": ["atsea_reverse_proxy", "atsea_app", "atsea_payment_gateway", "atsea_db"]}
