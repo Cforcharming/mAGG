@@ -14,8 +14,7 @@ def parse_compose(example_folder: str) -> (dict[str, dict[str, ]], dict[str, dic
     networks: dict[str, ] = docker_compose.get('networks', dict())
     
     for network in networks:
-        nodes = set(networks[network])
-        networks[network] = {'nodes': nodes, 'gateways': set()}
+        networks[network] = {'nodes': set(), 'gateways': set()}
     
     networks['exposed'] = {'nodes': {'outside'}, 'gateways': set()}
     return services, networks
