@@ -66,6 +66,7 @@ add python3
 add docker
 add docker-compose
 add go
+add graphviz
 
 echo installing following dependencies:
 
