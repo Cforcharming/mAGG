@@ -1,9 +1,7 @@
-import networkx as nx
-
 from parsers import vulnerability_parser, attack_graph_parser, topology_parser
 from mio import reader, writer
 
-import networkx
+import networkx as nx
 import time
 import os
 
@@ -60,11 +58,11 @@ def del_node(name, networks, topology, services, nodes, edges, passed_nodes, pas
     print("Node deleted")
 
 
-def gen_defence_list(attack_graph: networkx.DiGraph, to):
+def gen_defence_list(attack_graph: nx.DiGraph, to):
     # TODO
     path_counts = {}
     
-    for path in networkx.all_simple_paths(attack_graph, 'outside', to):
+    for path in nx.all_simple_paths(attack_graph, 'outside', to):
         for node in path:
             path_counts[node]: int = path_counts.get(node, 0) + 1
     
