@@ -7,7 +7,7 @@
 The following dependencies are needed:
 
 * bash
-* Python >= 3.9
+* Python >= 3.10
 * Docker Desktop (Engine >= 19.03, Compose >= 1.27)
 * go
 
