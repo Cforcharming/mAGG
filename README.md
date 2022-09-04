@@ -1,4 +1,4 @@
-# mAGG: a multi-layer attack graph generator
+# mAGG: a managed Attack Graph Generator
 
 ## Installing
 
@@ -7,7 +7,7 @@
 The following dependencies are needed:
 
 * bash
-* Python3
+* Python >= 3.9
 * Docker Desktop (Engine >= 19.03, Compose >= 1.27)
 * go
 
@@ -81,30 +81,17 @@ the comments in the config.yml file.
 
 ## Acknowledgments
 
-This project is modified from the tool [attack-graph-generator](https://github.com/tum-i4/attack-graph-generator)
-by ibrahim *et al.*
+This project uses the tools cloned from 
+[tum-i4/attack-graph-generator](https://github.com/tum-i4/attack-graph-generator)
+by ibrahim *et al.* for [CVE](https://cve.org) and [NVD](https://nvd.nist.gov) data reading and parsings, 
+sharing same config file settings.
 
-### Original authors
-* Stevica Bozhinoski stevica.bozhinoski@tum.de
-* Amjad Ibrahim, M.Sc. amjad.ibrahim@tum.de
+As the names of some python files and functions still remain the same, 
+their implementations, algorithms and return variables are  based on our proposed methods
+for topology parsings and attack graph generations.
 
-please also site this academic work: 
+A git branch named 'old' contains the modified original works as benchmark:
 
 > Ibrahim, Amjad, Stevica Bozhinoski, and Alexander Pretschner.
 > "Attack graph generation for microservice architecture."
 > Proceedings of the 34th ACM/SIGAPP Symposium on Applied Computing. ACM, 2019.
-> 
-> @inproceedings{ibrahim2019attack,
-title={Attack graph generation for microservice architecture},
-author={Ibrahim, Amjad and Bozhinoski, Stevica and Pretschner, Alexander},
-booktitle={Proceedings of the 34th ACM/SIGAPP Symposium on Applied Computing},
-pages={1235--1242},
-year={2019},
-organization={ACM}
-> }
-
-We would like to thank the teams of [Clair](https://github.com/coreos/clair) 
-and [Clairctl](https://github.com/jgsqware/clairctl) for their vulnerability generator,
-which is an integral part of our system.
-Additional thanks to the contributors of all of third-party tools used in this project.
-
