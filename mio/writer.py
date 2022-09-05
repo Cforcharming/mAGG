@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 
 
 def write_attack_graph(composed_graph: nx.DiGraph, composed_labels: dict[(str, str), str], result_folder: str, i: int):
-    # TODO
     """Writes the attack graph onto a dot file."""
 
     attack_graph_folder = os.path.join(result_folder, str(i))
@@ -54,7 +53,6 @@ def write_topology_graph(topology_graph: nx.Graph, result_folder: str, i: int):
 
 def write_gateway_graph(gateway_graph: nx.Graph, gateway_graph_labels: dict[(str, str), str],
                         result_folder: str, i: int):
-    # TODO
     
     gateway_graph_folder = os.path.join(result_folder, str(i))
     if not os.path.exists(gateway_graph_folder):
