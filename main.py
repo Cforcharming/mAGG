@@ -29,7 +29,7 @@ def main(argv):
     
     # Parsing the topology of the docker containers.
     time_start = time.time()
-    topology, networks, services = topology_parser.parse_topology(example_folder)
+    topology, networks, services, gateway_nodes = topology_parser.parse_topology(example_folder)
     duration_topology = time.time() - time_start
     print("Time elapsed: " + str(duration_topology) + " seconds.\n")
     
@@ -68,7 +68,7 @@ def main(argv):
         # Create folder where the result files will be stored.
         result_folder = writer.create_result_folder(os.path.join('full-conn', os.path.basename(example_folder)), config)
         
-        topology, networks, services = topology_parser.parse_topology(example_folder)
+        topology, networks, services, gateway_nodes = topology_parser.parse_topology(example_folder)
         mapping_names = topology_parser.get_mapping_service_to_image_names(services, example_folder)
         exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
             topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
@@ -76,7 +76,7 @@ def main(argv):
         
         print("Start with attack graph generation...")
         nodes, edges, passed_nodes, passed_edges, duration_bdf = attack_graph_parser.\
-            generate_attack_graph(topology, exploitable_vulnerabilities)
+            generate_attack_graph(topology, exploitable_vulnerabilities, gateway_nodes)
         print("Time elapsed: " + str(duration_bdf + dvp) + " seconds.\n")
         
         # duration_graph_properties, attack_graph = attack_graph_parser.\

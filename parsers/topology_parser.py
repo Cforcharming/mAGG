@@ -69,6 +69,7 @@ def parse_topology(example_folder):
     print("Executing the topology parser...")
 
     services = get_services(example_folder)
+    gateway_nodes = set()
     
     # Checks if the services are connected to the outside.
     topology = {"outside": []}
@@ -116,8 +117,9 @@ def parse_topology(example_folder):
             topology["outside"].append(first_service)
             topology[first_service].append("outside")
             networks['exposed'].append(first_service)
+            gateway_nodes.add(first_service)
     
-    return topology, networks, services
+    return topology, networks, services, gateway_nodes
 
 
 def add(networks, topology, topology_graph: Graph, services, new_service, name):

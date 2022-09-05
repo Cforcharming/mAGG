@@ -158,12 +158,15 @@ def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_
 def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
+
+    # This is where the nodes and edges are going to be stored.
+    edges = {}
+    nodes = set()
+    passed_nodes = {}
+    passed_edges = {}
     
     # Starting the time
     bds_start = time.time()
-
-    # Breadth first search algorithm for generation of attack paths.
-    print("Breadth-first search started.")
     
     while not queue.empty():
         
@@ -200,8 +203,6 @@ def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, que
                             passed_nodes[passed_nodes_key] = True
     
     duration_bdf = time.time() - bds_start
-    print("Breadth-first search finished. Time elapsed: " + str(duration_bdf) + " seconds.\n")
-    print("Breadth-first-search took " + str(duration_bdf) + " seconds.")
     return duration_bdf
 
 
@@ -435,7 +436,7 @@ def get_exploitable_vulnerabilities(topology, vulnerabilities, mapping_names, at
     return exploitable_vulnerabilities, duration_vulnerabilities_preprocessing
 
 
-def generate_attack_graph(topology, exploitable_vulnerabilities):
+def generate_attack_graph(topology, exploitable_vulnerabilities, gateway_nodes):
     """Main pipeline for the attack graph generation algorithm."""
     
     # This is where the nodes and edges are going to be stored.
@@ -443,15 +444,27 @@ def generate_attack_graph(topology, exploitable_vulnerabilities):
     nodes = set()
     passed_nodes = {}
     passed_edges = {}
+
+    # Breadth first search algorithm for generation of attack paths.
+    print("Breadth-first search started.")
     
     # Putting the attacker in the queue
     queue = Queue()
 
     queue.put("outside|4")
     passed_nodes["outside|4"] = True
-
-    bdf = breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities)
     
+    bdf = 0
+    
+    for gateway_node in gateway_nodes:
+        queue.put(gateway_node + '|1')
+        queue.put(gateway_node + '|3')
+        queue.put(gateway_node + '|4')
+        bdf += breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue,
+                                    exploitable_vulnerabilities)
+
+    print("Breadth-first search finished. Time elapsed: " + str(bdf) + " seconds.\n")
+    print("Breadth-first-search took " + str(bdf) + " seconds.")
     return nodes, edges, passed_nodes, passed_edges, bdf
 
 
