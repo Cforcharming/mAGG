@@ -1,10 +1,11 @@
 """Module responsible for generating the attack graph."""
 
+import sys
 import time
 import networkx as nx
 from queue import Queue
 from parsers import vulnerability_parser
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, Future
 
 
 def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
@@ -24,12 +25,25 @@ def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[st
     # Breadth first search algorithm for generation of attack paths.
     print('Attack graphs of subnets generation started.')
     
+    futures: dict[str, Future] = {}
+    
     for network in networks:
         gateways = networks[network]['gateways']
-        sub_graph, sub_labels = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
-        attack_graph[network] = sub_graph
-        graph_labels[network] = sub_labels
+        
+        if not hasattr(sys, 'ps1'):
+            future = executor.submit(breadth_first_search, services, networks, gateways, exploitable_vulnerabilities)
+            futures[network] = future
+        else:
+            sub_graph, sub_labels = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
+            attack_graph[network] = sub_graph
+            graph_labels[network] = sub_labels
 
+    if not hasattr(sys, 'ps1'):
+        for network in futures:
+            sub_graph, sub_labels = futures[network].result()
+            attack_graph[network] = sub_graph
+            graph_labels[network] = sub_labels
+    
     print('Time for attack graphs of subnets generation:', time.time() - da, 'seconds.')
     return attack_graph, graph_labels, da
 
