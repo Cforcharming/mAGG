@@ -2,7 +2,7 @@
 """Main module responsible for the attack graph generation pipeline."""
 
 import sys
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 
 from parsers import vulnerability_parser, attack_graph_parser, topology_parser
 from mio import wrapper
@@ -13,7 +13,8 @@ __version__ = "1.0-dev3"
 def main(argv):
 
     stat, config, examples, times = wrapper.init(argv)
-    attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"])
+    t_executor = ThreadPoolExecutor()
+    attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], t_executor)
     
     for example in examples:
         example_folder, result_folder = wrapper.create_folders(example, config)
