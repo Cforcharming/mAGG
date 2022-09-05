@@ -2,7 +2,7 @@
 """Main module responsible for the attack graph generation pipeline."""
 
 import sys
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 from parsers import vulnerability_parser, attack_graph_parser, topology_parser
 from mio import wrapper
@@ -13,18 +13,19 @@ __version__ = "1.0-dev3"
 def main(argv):
 
     stat, config, examples, times = wrapper.init(argv)
-    t_executor = ThreadPoolExecutor()
-    attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], t_executor)
+    executor = ProcessPoolExecutor(int(config['nums-of-processes']))
+    attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], executor)
     
     for example in examples:
         example_folder, result_folder = wrapper.create_folders(example, config)
-        if ret := parse_one_folder(example_folder, result_folder, config, attack_vectors) != 0:
+        if ret := parse_one_folder(example_folder, result_folder, config, attack_vectors, executor) != 0:
             return ret
     
     return 0
 
 
-def parse_one_folder(example_folder: str, result_folder: str, config: dict, attack_vectors: dict[str, dict[str, ]]):
+def parse_one_folder(example_folder: str, result_folder: str, config: dict, attack_vectors: dict[str, dict[str, ]],
+                     executor: ProcessPoolExecutor):
     """
     Main function responsible for running the attack graph generations pipeline for multiple graphs.
     """
@@ -43,8 +44,6 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
         services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors)
 
     print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
-    
-    executor = ProcessPoolExecutor()
     
     attack_graph, graph_labels, da = attack_graph_parser.\
         generate_attack_graph(networks, services, exploitable_vulnerabilities, executor)
