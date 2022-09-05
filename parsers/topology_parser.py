@@ -25,6 +25,7 @@ def create_graphs(networks: dict[str, dict[str, set]], services: dict[str, dict[
     """This function creates a topology graph."""
     
     start = time.time()
+    print("Topology graph creation started.")
     
     topology_graph = nx.Graph()
     gateway_graph = nx.Graph()
@@ -49,7 +50,7 @@ def parse_topology(example_folder: str) -> (dict[str, dict[str, set]], dict[str,
     2) We assume that port mapping is done exclusively through docker-compose.yml"""
     
     time_start = time.time()
-    print("Executing the topology parser...")
+    print("Topology parsing started.")
     
     services, networks = parse_compose(example_folder)
     services: dict[str, dict[str]]
@@ -116,8 +117,9 @@ def add_service_to_graph(networks: dict[str, dict[str, set]], topology_graph: nx
         
         if "ports" in service.keys():
             topology_graph.add_edge('outside', name)
-            gateway_graph.add_edge('exposed', sn)
-            gateway_graph_labels[('exposed', sn)] = name
+            if sn != 'exposed':
+                gateway_graph.add_edge('exposed', sn)
+                gateway_graph_labels[('exposed', sn)] = name
 
 
 def delete(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
