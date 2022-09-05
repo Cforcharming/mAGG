@@ -7,7 +7,7 @@ import networkx as nx
 from concurrent.futures import ProcessPoolExecutor
 
 from parsers import vulnerability_parser, attack_graph_parser, topology_parser
-from mio import wrappers
+from mio import wrapper
 
 __version__ = "1.0-dev2"
 
@@ -17,7 +17,7 @@ def main(argv):
     Main function responsible for running the attack graph generation pipeline.
     """
     
-    stat, config, example_folder, result_folder, n = wrappers.init(argv)
+    stat, config, example_folder, result_folder, n = wrapper.init(argv)
     if stat != 0:
         return stat
     
@@ -68,7 +68,7 @@ def main(argv):
     attack_graph: dict[str, nx.DiGraph]
     
     # Visualizing the attack graph.
-    n = wrappers.visualise(topology_graph, gateway_graph, gateway_graph_labels, composed_graph, result_folder, n)
+    n = wrapper.visualise(topology_graph, gateway_graph, gateway_graph_labels, composed_graph, result_folder, n)
     
     example_folders = os.listdir(os.path.join(os.getcwd(), 'examples/full-conn'))
     
@@ -76,8 +76,8 @@ def main(argv):
         print('\n\n\n**************************' + example_folder + '**************************\n\n\n')
         example_folder = os.path.join(os.getcwd(), 'examples/full-conn', example_folder)
         # Create folder where the result files will be stored.
-        result_folder = wrappers.create_result_folder(os.path.join('full-conn',
-                                                                   os.path.basename(example_folder)), config)
+        result_folder = wrapper.create_result_folder(os.path.join('full-conn',
+                                                                  os.path.basename(example_folder)), config)
 
         networks, services, gateway_nodes = topology_parser.parse_topology(example_folder)
         topology_graph, gateway_graph, gateway_graph_labels = topology_parser.create_graphs(networks, services)
@@ -98,10 +98,10 @@ def main(argv):
         # times = visualise(topology, result_folder, times, config['labels_edges'], nodes, edges)
         
         # Printing time summary of the attack graph generation.
-        wrappers.print_summary(topology_graph.number_of_nodes(),
-                               topology_graph.number_of_edges(),
-                               composed_graph.number_of_nodes(),
-                               composed_graph.number_of_edges())
+        wrapper.print_summary(topology_graph.number_of_nodes(),
+                              topology_graph.number_of_edges(),
+                              composed_graph.number_of_nodes(),
+                              composed_graph.number_of_edges())
 
 
 if __name__ == "__main__":

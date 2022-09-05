@@ -7,57 +7,51 @@ from parsers import vulnerability_parser
 from concurrent.futures import ProcessPoolExecutor
 
 
-def get_graph(attack_paths):
-    """Getting the nodes and edges for an array of attack paths."""
+def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
+                          exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]],
+                          executor: ProcessPoolExecutor) -> (dict[str, nx.DiGraph], int):
+    # TODO
+    """Main pipeline for the attack graph generation algorithm."""
     
-    # Initializing the nodes and edges arrays.
-    nodes = []
-    edges = {}
+    # This is where the nodes and edges are going to be stored.
+    attack_graph: dict[str, nx.DiGraph] = dict()
     
-    # Generating unique nodes.
-    for attack_path in attack_paths:
-        for node in attack_path:
-            if node not in nodes:
-                nodes.append(node)
+    da = time.time()
     
-    # Generating unique edges.
-    for attack_path in attack_paths:
-        
-        # Checking if an edge is present.
-        if len(attack_path) >= 2:
-            for i in range(1, len(attack_path)):
-                key = attack_path[i] + "|" + attack_path[i - 1]
-                edges[key] = [attack_path[i], attack_path[i - 1]]
+    # Breadth first search algorithm for generation of attack paths.
+    print("Breadth-first search started.")
     
-    return nodes, edges
+    for network in networks:
+        gateways = networks[network]['gateways']
+        sub_graph = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
+        attack_graph[network] = sub_graph
+
+    print('Breadth-first-search took', time.time() - da, 'seconds.')
+    
+    return attack_graph, da
 
 
-def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_privilege, edge_desc, passed_edges):
-    """
-    Adding an edge to the attack graph and checking if nodes already exist.
-    """
-    raise NotImplementedError
-    # Checks if the opposite edge is already in the collection. If it is, don't add the edge.
-    node_start_full = node_start + "(" + node_start_privilege + ")"
-    node_end_full = node_end + "(" + node_end_privilege + ")"
+def update_by_networks(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
+                       attack_graph: dict[str, nx.DiGraph],
+                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], executor: ProcessPoolExecutor,
+                       affected_networks: list[str]):
     
-    if passed_edges.get(node_end + "|" + node_start_full) is None:
-        passed_edges[node_start + "|" + node_end_full] = True
-    else:
-        return
+    for network in affected_networks:
+        gateways = networks[network]['gateways']
+        sub_graph, bdf = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
+        attack_graph[network] = sub_graph
+
+
+def get_graph_compose(attack_graph: dict[str, nx.DiGraph]):
+    """This functions prints graph properties."""
     
-    if node_start_full not in nodes:
-        nodes.add(node_start_full)
+    time_start = time.time()
     
-    if node_end_full not in nodes:
-        nodes.add(node_end_full)
+    composed_graph = nx.compose_all([*attack_graph.values()])
     
-    key = node_start_full + "|" + node_end_full
-    
-    # if edge := edges.get(key) is None:
-    edges[key] = [edge_desc]
-    # elif edge_desc not in edge:
-    #     edge.append(edge_desc)
+    dcg = time.time() - time_start
+    print('Finished connecting graph in', dcg, 'seconds.')
+    return composed_graph, dcg
 
 
 def breadth_first_search(services: dict[str, dict[str, ]], networks: dict[str, dict[str, set]], gateways: set[str],
@@ -120,48 +114,29 @@ def breadth_first_search(services: dict[str, dict[str, ]], networks: dict[str, d
     return sub_graph
 
 
-def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str,]],
-                          exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]],
-                          executor: ProcessPoolExecutor) -> (dict[str, nx.DiGraph], int):
-    # TODO
-    """Main pipeline for the attack graph generation algorithm."""
+def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_privilege, edge_desc, passed_edges):
+    """
+    Adding an edge to the attack graph and checking if nodes already exist.
+    """
+    raise NotImplementedError
+    # Checks if the opposite edge is already in the collection. If it is, don't add the edge.
+    node_start_full = node_start + "(" + node_start_privilege + ")"
+    node_end_full = node_end + "(" + node_end_privilege + ")"
     
-    # This is where the nodes and edges are going to be stored.
-    attack_graph: dict[str, nx.DiGraph] = dict()
+    if passed_edges.get(node_end + "|" + node_start_full) is None:
+        passed_edges[node_start + "|" + node_end_full] = True
+    else:
+        return
     
-    da = time.time()
+    if node_start_full not in nodes:
+        nodes.add(node_start_full)
     
-    # Breadth first search algorithm for generation of attack paths.
-    print("Breadth-first search started.")
+    if node_end_full not in nodes:
+        nodes.add(node_end_full)
     
-    for network in networks:
-        gateways = networks[network]['gateways']
-        sub_graph = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
-        attack_graph[network] = sub_graph
-
-    print('Breadth-first-search took', time.time() - da, 'seconds.')
+    key = node_start_full + "|" + node_end_full
     
-    return attack_graph, da
-
-
-def update_by_networks(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
-                       attack_graph: dict[str, nx.DiGraph],
-                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], executor: ProcessPoolExecutor,
-                       affected_networks: list[str]):
-    
-    for network in affected_networks:
-        gateways = networks[network]['gateways']
-        sub_graph, bdf = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
-        attack_graph[network] = sub_graph
-
-
-def get_graph_compose(attack_graph: dict[str, nx.DiGraph]):
-    """This functions prints graph properties."""
-    
-    time_start = time.time()
-    
-    composed_graph = nx.compose_all([*attack_graph.values()])
-    
-    dcg = time.time() - time_start
-    print('Finished connecting graph in', dcg, 'seconds.')
-    return composed_graph, dcg
+    # if edge := edges.get(key) is None:
+    edges[key] = [edge_desc]
+    # elif edge_desc not in edge:
+    #     edge.append(edge_desc)

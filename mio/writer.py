@@ -1,7 +1,6 @@
 """This module is responsible for writing the outputs into files."""
 
 import os
-import shutil
 import networkx as nx
 
 
@@ -38,15 +37,6 @@ def write_gateway_graph(gateway_graph: nx.Graph, gateway_graph_labels: dict[(str
     if not os.path.exists(topology_graph_path):
         pass
     print("Topology graph is at: " + topology_graph_path + ".png")
-
-
-def copy_vulnerability_file(clairctl_home, image_name, example_folder):
-    """Copies the vulnerability file from clairctl to the local location."""
-    
-    json_name = os.path.join(example_folder, image_name + "-vulnerabilities.json")
-    
-    shutil.copy(os.path.join(clairctl_home, "docker-compose-data", "clairctl-reports", "json", "analysis-" + image_name
-                             + "-latest.json"), json_name)
 
 
 def create_result_folder(example_folder, config):

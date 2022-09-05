@@ -75,25 +75,6 @@ def validate_config_file() -> (int, dict):
     return 0, config_file
 
 
-def read_attack_vector_files(attack_vector_folder_path: str) -> list[dict[str, ]]:
-    """It reads the attack vector files."""
-    
-    attack_vector_list = []
-    
-    attack_vector_filenames = os.listdir(attack_vector_folder_path)
-    
-    # Iterating through the attack vector files.
-    for attack_vector_filename in attack_vector_filenames:
-        
-        # Load the attack vector.
-        if not attack_vector_filename.startswith("nvdcve"):
-            continue
-        with open(os.path.join(attack_vector_folder_path, attack_vector_filename)) as att_vec:
-            attack_vector_list.append(json.load(att_vec))
-    
-    return attack_vector_list
-
-
 def read_topology(example_folder: str) -> dict[str, set[str]]:
     """Reads the topology .json file."""
     
@@ -128,17 +109,3 @@ def read_config_file() -> dict:
             exit(errno.ENOENT)
     
     return config_file
-
-
-def cache_parsed_images(example_folder: str) -> set[str]:
-    
-    files = os.listdir(example_folder)
-    
-    parsed_images = set()
-    
-    for file in files:
-        if 'vulnerabilities' in file:
-            image = file.replace('-vulnerabilities.json', '')
-            parsed_images.add(image)
-    
-    return parsed_images
