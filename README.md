@@ -79,12 +79,18 @@ Finally, the user has to possibility to modify the pre- and postcondition rules
 from which the attack graphs are created. For additional details on how to use the config file, please refer to 
 the comments in the config.yml file.
 
-## Acknowledgments
+## License and Acknowledgments
+
+Copyright 2022 张瀚文
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
 
 This project uses the tools cloned from 
 [tum-i4/attack-graph-generator](https://github.com/tum-i4/attack-graph-generator)
 by ibrahim *et al.* for [CVE](https://cve.org) and [NVD](https://nvd.nist.gov) data reading and parsings, 
-sharing same config file settings.
+sharing same config file settings, For details, [Clair](https://github.com/quay/clair) version 2.1.8,
+and [claircrl](https://github.com/jgsqware/clairctl) are used for vulnerability exploiting.
 
 As the names of some python files and functions still remain the same, 
 their implementations, algorithms and return variables are  based on our proposed methods
