@@ -1,11 +1,12 @@
 """Module responsible for generating the attack graph."""
 
-import sys
 import time
 import networkx as nx
 from queue import Queue
+from concurrent.futures import ProcessPoolExecutor, Future, wait
+
 from parsers import vulnerability_parser
-from concurrent.futures import ProcessPoolExecutor, Future
+from mio.wrapper import is_interactive
 
 
 def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
@@ -15,34 +16,12 @@ def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[st
     # TODO
     """Main pipeline for the attack graph generation algorithm."""
     
-    # This is where the nodes and edges are going to be stored.
-    attack_graph: dict[str, nx.DiGraph] = dict()
-    
+    print('Attack graphs of subnets generation started.')
     da = time.time()
-    
+    attack_graph: dict[str, nx.DiGraph] = dict()
     graph_labels: dict[str, dict[(str, str), str]] = dict()
     
-    # Breadth first search algorithm for generation of attack paths.
-    print('Attack graphs of subnets generation started.')
-    
-    futures: dict[str, Future] = {}
-    
-    for network in networks:
-        gateways = networks[network]['gateways']
-        
-        if not hasattr(sys, 'ps1'):
-            future = executor.submit(breadth_first_search, services, networks, gateways, exploitable_vulnerabilities)
-            futures[network] = future
-        else:
-            sub_graph, sub_labels = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
-            attack_graph[network] = sub_graph
-            graph_labels[network] = sub_labels
-
-    if not hasattr(sys, 'ps1'):
-        for network in futures:
-            sub_graph, sub_labels = futures[network].result()
-            attack_graph[network] = sub_graph
-            graph_labels[network] = sub_labels
+    update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor, [*networks.keys()])
     
     print('Time for attack graphs of subnets generation:', time.time() - da, 'seconds.')
     return attack_graph, graph_labels, da
@@ -66,17 +45,34 @@ def get_graph_compose(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[st
     return composed_graph, composed_labels, dcg
 
 
-def update_by_networks(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
-                       attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]],
+def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[str, nx.DiGraph],
+                       graph_labels: dict[str, dict[(str, str), str]],
                        exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], executor: ProcessPoolExecutor,
                        affected_networks: list[str]):
     
+    futures: list[Future] = list()
+    
     for network in affected_networks:
-        gateways = networks[network]['gateways']
-        sub_graph, sub_labels = breadth_first_search(services, networks, gateways, exploitable_vulnerabilities)
-        attack_graph[network] |= sub_graph
-        graph_labels[network] |= sub_labels
+        
+        if not is_interactive():
+            future = executor.submit(generate_sub_graph, networks, network, exploitable_vulnerabilities)
+            future.add_done_callback(update(attack_graph, graph_labels, network))
+            futures.append(future)
+        else:
+            sub_graph, sub_labels = generate_sub_graph(networks, network, exploitable_vulnerabilities)
+            attack_graph[network] = sub_graph
+            graph_labels[network] = sub_labels
+    
+    if not is_interactive():
+        wait(futures)
 
+
+def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]], network: str):
+    def cbs(future):
+        sub_graph, sub_labels = future.result()
+        attack_graph[network] = sub_graph
+        graph_labels[network] = sub_labels
+    return cbs
 
 def breadth_first_search(services: dict[str, dict[str, ]], networks: dict[str, dict[str, set]], gateways: set[str],
                          exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]]) \

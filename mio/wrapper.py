@@ -3,6 +3,7 @@ from concurrent.futures import ProcessPoolExecutor
 from mio import reader, writer
 import networkx as nx
 import time
+import sys
 import os
 
 
@@ -31,6 +32,10 @@ def create_folders(example_basename: str, config: dict) -> (str, str):
     return example_folder, result_folder
 
 
+def is_interactive() -> bool:
+    return hasattr(sys, 'ps1')
+
+
 def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
              topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_nodes: set[str],
              attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]],
@@ -49,10 +54,10 @@ def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, se
     
     vulnerability_parser.add(config, services, vulnerabilities, attack_vectors, exploitable_vulnerabilities,
                              parsed_images, example_folder, image)
-    
-    attack_graph_parser.\
-        update_by_networks(networks, services, attack_graph, graph_labels,
-                           exploitable_vulnerabilities, executor, new_service['networks'])
+
+    attack_graph_parser. \
+        update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor,
+                           new_service['networks'])
     
     print("Node added:", new_service)
 
@@ -65,10 +70,10 @@ def del_node(networks: dict[str, dict[str, set]], services: dict[str, dict[str, 
              exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], name: str):
     
     topology_parser.delete(networks, services, topology_graph, gateway_graph, gateway_nodes, gateway_graph_labels, name)
-    
-    attack_graph_parser.\
-        update_by_networks(networks, services, attack_graph, graph_labels, exploitable_vulnerabilities,
-                           executor, affected_networks)
+
+    attack_graph_parser. \
+        update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor,
+                           affected_networks)
     
     print("Node deleted: ", name)
 
