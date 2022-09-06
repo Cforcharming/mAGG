@@ -40,14 +40,17 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     if status != 0:
         return status
     
+    single = config['labels_edges'] == 'single'
+    
     exploitable_vulnerabilities, dvp = vulnerability_parser.get_exploitable_vulnerabilities(
-        services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors)
-
+        services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors,
+        single)
+    
     print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
     
     attack_graph, graph_labels, da = attack_graph_parser.\
         generate_attack_graph(networks, services, exploitable_vulnerabilities, executor)
-
+    
     composed_graph, composed_labels, dcg = attack_graph_parser.get_graph_compose(attack_graph, graph_labels)
     
     print('\nTime for attack graph generating module:', da + dcg, 'seconds.')

@@ -1,6 +1,7 @@
 """Module responsible for generating the attack graph."""
 
 import time
+import heapq
 import networkx as nx
 from queue import Queue
 from concurrent.futures import ProcessPoolExecutor, Future, wait
@@ -74,21 +75,40 @@ def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(st
         graph_labels[network] = sub_labels
     return cbs
 
-def breadth_first_search(services: dict[str, dict[str, ]], networks: dict[str, dict[str, set]], gateways: set[str],
-                         exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]]) \
-        -> nx.DiGraph:
+
+def generate_sub_graph(networks: dict[str, dict[str, set]], network: str,
+                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]]) \
+        -> (nx.DiGraph, dict[(str, str), str]):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
     
     # TODO
-    raise NotImplementedError
+    
+    sub_graph = nx.DiGraph()
+    sub_labels: dict[(str, str), str] = {}
+    
+    gateways: set[str] = networks[network]['gateways']
+    neighbours: set[str] = networks[network]['nodes']
+    for gateway in gateways:
+        
+        gateway_vulnerabilities = exploitable_vulnerabilities[gateway]['precond']
+        for gateway_vulnerability in gateway_vulnerabilities:
+            pre_condition = exploitable_vulnerabilities[gateway]['precond'][gateway_vulnerability]
+            post_condition = exploitable_vulnerabilities[gateway]['postcond'][gateway_vulnerability]
+            sub_graph.add_node((gateway, vulnerability_parser.get_privilege_level(pre_condition)))
+        
+        changed = True
+        
+        for neighbour in neighbours:
+            current_states[neighbour] = -1
+        current_states[gateway] = init_state
+        while changed:
+            changed = False
     
     edges = {}
     nodes = {}
     passed_nodes = {}
     passed_edges = {}
-    
-    sub_graph = nx.DiGraph()
     
     # Putting the attacker in the queue
     queue = Queue()
@@ -131,15 +151,15 @@ def breadth_first_search(services: dict[str, dict[str, ]], networks: dict[str, d
                             queue.put(passed_nodes_key)
                             passed_nodes[passed_nodes_key] = True
     
-    print('Generated sub attack graph for network', networks[current_node])
-    return sub_graph
+    print('Generated sub attack graph for network', network)
+    return sub_graph, sub_labels
 
 
 def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_privilege, edge_desc, passed_edges):
     """
     Adding an edge to the attack graph and checking if nodes already exist.
     """
-    raise NotImplementedError
+    
     # Checks if the opposite edge is already in the collection. If it is, don't add the edge.
     node_start_full = node_start + "(" + node_start_privilege + ")"
     node_end_full = node_end + "(" + node_end_privilege + ")"

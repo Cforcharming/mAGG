@@ -53,11 +53,10 @@ def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, se
                                          gateway_graph_labels, new_service, name)
     
     vulnerability_parser.add(config, services, vulnerabilities, attack_vectors, exploitable_vulnerabilities,
-                             parsed_images, example_folder, image)
+                             parsed_images, example_folder, image, config['labels_edges'])
 
-    attack_graph_parser. \
-        update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor,
-                           new_service['networks'])
+    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor,
+                                           new_networks)
     
     print("Node added:", new_service)
 
@@ -78,11 +77,11 @@ def del_node(networks: dict[str, dict[str, set]], services: dict[str, dict[str, 
     print("Node deleted: ", name)
 
 
-def gen_defence_list(gateway_graph: nx.Graph, to: str) -> list[str, int]:
-    # TODO
+def gen_defence_list(gateway_graph: nx.Graph, to: str, from_n='outside') -> list[str, int]:
+    
     path_counts = {}
     
-    for path in nx.all_simple_paths(gateway_graph, 'outside', to):
+    for path in nx.all_simple_paths(gateway_graph, from_n, to):
         for node in path:
             path_counts[node]: int = path_counts.get(node, 0) + 1
     
@@ -98,6 +97,8 @@ def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[
                     parsed_images: set[str], attack_vectors: dict[str, dict[str, ]], path_counts, minimum):
     h = 0
     
+    affected_networks = []
+    
     for name in path_counts:
         if path_counts[name] < minimum:
             break
@@ -110,6 +111,9 @@ def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[
                  exploitable_vulnerabilities, attack_vectors, parsed_images)
         
         h += 1
+
+    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor,
+                                           affected_networks)
 
 
 def visualise(topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_graph_labels: dict[(str, str), str],
