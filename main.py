@@ -26,6 +26,7 @@ def main(argv):
     # Opening the configuration file.
     config = reader.validate_config_file()
     example_folder = os.path.join(os.getcwd(), argv[1])
+    result_folder = os.path.join(os.getcwd(), 'example-results/full-conn/10-example')
     
     # Parsing the topology of the docker containers.
     time_start = time.time()
@@ -57,6 +58,10 @@ def main(argv):
     
     # Merging the attack vector files and creating an attack vector dictionary.
     attack_vector_dict = attack_graph_parser.get_attack_vector(attack_vector_files)
+    
+    exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
+        topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
+        config["postconditions-rules"])
 
     #  Getting the attack graph nodes and edges from the attack paths.
     
@@ -66,16 +71,11 @@ def main(argv):
         print('\n\n\n**************************' + example_folder + '**************************\n\n\n')
         example_folder = os.path.join(os.getcwd(), 'examples/full-conn', example_folder)
         # Create folder where the result files will be stored.
-        result_folder = writer.create_result_folder(os.path.join('full-conn', os.path.basename(example_folder)), config)
         
         topology, networks, services, gateway_nodes = topology_parser.parse_topology(example_folder)
-        mapping_names = topology_parser.get_mapping_service_to_image_names(services, example_folder)
-        exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
-            topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
-            config["postconditions-rules"])
         
         print("Start with attack graph generation...")
-        nodes, edges, passed_nodes, passed_edges, duration_bdf = attack_graph_parser.\
+        nodes, edges, duration_bdf = attack_graph_parser.\
             generate_attack_graph(topology, exploitable_vulnerabilities, gateway_nodes)
         print("Time elapsed: " + str(duration_bdf + dvp) + " seconds.\n")
         

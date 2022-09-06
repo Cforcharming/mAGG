@@ -155,7 +155,7 @@ def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_
     #     edge.append(edge_desc)
 
 
-def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities):
+def breadth_first_search(topology, queue, exploitable_vulnerabilities):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
 
@@ -203,7 +203,7 @@ def breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, que
                             passed_nodes[passed_nodes_key] = True
     
     duration_bdf = time.time() - bds_start
-    return duration_bdf
+    return nodes, edges, duration_bdf
 
 
 def attack_vector_string_to_dict(av_string):
@@ -439,33 +439,28 @@ def get_exploitable_vulnerabilities(topology, vulnerabilities, mapping_names, at
 def generate_attack_graph(topology, exploitable_vulnerabilities, gateway_nodes):
     """Main pipeline for the attack graph generation algorithm."""
     
-    # This is where the nodes and edges are going to be stored.
     edges = {}
     nodes = set()
-    passed_nodes = {}
-    passed_edges = {}
 
     # Breadth first search algorithm for generation of attack paths.
     print("Breadth-first search started.")
     
     # Putting the attacker in the queue
     queue = Queue()
-
-    queue.put("outside|4")
-    passed_nodes["outside|4"] = True
     
     bdf = 0
     
     for gateway_node in gateway_nodes:
-        queue.put(gateway_node + '|1')
-        queue.put(gateway_node + '|3')
-        queue.put(gateway_node + '|4')
-        bdf += breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue,
-                                    exploitable_vulnerabilities)
+        for clearance in range(1, 5):
+            queue.put(gateway_node + '|' + str(clearance))
+            node, edge, b = breadth_first_search(topology, queue, exploitable_vulnerabilities)
+            nodes |= node
+            edges |= edge
+            bdf += b
 
     print("Breadth-first search finished. Time elapsed: " + str(bdf) + " seconds.\n")
     print("Breadth-first-search took " + str(bdf) + " seconds.")
-    return nodes, edges, passed_nodes, passed_edges, bdf
+    return nodes, edges, bdf
 
 
 def add(nodes, edges, passed_nodes, passed_edges, topology, name, exploitable_vulnerabilities):
@@ -495,7 +490,7 @@ def add(nodes, edges, passed_nodes, passed_edges, topology, name, exploitable_vu
                         queue.put(passed_nodes_key)
                         passed_nodes[passed_nodes_key] = True
 
-    breadth_first_search(nodes, edges, passed_nodes, passed_edges, topology, queue, exploitable_vulnerabilities)
+    breadth_first_search(topology, queue, exploitable_vulnerabilities)
     
 
 def delete(name, nodes: set, edges, passed_nodes, passed_edges, attack_graph: networkx.DiGraph):

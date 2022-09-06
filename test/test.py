@@ -138,7 +138,7 @@ class MyTest(unittest.TestCase):
                             "container3": {"precond": {"CVE-2015-0002": 3},
                                            "postcond": {"CVE-2015-0002": 4}}}
         
-        nodes, edges, _ = breadth_first_search(topology, exploitable_vuls)
+        nodes, edges, _ = breadth_first_search(,
         
         # Checking that container3 has been attacked and the edges that lead to it.
         self.assertTrue('container2(ADMIN)|docker host(ADMIN)' in edges)
@@ -165,7 +165,7 @@ class MyTest(unittest.TestCase):
                             "container3": {"precond": {"CVE-2015-0002": 3},
                                            "postcond": {"CVE-2015-0002": 4}}}
         
-        nodes, _, _ = breadth_first_search(topology, exploitable_vuls)
+        nodes, _, _ = breadth_first_search(,
         
         # Checking that container3 has not been attacked
         self.assertFalse('container3(NONE)' in nodes)
@@ -195,7 +195,7 @@ class MyTest(unittest.TestCase):
                             "container3": {"precond": {"CVE-2015-0002": 3},
                                            "postcond": {"CVE-2015-0002": 4}}}
         
-        nodes, edges, _ = breadth_first_search(topology, exploitable_vuls)
+        nodes, edges, _ = breadth_first_search(,
         
         # Checking that outside(ADMIN) is the only node.
         self.assertTrue('outside(ADMIN)' not in nodes)
@@ -225,7 +225,7 @@ class MyTest(unittest.TestCase):
                             "container3": {"precond": {"CVE-2015-0002": 3},
                                            "postcond": {"CVE-2015-0002": 4}}}
         
-        nodes, edges, _ = breadth_first_search(topology, exploitable_vuls)
+        nodes, edges, _ = breadth_first_search(,
         
         # Checking the nodes
         self.assertEqual(len(nodes), 4)
@@ -259,7 +259,7 @@ class MyTest(unittest.TestCase):
                                            "postcond": {"CVE-2015-0001": 4,
                                                         "CVE-2016-0001": 4}}}
         
-        nodes, edges, _ = breadth_first_search(topology, exploitable_vuls)
+        nodes, edges, _ = breadth_first_search(,
         
         # Checking the nodes
         self.assertEqual(len(nodes), 3)
@@ -300,7 +300,7 @@ class MyTest(unittest.TestCase):
                             "container4": {"precond": {"CVE-2015-0003": 3},
                                            "postcond": {"CVE-2015-0003": 4}}}
         
-        nodes, edges, _ = breadth_first_search(topology, exploitable_vuls)
+        nodes, edges, _ = breadth_first_search(,
         
         # Checking the nodes
         self.assertEqual(len(nodes), 5)
