@@ -13,6 +13,10 @@ __version__ = "1.0-dev3"
 def main(argv):
 
     stat, config, examples, times = wrapper.init(argv)
+    
+    if stat != 0:
+        return stat
+    
     executor = ProcessPoolExecutor(int(config['nums-of-processes']))
     attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], executor)
     
@@ -42,7 +46,7 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     
     single = config['labels_edges'] == 'single'
     
-    exploitable_vulnerabilities, dvp = vulnerability_parser.get_exploitable_vulnerabilities(
+    exploitable_vulnerabilities, scores, dvp = vulnerability_parser.get_exploitable_vulnerabilities(
         services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors,
         single)
     

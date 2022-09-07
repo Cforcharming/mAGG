@@ -11,7 +11,7 @@ from mio import wrapper
 
 
 def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
-                          exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]],
+                          exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int],
                           executor: ProcessPoolExecutor) \
         -> (dict[str, nx.DiGraph], dict[str, dict[(str, str), str]], int):
     # TODO
@@ -22,7 +22,8 @@ def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[st
     attack_graph: dict[str, nx.DiGraph] = dict()
     graph_labels: dict[str, dict[(str, str), str]] = dict()
     
-    update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor, [*networks.keys()])
+    update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores, executor,
+                       [*networks.keys()])
     
     print('Time for attack graphs of subnets generation:', time.time() - da, 'seconds.')
     return attack_graph, graph_labels, da
@@ -48,19 +49,19 @@ def get_graph_compose(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[st
 
 def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[str, nx.DiGraph],
                        graph_labels: dict[str, dict[(str, str), str]],
-                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], executor: ProcessPoolExecutor,
-                       affected_networks: list[str]):
+                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int],
+                       executor: ProcessPoolExecutor, affected_networks: list[str]):
     
     futures: list[Future] = list()
     
     for network in affected_networks:
         
         if not wrapper.is_interactive():
-            future = executor.submit(generate_sub_graph, networks, network, exploitable_vulnerabilities)
+            future = executor.submit(generate_sub_graph, networks, network, exploitable_vulnerabilities, scores)
             future.add_done_callback(update(attack_graph, graph_labels, network))
             futures.append(future)
         else:
-            sub_graph, sub_labels = generate_sub_graph(networks, network, exploitable_vulnerabilities)
+            sub_graph, sub_labels = generate_sub_graph(networks, network, exploitable_vulnerabilities, scores)
             attack_graph[network] = sub_graph
             graph_labels[network] = sub_labels
     
@@ -77,7 +78,7 @@ def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(st
 
 
 def generate_sub_graph(networks: dict[str, dict[str, set]], network: str,
-                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]]) \
+                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int]) \
         -> (nx.DiGraph, dict[(str, str), str]):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""

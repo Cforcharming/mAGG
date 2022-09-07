@@ -41,7 +41,8 @@ def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, se
              attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]],
              executor: ProcessPoolExecutor, gateway_graph_labels: dict[(str, str), str],
              image: str, new_networks: list[str], name: str, vulnerabilities: dict[str, dict[str, ]],
-             exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], attack_vectors: dict[str, dict[str, ]],
+             exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int],
+             attack_vectors: dict[str, dict[str, ]],
              parsed_images: set[str]):
     
     new_service = {'image': image, 'networks': new_networks}
@@ -52,7 +53,7 @@ def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, se
     topology_parser.add_service_to_graph(networks, topology_graph, gateway_graph,
                                          gateway_graph_labels, new_service, name)
     
-    vulnerability_parser.add(config, services, vulnerabilities, attack_vectors, exploitable_vulnerabilities,
+    vulnerability_parser.add(config, services, vulnerabilities, attack_vectors, exploitable_vulnerabilities, scores,
                              parsed_images, example_folder, image, config['labels_edges'])
 
     attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, executor,
@@ -93,7 +94,7 @@ def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[
                     gateway_nodes: set[str], gateway_graph_labels: dict[(str, str), str], new_networks: list[str],
                     attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]],
                     executor: ProcessPoolExecutor, vulnerabilities: dict[str, dict[str, ]],
-                    exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]],
+                    exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int],
                     parsed_images: set[str], attack_vectors: dict[str, dict[str, ]], path_counts, minimum):
     h = 0
     
@@ -108,7 +109,7 @@ def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[
         
         add_node(config, example_folder, networks, services, topology_graph, gateway_graph, gateway_nodes, attack_graph,
                  graph_labels, executor, gateway_graph_labels, image, new_networks, name, vulnerabilities,
-                 exploitable_vulnerabilities, attack_vectors, parsed_images)
+                 exploitable_vulnerabilities, scores, attack_vectors, parsed_images)
         
         h += 1
 

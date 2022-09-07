@@ -48,20 +48,20 @@ limitations under the License.''')
             
         case _:
             example_folders = []
-            examples = os.listdir(config['examples-path'])
+            example_base = config['examples-path']
             for arg in argv[1:]:
-                if arg not in example_folders and arg in examples:
-                    # Check if the specified folder exists.
-                    if not os.path.exists(arg):
-                        print('The entered example folder name does not exist', arg)
-                        return errno.ENOTDIR
-
-                    # Check if there is a docker-compose.yml file in the specified folder.
-                    if "docker-compose.yml" not in os.listdir(argv[1]):
-                        print('docker-compose.yml is missing in the folder', arg)
-                        return errno.ENOENT
+                example_folder = os.path.join(example_base, arg)
+                # Check if the specified folder exists.
+                if not os.path.exists(example_folder):
+                    print('The entered example folder name does not exist', arg)
+                    return errno.ENOTDIR
                 
-                    example_folders.append(arg)
+                # Check if there is a docker-compose.yml file in the specified folder.
+                if "docker-compose.yml" not in os.listdir(example_folder):
+                    print('docker-compose.yml is missing in the folder', arg)
+                    return errno.ENOENT
+                
+                example_folders.append(arg)
             
     return 0, example_folders
 
