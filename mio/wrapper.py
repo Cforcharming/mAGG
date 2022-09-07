@@ -38,7 +38,7 @@ def is_interactive() -> bool:
 
 def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
              topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_nodes: set[str],
-             attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]],
+             attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
              executor: ProcessPoolExecutor, gateway_graph_labels: dict[(str, str), str],
              image: str, new_networks: list[str], name: str, vulnerabilities: dict[str, dict[str, ]],
              exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], attack_vectors: dict[str, dict[str, ]],
@@ -63,10 +63,10 @@ def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, se
 
 def del_node(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
              topology_graph: nx.Graph, gateway_graph: nx.Graph,
-             attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]],
+             attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
              executor: ProcessPoolExecutor, affected_networks, gateway_nodes: set[str],
              gateway_graph_labels: dict[(str, str), str],
-             exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], name: str):
+             exploitable_vulnerabilities: dict[str, dict[str, dict]], name: str):
     
     topology_parser.delete(networks, services, topology_graph, gateway_graph, gateway_nodes, gateway_graph_labels, name)
 
@@ -91,9 +91,10 @@ def gen_defence_list(gateway_graph: nx.Graph, to: str, from_n='outside') -> list
 def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[str, set]],
                     services: dict[str, dict[str, ]], topology_graph: nx.Graph, gateway_graph: nx.Graph,
                     gateway_nodes: set[str], gateway_graph_labels: dict[(str, str), str], new_networks: list[str],
-                    attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]],
+                    attack_graph: dict[str, nx.DiGraph],
+                    graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
                     executor: ProcessPoolExecutor, vulnerabilities: dict[str, dict[str, ]],
-                    exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]],
+                    exploitable_vulnerabilities: dict[str, dict[str, dict]],
                     parsed_images: set[str], attack_vectors: dict[str, dict[str, ]], path_counts, minimum):
     h = 0
     
@@ -117,7 +118,8 @@ def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[
 
 
 def visualise(topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_graph_labels: dict[(str, str), str],
-              attack_graph: nx.DiGraph, composed_labels: dict[(str, str), str], result_folder: str, times: int):
+              attack_graph: nx.DiGraph, composed_labels: dict[((str, str), (str, str)), (str, str)], result_folder: str,
+              times: int):
     
     time_start = time.time()
     
