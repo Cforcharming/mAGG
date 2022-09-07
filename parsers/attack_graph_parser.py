@@ -7,7 +7,7 @@ from queue import Queue
 from concurrent.futures import ProcessPoolExecutor, Future, wait
 
 from parsers import vulnerability_parser
-from mio.wrapper import is_interactive
+from mio import wrapper
 
 
 def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
@@ -55,7 +55,7 @@ def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[s
     
     for network in affected_networks:
         
-        if not is_interactive():
+        if not wrapper.is_interactive():
             future = executor.submit(generate_sub_graph, networks, network, exploitable_vulnerabilities)
             future.add_done_callback(update(attack_graph, graph_labels, network))
             futures.append(future)
@@ -64,7 +64,7 @@ def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[s
             attack_graph[network] = sub_graph
             graph_labels[network] = sub_labels
     
-    if not is_interactive():
+    if not wrapper.is_interactive():
         wait(futures)
 
 
