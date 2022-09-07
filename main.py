@@ -53,7 +53,7 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
     
     attack_graph, graph_labels, da = attack_graph_parser.\
-        generate_attack_graph(networks, services, exploitable_vulnerabilities, executor)
+        generate_attack_graph(networks, exploitable_vulnerabilities, executor)
     
     composed_graph, composed_labels, dcg = attack_graph_parser.get_graph_compose(attack_graph, graph_labels)
     

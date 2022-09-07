@@ -10,17 +10,16 @@ from parsers import vulnerability_parser
 from mio import wrapper
 
 
-def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
-                          exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int],
-                          executor: ProcessPoolExecutor) \
-        -> (dict[str, nx.DiGraph], dict[str, dict[(str, str), str]], int):
+def generate_attack_graph(networks: dict[str, dict[str, set]], exploitable_vulnerabilities: dict[str, dict[str, dict]],
+                          scores: dict[str, int], executor: ProcessPoolExecutor) \
+        -> (dict[str, nx.DiGraph], dict[str, dict[((str, str), (str, str)), (str, str)]], int):
     # TODO
     """Main pipeline for the attack graph generation algorithm."""
     
     print('Attack graphs of subnets generation started.')
     da = time.time()
     attack_graph: dict[str, nx.DiGraph] = dict()
-    graph_labels: dict[str, dict[(str, str), str]] = dict()
+    graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]] = dict()
     
     update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores, executor,
                        [*networks.keys()])
@@ -29,15 +28,16 @@ def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[st
     return attack_graph, graph_labels, da
 
 
-def get_graph_compose(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]]) \
-        -> (nx.DiGraph, dict[(str, str), str]):
+def get_graph_compose(attack_graph: dict[str, nx.DiGraph],
+                      graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]]) \
+        -> (nx.DiGraph, dict[((str, str), (str, str)), (str, str)]):
     """This functions prints graph properties."""
 
     dcg = time.time()
     print('Composing attack graphs from subnets started.')
     
     composed_graph = nx.compose_all([*attack_graph.values()])
-    composed_labels: dict[(str, str), str] = dict()
+    composed_labels: dict[((str, str), (str, str)), (str, str)] = dict()
     
     for network in graph_labels:
         composed_labels |= graph_labels[network]
@@ -48,8 +48,8 @@ def get_graph_compose(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[st
 
 
 def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[str, nx.DiGraph],
-                       graph_labels: dict[str, dict[(str, str), str]],
-                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int],
+                       graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
+                       exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
                        executor: ProcessPoolExecutor, affected_networks: list[str]):
     
     futures: list[Future] = list()
@@ -69,7 +69,8 @@ def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[s
         wait(futures)
 
 
-def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(str, str), str]], network: str):
+def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
+           network: str):
     def cbs(future):
         sub_graph, sub_labels = future.result()
         attack_graph[network] = sub_graph
@@ -78,107 +79,37 @@ def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[(st
 
 
 def generate_sub_graph(networks: dict[str, dict[str, set]], network: str,
-                       exploitable_vulnerabilities: dict[str, dict[str, dict[str, int]]], scores: dict[str, int]) \
-        -> (nx.DiGraph, dict[(str, str), str]):
+                       exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int]) \
+        -> (nx.DiGraph, dict[((str, str), (str, str)), (str, str)]):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
     
     # TODO
     
     sub_graph = nx.DiGraph()
-    sub_labels: dict[(str, str), str] = {}
+    sub_labels: dict[((str, str), (str, str)), (str, str)] = {}
     
     gateways: set[str] = networks[network]['gateways']
     neighbours: set[str] = networks[network]['nodes']
     for gateway in gateways:
         
-        gateway_vulnerabilities = exploitable_vulnerabilities[gateway]['precond']
-        for gateway_vulnerability in gateway_vulnerabilities:
-            pre_condition = exploitable_vulnerabilities[gateway]['precond'][gateway_vulnerability]
-            post_condition = exploitable_vulnerabilities[gateway]['postcond'][gateway_vulnerability]
-            sub_graph.add_node((gateway, vulnerability_parser.get_privilege_level(pre_condition)))
+        gateway_post_privileges: dict[int, str] = exploitable_vulnerabilities[gateway]['post']
         
-        changed = True
-        
-        for neighbour in neighbours:
-            current_states[neighbour] = -1
-        current_states[gateway] = init_state
-        while changed:
-            changed = False
-    
-    edges = {}
-    nodes = {}
-    passed_nodes = {}
-    passed_edges = {}
-    
-    # Putting the attacker in the queue
-    queue = Queue()
-    queue.put("outside|4")
-    passed_nodes["outside|4"] = True
-    
-    while not queue.empty():
-        
-        parts_current = queue.get().split("|")
-        current_node = parts_current[0]
-        current_privilege = int(parts_current[1])
-        
-        neighbours = networks[current_node]['nodes']
-        
-        # Iterate through all of neighbours
-        for neighbour in neighbours:
-            
-            # Checks if the attacker has access to the docker host.
-            if neighbour != "outside":
-                pre_conditions = exploitable_vulnerabilities[neighbour]["precond"]
-                post_conditions = exploitable_vulnerabilities[neighbour]["postcond"]
-                
-                for vulnerability in pre_conditions.keys():
-                    
-                    if current_privilege >= pre_conditions[vulnerability] and \
-                            ((neighbour != current_node and post_conditions[vulnerability] != 0) or
-                             (neighbour == current_node and current_privilege < post_conditions[vulnerability])):
-                        
-                        # Add the edge
-                        add_edge(nodes, edges, current_node,
-                                 vulnerability_parser.get_privilege_level(current_privilege), neighbour,
-                                 vulnerability_parser.get_privilege_level(post_conditions[vulnerability]),
-                                 vulnerability, passed_edges)
-                        
-                        # If the neighbour was not passed, or it has a lower privilege...
-                        passed_nodes_key = neighbour + "|" + str(post_conditions[vulnerability])
-                        pn = passed_nodes.get(passed_nodes_key)
-                        if pn is None or not pn:
-                            # ... put it in the queue
-                            queue.put(passed_nodes_key)
-                            passed_nodes[passed_nodes_key] = True
+        for current_privilege in gateway_post_privileges:
+            for neighbour in neighbours:
+                for neighbour_pre_condition in range(0, current_privilege + 1):
+                    if len(exploitable_vulnerabilities[neighbour]['pre']) > 0:
+                        for vulnerability in exploitable_vulnerabilities[neighbour]['pre'][neighbour_pre_condition]:
+                            neighbour_post_condition = exploitable_vulnerabilities[neighbour]['postcond'][vulnerability]
+                            add_edge(sub_graph, sub_labels, gateway, current_privilege, neighbour, neighbour_post_condition, vulnerability)
     
     print('Generated sub attack graph for network', network)
     return sub_graph, sub_labels
 
 
-def add_edge(nodes, edges, node_start, node_start_privilege, node_end, node_end_privilege, edge_desc, passed_edges):
+def add_edge(sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), (str, str)], n1: str, pre: int, n2: str,
+             post: int, vulnerability: str):
     """
-    Adding an edge to the attack graph and checking if nodes already exist.
+    Adding an edge to the attack graph.
     """
-    
-    # Checks if the opposite edge is already in the collection. If it is, don't add the edge.
-    node_start_full = node_start + "(" + node_start_privilege + ")"
-    node_end_full = node_end + "(" + node_end_privilege + ")"
-    
-    if passed_edges.get(node_end + "|" + node_start_full) is None:
-        passed_edges[node_start + "|" + node_end_full] = True
-    else:
-        return
-    
-    if node_start_full not in nodes:
-        nodes.add(node_start_full)
-    
-    if node_end_full not in nodes:
-        nodes.add(node_end_full)
-    
-    key = node_start_full + "|" + node_end_full
-    
-    # if edge := edges.get(key) is None:
-    edges[key] = [edge_desc]
-    # elif edge_desc not in edge:
-    #     edge.append(edge_desc)
+    # TODO

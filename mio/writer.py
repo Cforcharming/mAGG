@@ -5,7 +5,8 @@ import networkx as nx
 from matplotlib import pyplot as plt
 
 
-def write_attack_graph(composed_graph: nx.DiGraph, composed_labels: dict[(str, str), str], result_folder: str, i: int):
+def write_attack_graph(composed_graph: nx.DiGraph, composed_labels: dict[((str, str), (str, str)), (str, str)],
+                       result_folder: str, i: int):
     """Writes the attack graph onto a dot file."""
 
     attack_graph_folder = os.path.join(result_folder, str(i))
