@@ -59,12 +59,6 @@ def main(argv):
     # Merging the attack vector files and creating an attack vector dictionary.
     attack_vector_dict = attack_graph_parser.get_attack_vector(attack_vector_files)
     
-    exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
-        topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
-        config["postconditions-rules"])
-
-    #  Getting the attack graph nodes and edges from the attack paths.
-    
     example_folders = os.listdir(os.path.join(os.getcwd(), 'examples/full-conn'))
     
     for example_folder in example_folders:
@@ -74,6 +68,10 @@ def main(argv):
         
         topology, networks, services, gateway_nodes = topology_parser.parse_topology(example_folder)
         
+        exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
+            topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],
+            config["postconditions-rules"])
+
         print("Start with attack graph generation...")
         nodes, edges, duration_bdf = attack_graph_parser.\
             generate_attack_graph(topology, exploitable_vulnerabilities, gateway_nodes)

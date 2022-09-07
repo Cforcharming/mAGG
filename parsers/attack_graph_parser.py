@@ -35,13 +35,15 @@ def clean_vulnerabilities(raw_vulnerabilities, container):
                     metadata = vulnerability["Metadata"]
                     if "NVD" not in metadata:
                         continue
-                    
-                    if "CVSSv2" not in metadata["NVD"]:
+
+                    if 'CVSSv3' in metadata['NVD']:
+                        vec = metadata['NVD']['CVSSv3']['Vectors']
+                    elif 'CVSSv2' in metadata['NVD']:
+                        vec = metadata['NVD']['CVSSv2']['Vectors']
+                    else:
                         continue
-                    
-                    if "Vectors" in metadata["NVD"]["CVSSv2"]:
-                        vec = metadata["NVD"]["CVSSv2"]["Vectors"]
-                        vulnerability_new["attack_vec"] = vec
+                    vulnerability_new["attack_vec"] = vec
+                
                 vulnerabilities[vulnerability["Name"]] = vulnerability_new
     
     # print("Total " + str(len(vulnerabilities)) + " vulnerabilities in container " + container + ".")
@@ -93,16 +95,17 @@ def get_attack_vector(attack_vector_files):
         for cve_item in cve_items:
             dictionary_cve = {"attack_vec": "?", "desc": "?", "cpe": "?"}
             # Getting the attack vector and the description.
-            if "baseMetricV2" in cve_item["impact"]:
-                
-                cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
-                
-                cve_attack_vector = cve_item["impact"]["baseMetricV2"]["cvssV2"]["vectorString"]
-                dictionary_cve["attack_vec"] = cve_attack_vector
-                
-                if "description" in cve_item["cve"]:
-                    descr = cve_item["cve"]["description"]["description_data"][0]['value']
-                    dictionary_cve["desc"] = descr
+    
+            cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
+    
+            if "baseMetricV3" in cve_item["impact"]:
+                dictionary_cve["attack_vec"] = cve_item["impact"]["baseMetricV3"]["cvssV3"]["vectorString"]
+            elif "baseMetricV2" in cve_item["impact"]:
+                dictionary_cve["attack_vec"] = cve_item["impact"]["baseMetricV2"]["cvssV2"]["vectorString"]
+    
+            if "description" in cve_item["cve"]:
+                descr = cve_item["cve"]["description"]["description_data"][0]['value']
+                dictionary_cve["desc"] = descr
             else:
                 cve_id = None
             
@@ -110,9 +113,14 @@ def get_attack_vector(attack_vector_files):
             nodes = cve_item["configurations"]["nodes"]
             if len(nodes) > 0:
                 if "cpe" in nodes[0]:
-                    cpe = cve_item["configurations"]["nodes"][0]["cpe"][0]["cpe22Uri"]
+                    cpe = cve_item["configurations"]["nodes"][0]["cpe"][0]["cpe23Uri"]
                     dictionary_cve["cpe"] = cpe
                     count = count + 1
+                elif "cpe_match" in nodes[0]:
+                    if len(cve_item["configurations"]["nodes"][0]["cpe_match"]) > 0:
+                        cpe = cve_item["configurations"]["nodes"][0]["cpe_match"][0]["cpe23Uri"]
+                        dictionary_cve["cpe"] = cpe
+                        count = count + 1
                 else:
                     if "children" in nodes[0]:
                         children = nodes[0]["children"]
@@ -120,10 +128,11 @@ def get_attack_vector(attack_vector_files):
                             cpe = children[0]["cpe"][0]["cpe22Uri"]
                             dictionary_cve["cpe"] = cpe
                             count = count + 1
-            
+    
             if dictionary_cve["cpe"] != "?":
                 dictionary_cve["cpe"] = dictionary_cve["cpe"][5]
             attack_vector_dict[cve_id] = dictionary_cve
+
     return attack_vector_dict
 
 
