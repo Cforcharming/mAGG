@@ -5,8 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/output_samples" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/ZeppelinRemoteNotebooks" />
-      <excludeFolder url="file://$MODULE_DIR$/data/attack_vector_files" />
       <excludeFolder url="file://$MODULE_DIR$/example-results" />
+      <excludeFolder url="file://$MODULE_DIR$/data/nvd-json-feed" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
