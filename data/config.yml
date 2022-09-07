@@ -1,5 +1,5 @@
 # The location of the folder with the NVD attack rule files.
-attack-vector-folder-path: data/attack_vector_files
+attack-vector-folder-path: data/nvd-json-feed
 
 # The locations from where the example-folders are read and where their results are being stored.
 examples-results-path: example-results
@@ -11,15 +11,13 @@ examples-path: examples
 nums-of-processes: 12
 
 # This property states if topology and attack graphs are going to be produced.
-generate_graphs: True # Options {True, False}
+generate-graphs: True # Options {True, False}
 
-# This property states if single or multiple vulnerabilities constitute
-# an edge between two same nodes
-labels_edges: single # Options {"single", "multiple"}
+# This property states if single or multiple vulnerabilities constitute an edge between two same nodes
+single-edge-label: True # Options {True, False}
 
-# This property only shows one vulnerability per edge in the attack graph
-# We use this in order to have more readable attack graphs.
-show_one_vul_per_edge: True # Options {True, False}
+# This property states if a node is exploited only once, or as much as possible
+single-exploit-per-node: False # Options {True, False}
 
 # The rules required to produce pre- and postconditions. They follow a specific pattern.
 preconditions-rules:

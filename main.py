@@ -44,16 +44,15 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     if status != 0:
         return status
     
-    single = config['labels_edges'] == 'single'
-    
     exploitable_vulnerabilities, scores, dvp = vulnerability_parser.get_exploitable_vulnerabilities(
         services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors,
-        single)
+        config['edge-label'])
     
     print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
     
     attack_graph, graph_labels, da = attack_graph_parser.\
-        generate_attack_graph(networks, exploitable_vulnerabilities, executor)
+        generate_attack_graph(networks, exploitable_vulnerabilities, scores, executor,
+                              config['single-exploit-per-node'])
     
     composed_graph, composed_labels, dcg = attack_graph_parser.get_graph_compose(attack_graph, graph_labels)
     
@@ -65,8 +64,9 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
                           composed_graph.number_of_nodes(),
                           composed_graph.number_of_edges())
     
-    wrapper.visualise(topology_graph, gateway_graph, gateway_graph_labels,
-                      composed_graph, composed_labels, result_folder, 0)
+    if config['generate-graphs']:
+        wrapper.visualise(topology_graph, gateway_graph, gateway_graph_labels,
+                          composed_graph, composed_labels, result_folder, 0)
     
     return 0
 
