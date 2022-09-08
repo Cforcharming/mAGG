@@ -32,10 +32,6 @@ def create_folders(example_basename: str, config: dict) -> (str, str):
     return example_folder, result_folder
 
 
-def is_interactive() -> bool:
-    return hasattr(sys, 'ps1')
-
-
 def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
              topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_nodes: set[str],
              attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), str]],
