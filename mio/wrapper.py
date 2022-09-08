@@ -82,7 +82,10 @@ def gen_defence_list(gateway_graph: nx.Graph, to: str, from_n='outside') -> list
     
     for path in nx.all_simple_paths(gateway_graph, from_n, to):
         for node in path:
-            path_counts[node]: int = path_counts.get(node, 0) + 1
+            if node in path_counts:
+                path_counts[node] = path_counts[node] + 1
+            else:
+                path_counts[node] = 1
     
     return sorted(path_counts.items())
 
