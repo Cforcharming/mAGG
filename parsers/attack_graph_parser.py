@@ -11,15 +11,15 @@ from mio import wrapper
 
 
 def generate_attack_graph(networks: dict[str, dict[str, set]], exploitable_vulnerabilities: dict[str, dict[str, dict]],
-                          scores: dict[str, int], executor: ProcessPoolExecutor) \
-        -> (dict[str, nx.DiGraph], dict[str, dict[((str, str), (str, str)), (str, str)]], int):
+                          scores: dict[str, int], executor: ProcessPoolExecutor, single_exploit: bool) \
+        -> (dict[str, nx.DiGraph], dict[str, dict[((str, str), (str, str)), str]], int):
     # TODO
     """Main pipeline for the attack graph generation algorithm."""
     
     print('Attack graphs of subnets generation started.')
     da = time.time()
     attack_graph: dict[str, nx.DiGraph] = dict()
-    graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]] = dict()
+    graph_labels: dict[str, dict[((str, str), (str, str)), str]] = dict()
     
     update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores, executor,
                        [*networks.keys()])
@@ -29,15 +29,15 @@ def generate_attack_graph(networks: dict[str, dict[str, set]], exploitable_vulne
 
 
 def get_graph_compose(attack_graph: dict[str, nx.DiGraph],
-                      graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]]) \
-        -> (nx.DiGraph, dict[((str, str), (str, str)), (str, str)]):
+                      graph_labels: dict[str, dict[((str, str), (str, str)), str]]) \
+        -> (nx.DiGraph, dict[((str, str), (str, str)), str]):
     """This functions prints graph properties."""
 
     dcg = time.time()
     print('Composing attack graphs from subnets started.')
     
     composed_graph = nx.compose_all([*attack_graph.values()])
-    composed_labels: dict[((str, str), (str, str)), (str, str)] = dict()
+    composed_labels: dict[((str, str), (str, str)), str] = dict()
     
     for network in graph_labels:
         composed_labels |= graph_labels[network]
@@ -48,7 +48,7 @@ def get_graph_compose(attack_graph: dict[str, nx.DiGraph],
 
 
 def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[str, nx.DiGraph],
-                       graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
+                       graph_labels: dict[str, dict[((str, str), (str, str)), str]],
                        exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
                        executor: ProcessPoolExecutor, affected_networks: list[str]):
     
@@ -79,15 +79,16 @@ def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((s
 
 
 def generate_sub_graph(networks: dict[str, dict[str, set]], network: str,
-                       exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int]) \
-        -> (nx.DiGraph, dict[((str, str), (str, str)), (str, str)]):
+                       exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
+                       single_exploit: bool) \
+        -> (nx.DiGraph, dict[((str, str), (str, str)), str]):
     """Breadth first search approach for generation of nodes and edges
     without generating attack paths."""
     
     # TODO
     
     sub_graph = nx.DiGraph()
-    sub_labels: dict[((str, str), (str, str)), (str, str)] = {}
+    sub_labels: dict[((str, str), (str, str)), str] = {}
     
     gateways: set[str] = networks[network]['gateways']
     neighbours: set[str] = networks[network]['nodes']
@@ -106,9 +107,8 @@ def generate_sub_graph(networks: dict[str, dict[str, set]], network: str,
     print('Generated sub attack graph for network', network)
     return sub_graph, sub_labels
 
-
-def add_edge(sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), (str, str)], n1: str, pre: int, n2: str,
-             post: int, vulnerability: str):
+def add_edge(sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), str], start_node: (str, str),
+             end_node: (str, str), vulnerability: str, score: int):
     """
     Adding an edge to the attack graph.
     """
