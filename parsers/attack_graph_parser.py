@@ -19,7 +19,7 @@ def generate_attack_graph(networks: dict[str, dict[str, set]], exploitable_vulne
     graph_labels: dict[str, dict[((str, str), (str, str)), str]] = dict()
     
     update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores, executor,
-                       [*networks.keys()])
+                       [*networks.keys()], single_exploit)
     
     print('Time for attack graphs of subnets generation:', time.time() - da, 'seconds.')
     return attack_graph, graph_labels, da
@@ -47,7 +47,7 @@ def get_graph_compose(attack_graph: dict[str, nx.DiGraph],
 def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[str, nx.DiGraph],
                        graph_labels: dict[str, dict[((str, str), (str, str)), str]],
                        exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
-                       executor: ProcessPoolExecutor, affected_networks: list[str]):
+                       executor: ProcessPoolExecutor, affected_networks: list[str], single_exploit: bool):
     
     futures: list[Future] = list()
     
