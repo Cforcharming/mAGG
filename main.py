@@ -2,6 +2,7 @@
 """Main module responsible for the attack graph generation pipeline."""
 
 import sys
+import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
 
 from parsers import vulnerability_parser, attack_graph_parser, topology_parser
@@ -17,7 +18,7 @@ def main(argv):
     if stat != 0:
         return stat
     
-    executor = ProcessPoolExecutor(int(config['nums-of-processes']))
+    executor = ProcessPoolExecutor(int(config['nums-of-processes']), mp.get_context('forkserver'))
     attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], executor)
     
     for example in examples:
