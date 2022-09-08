@@ -2,7 +2,6 @@
 
 import time
 import networkx as nx
-from queue import Queue
 from concurrent.futures import ProcessPoolExecutor, Future, wait
 from parsers import vulnerability_parser
 
@@ -52,18 +51,12 @@ def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[s
     futures: list[Future] = list()
     
     for network in affected_networks:
-        
-        if not wrapper.is_interactive():
-            future = executor.submit(generate_sub_graph, networks, network, exploitable_vulnerabilities, scores)
-            future.add_done_callback(update(attack_graph, graph_labels, network))
-            futures.append(future)
-        else:
-            sub_graph, sub_labels = generate_sub_graph(networks, network, exploitable_vulnerabilities, scores)
-            attack_graph[network] = sub_graph
-            graph_labels[network] = sub_labels
-    
-    if not wrapper.is_interactive():
-        wait(futures)
+        future = executor.submit(generate_sub_graph, networks, network, exploitable_vulnerabilities, scores,
+                                 single_exploit)
+        future.add_done_callback(update(attack_graph, graph_labels, network))
+        futures.append(future)
+
+    wait(futures)
 
 
 def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
