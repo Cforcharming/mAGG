@@ -1,13 +1,10 @@
 """Module responsible for generating the attack graph."""
 
 import time
-import heapq
 import networkx as nx
 from queue import Queue
 from concurrent.futures import ProcessPoolExecutor, Future, wait
-
 from parsers import vulnerability_parser
-from mio import wrapper
 
 
 def generate_attack_graph(networks: dict[str, dict[str, set]], exploitable_vulnerabilities: dict[str, dict[str, dict]],
