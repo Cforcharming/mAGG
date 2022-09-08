@@ -3,7 +3,6 @@ from concurrent.futures import ProcessPoolExecutor
 from mio import reader, writer
 import networkx as nx
 import time
-import sys
 import os
 
 
@@ -49,7 +48,7 @@ def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, se
                                          gateway_graph_labels, new_service, name)
     
     vulnerability_parser.add(config, services, vulnerabilities, attack_vectors, exploitable_vulnerabilities, scores,
-                             parsed_images, example_folder, image, config['labels_edges'])
+                             parsed_images, example_folder, image, config['single-edge-label'])
 
     attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores,
                                            executor, new_networks, config['single-exploit-per-node'])
