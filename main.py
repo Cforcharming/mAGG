@@ -8,7 +8,7 @@ from concurrent.futures import ProcessPoolExecutor
 from parsers import vulnerability_parser, attack_graph_parser, topology_parser
 from mio import wrapper
 
-__version__ = "1.0-dev3"
+__version__ = "1.0-dev4"
 
 
 def main(argv):

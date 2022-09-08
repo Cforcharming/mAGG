@@ -54,12 +54,12 @@ limitations under the License.''')
                 # Check if the specified folder exists.
                 if not os.path.exists(example_folder):
                     print('The entered example folder name does not exist', arg, file=sys.stderr)
-                    return errno.ENOTDIR
+                    return errno.ENOTDIR, None
                 
                 # Check if there is a docker-compose.yml file in the specified folder.
                 if "docker-compose.yml" not in os.listdir(example_folder):
                     print('docker-compose.yml is missing in the folder', arg, file=sys.stderr)
-                    return errno.ENOENT
+                    return errno.ENOENT, None
                 
                 example_folders.append(arg)
             
@@ -79,26 +79,29 @@ def validate_config_file() -> (int, dict):
     
     for main_keyword in main_keywords:
         if main_keyword not in config_file.keys():
-            print("'" + main_keyword + "' keyword is missing in the config file.", file=sys.stderr)
-            return errno.EBADF
+            print('Keyword \'', main_keyword, '\' is missing in the config file.', sep='', file=sys.stderr)
+            return errno.EBADF, None
     
     # Check if the generate_graphs keyword has the right values
     generate_graphs = config_file['generate-graphs']
     if type(generate_graphs) is not bool:
-        print("Value: " + generate_graphs + " is invalid for keyword generate_graphs", file=sys.stderr)
-        return errno.EBADF
+        print('Value \'', generate_graphs, '\' is invalid for keyword \'generate-graphs\', it must be bool', sep='',
+              file=sys.stderr)
+        return errno.EBADF, None
     
     # Check if the show_one_vul_per_edge keyword has the right values
     single_edge_label = config_file['single-edge-label']
     if type(single_edge_label) is not bool:
-        print("Value: " + single_edge_label + " is invalid for keyword show_one_vul_per_edge", file=sys.stderr)
-        return errno.EBADF
+        print('Value \'', single_edge_label, '\' is invalid for keyword \'single-edge-label\', it must be bool', sep='',
+              file=sys.stderr)
+        return errno.EBADF, None
     
     # Check if the labels_edges keyword has the right values
     single_exploit_per_node = config_file['single-exploit-per-node']
     if type(single_exploit_per_node) is not bool:
-        print("Value: " + single_exploit_per_node + " is invalid for keyword labels_edges", file=sys.stderr)
-        return errno.EBADF
+        print('Value \'', single_exploit_per_node, '\' is invalid for keyword \'single-exploit-per-node\', '
+                                                   'it must be bool', sep='', file=sys.stderr)
+        return errno.EBADF, None
     
     return 0, config_file
 
