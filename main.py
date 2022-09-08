@@ -46,7 +46,7 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     
     exploitable_vulnerabilities, scores, dvp = vulnerability_parser.get_exploitable_vulnerabilities(
         services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors,
-        config['edge-label'])
+        config['single-edge-label'])
     
     print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
     
