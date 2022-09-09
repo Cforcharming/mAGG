@@ -22,6 +22,11 @@ services:
       - db
     image: mysql
 
+  ng:
+    networks:
+      - frontend
+      - backend
+    image: nginx
 networks:
   frontend: {}
   backend: {}
