@@ -18,7 +18,12 @@ def main(argv):
     if stat != 0:
         return stat
     
-    executor = ProcessPoolExecutor(int(config['nums-of-processes']), mp.get_context('forkserver'))
+    concurrency = config['nums-of-processes']
+    if concurrency > 0:
+        executor = ProcessPoolExecutor(concurrency, mp.get_context('forkserver'))
+    else:
+        executor = None
+    
     attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], executor)
     
     for example in examples:
@@ -52,8 +57,8 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
     
     attack_graph, graph_labels, da = attack_graph_parser.\
-        generate_attack_graph(networks, exploitable_vulnerabilities, scores, executor,
-                              config['single-exploit-per-node'])
+        generate_attack_graph(networks, services, exploitable_vulnerabilities, scores, executor,
+                              config['single-exploit-per-node'], config['single-edge-label'])
     
     composed_graph, composed_labels, dcg = attack_graph_parser.get_graph_compose(attack_graph, graph_labels)
     

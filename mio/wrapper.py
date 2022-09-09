@@ -50,8 +50,9 @@ def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, se
     vulnerability_parser.add(config, services, vulnerabilities, attack_vectors, exploitable_vulnerabilities, scores,
                              parsed_images, example_folder, image, config['single-edge-label'])
 
-    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores,
-                                           executor, new_networks, config['single-exploit-per-node'])
+    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, services, exploitable_vulnerabilities,
+                                           scores, executor, new_networks,
+                                           config['single-exploit-per-node'], config['single-edge-label'])
     
     print("Node added:", new_service)
 
@@ -65,8 +66,9 @@ def del_node(networks: dict[str, dict[str, set]], services: dict[str, dict[str, 
     topology_parser.delete(networks, services, topology_graph, gateway_graph, gateway_nodes, gateway_graph_labels, name)
 
     attack_graph_parser. \
-        update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores, executor,
-                           affected_networks, config['single-exploit-per-node'])
+        update_by_networks(networks, attack_graph, graph_labels, services, exploitable_vulnerabilities,
+                           scores, executor, affected_networks,
+                           config['single-exploit-per-node'], config['single-edge-label'])
     
     print("Node deleted: ", name)
 
@@ -109,8 +111,9 @@ def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[
         
         h += 1
 
-    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, exploitable_vulnerabilities, scores,
-                                           executor, affected_networks, config['single-exploit-per-node'])
+    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, services, exploitable_vulnerabilities,
+                                           scores, executor, affected_networks,
+                                           config['single-exploit-per-node'], config['single-edge-label'])
 
 
 def visualise(topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_graph_labels: dict[(str, str), str],

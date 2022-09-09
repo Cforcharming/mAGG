@@ -102,6 +102,12 @@ def validate_config_file() -> (int, dict):
         print('Value \'', single_exploit_per_node, '\' is invalid for keyword \'single-exploit-per-node\', '
                                                    'it must be bool', sep='', file=sys.stderr)
         return errno.EBADF, None
+
+    concurrency = config_file['nums-of-processes']
+    if type(concurrency) is not int or concurrency < 0:
+        print('Value \'', concurrency, '\' is invalid for keyword \'nums-of-processes\', '
+                                       'it must be an integer no less than 0.', sep='', file=sys.stderr)
+        return errno.EBADF, None
     
     return 0, config_file
 
