@@ -1,6 +1,7 @@
 """Module responsible for generating the attack graph."""
 
 import time
+import math
 import networkx as nx
 from concurrent.futures import ProcessPoolExecutor, Future, wait
 from parsers import vulnerability_parser
@@ -145,8 +146,16 @@ def add_edge(sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), s
     """
     Adding an edge to the attack graph.
     """
-    sub_graph.add_edge(start_node, end_node, weight=score)
+    
+    weight = get_weight_from_score(score)
+    
+    sub_graph.add_edge(start_node, end_node, weight=weight)
     if (start_node, end_node) in sub_labels:
         sub_labels[(start_node, end_node)] += '\n' + vulnerability
     else:
         sub_labels[(start_node, end_node)] = vulnerability
+
+
+def get_weight_from_score(score: int) -> float:
+    weight = math.pow(10, -score)
+    return weight
