@@ -52,6 +52,8 @@ def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[s
     futures: list[Future] = list()
     
     for network in affected_networks:
+        generate_sub_graph(networks, network, exploitable_vulnerabilities, scores, single_exploit)
+        update(attack_graph, graph_labels, network)
         
         future = executor.submit(generate_sub_graph, networks, network, exploitable_vulnerabilities, scores,
                                  single_exploit)
@@ -88,24 +90,31 @@ def generate_sub_graph(networks: dict[str, dict[str, set]], network: str,
     for gateway in gateways:
         
         if gateway == 'outside':
-            gateway_post_privileges = {4: ''}
+            gateway_post_privileges = {4: ['']}
         else:
-            gateway_post_privileges: dict[int, str] = exploitable_vulnerabilities[gateway]['post']
+            gateway_post_privileges: dict[int, list[str]] = exploitable_vulnerabilities[gateway]['post']
         
+        depth_stack: list[(str, int)] = list()
         exploited_nodes: set[str] = {gateway}
         
         for current_privilege in gateway_post_privileges:
-            depth_first_search(gateway, neighbours, current_privilege, exploited_nodes, exploited_vulnerabilities,
-                               exploitable_vulnerabilities, scores, sub_graph, sub_labels, single_exploit)
+            if len(gateway_post_privileges[current_privilege]) > 0:
+                depth_stack: list[(str, int)] = [(gateway, current_privilege)]
+            
+        while len(depth_stack) > 0:
+            depth_first_search(neighbours, exploited_nodes, exploited_vulnerabilities, exploitable_vulnerabilities,
+                               scores, sub_graph, sub_labels, depth_stack, single_exploit)
     
     print('Generated sub attack graph for network', network, flush=True)
     return sub_graph, sub_labels
 
 
-def depth_first_search(exploited_node: str, neighbours: set[str], current_privilege: int, exploited_nodes: set[str],
-                       exploited_vulnerabilities: set[str], exploitable_vulnerabilities: dict[str, dict[str, dict]],
-                       scores: dict[str, int], sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), str],
-                       single_exploit: bool):
+def depth_first_search(neighbours: set[str], exploited_nodes: set[str], exploited_vulnerabilities: set[str],
+                       exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
+                       sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), str],
+                       depth_stack: list[(str, int)], single_exploit: bool):
+    
+    (exploited_node, current_privilege) = depth_stack.pop()
     
     for neighbour in neighbours:
         
@@ -127,18 +136,14 @@ def depth_first_search(exploited_node: str, neighbours: set[str], current_privil
                         if neighbour not in exploited_nodes:
                             exploited_nodes.add(neighbour)
                             add_edge(sub_graph, sub_labels, start_node, end_node, vulnerability, score)
-                            depth_first_search(neighbour, neighbours, neighbour_post_condition, exploited_nodes,
-                                               exploited_vulnerabilities, exploitable_vulnerabilities, scores,
-                                               sub_graph, sub_labels, single_exploit)
+                            depth_stack.append((neighbour, neighbour_pre_condition))
                     
                     else:
                         if (start_node, end_node) not in sub_labels \
                                  or vulnerability not in sub_labels[(start_node, end_node)]:
                             exploited_vulnerabilities.add(vulnerability)
                             add_edge(sub_graph, sub_labels, start_node, end_node, vulnerability, score)
-                            depth_first_search(neighbour, neighbours, neighbour_post_condition, exploited_nodes,
-                                               exploited_vulnerabilities, exploitable_vulnerabilities, scores,
-                                               sub_graph, sub_labels, single_exploit)
+                            depth_stack.append((neighbour, neighbour_pre_condition))
 
 
 def add_edge(sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), str], start_node: (str, str),

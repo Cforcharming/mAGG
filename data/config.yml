@@ -11,7 +11,7 @@ examples-path: examples
 nums-of-processes: 12
 
 # This property states if topology and attack graphs are going to be produced.
-generate-graphs: True # Options {True, False}
+generate-graphs: False # Options {True, False}
 
 # This property states if single or multiple vulnerabilities constitute an edge between two same nodes
 single-edge-label: True # Options {True, False}
