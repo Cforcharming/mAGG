@@ -38,7 +38,7 @@ def main(argv):
     
     # Visualizing the topology graph.
     time_start = time.time()
-    topology_graph = topology_parser.create_topology_graph(topology)
+    topology_parser.create_topology_graph(topology)
     duration_visualization = time.time() - time_start
     print("Time elapsed: " + str(duration_visualization) + " seconds.\n")
     
@@ -76,22 +76,25 @@ def main(argv):
         nodes, edges, duration_bdf = attack_graph_parser.\
             generate_attack_graph(topology, exploitable_vulnerabilities, gateway_nodes)
         print("Time elapsed: " + str(duration_bdf + dvp) + " seconds.\n")
-        
-        # duration_graph_properties, attack_graph = attack_graph_parser.\
-        #     print_graph_properties(config["labels_edges"], nodes, edges)
+
+        duration_graph_properties = 0
+        if config['generate_graphs']:
+            duration_graph_properties, attack_graph = attack_graph_parser.\
+                print_graph_properties(config["labels_edges"], nodes, edges)
         
         for element in edges.keys():
             edges[element] = [edges[element][0]]
         
         # Visualizing the attack graph.
-        # times = visualise(topology, result_folder, times, config['labels_edges'], nodes, edges)
+        if config['generate_graphs']:
+            times = visualise(topology, result_folder, times, config['labels_edges'], nodes, edges)
         
         # Printing time summary of the attack graph generation.
         writer.print_summary(config['generate_graphs'], duration_topology=duration_topology,
                              duration_vulnerabilities=duration_vulnerabilities,
                              duration_bdf=duration_bdf,
                              duration_vulnerabilities_preprocessing=dvp,
-                             # duration_graph_properties=duration_graph_properties,
+                             duration_graph_properties=duration_graph_properties,
                              duration_visualization=duration_visualization)
 
 
