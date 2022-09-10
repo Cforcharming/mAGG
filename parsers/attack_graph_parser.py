@@ -32,13 +32,23 @@ def get_graph_compose(attack_graph: dict[str, nx.DiGraph],
 
     dcg = time.time()
     print('Composing attack graphs from subnets started.')
+
+    if 'full' not in attack_graph:
+        
+        composed_labels: dict[((str, str), (str, str)), str] = dict()
     
-    composed_graph = nx.compose_all([*attack_graph.values()])
-    composed_labels: dict[((str, str), (str, str)), str] = dict()
+        try:
+            composed_graph: nx.DiGraph = nx.compose_all([*attack_graph.values()])
+            
+            for network in graph_labels:
+                composed_labels |= graph_labels[network]
+        except ValueError:
+            composed_graph = nx.DiGraph()
     
-    for network in graph_labels:
-        composed_labels |= graph_labels[network]
-    
+    else:
+        composed_graph = attack_graph['full']
+        composed_labels = graph_labels['full']
+        
     dcg = time.time() - dcg
     print('Time for composing subnets:', dcg, 'seconds.')
     return composed_graph, composed_labels, dcg
