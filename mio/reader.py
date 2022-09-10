@@ -1,6 +1,18 @@
+#  Copyright 2022 Hanwen Zhang
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  Unless required by applicable law or agreed to in writing, software.
+#  You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 """Module responsible for all the input reading and validation."""
 
-from main import __version__
 import errno
 import yaml
 import sys
@@ -8,7 +20,12 @@ import os
 
 
 def validate_command_line_input(argv: list, config: dict) -> (int, list[str]):
+    """
     
+    :param argv:
+    :param config:
+    :return:
+    """
     if len(argv) < 2:
         argv = [argv[0], '-h']
     
@@ -34,12 +51,16 @@ def validate_command_line_input(argv: list, config: dict) -> (int, list[str]):
             sys.exit(0)
             
         case '-v' | '--version' | 'version':
+            from main import __version__
             print('mAGG version:', __version__, end='\n\n')
             print('''Copyright 2022 张瀚文
 
 Licensed under the Apache License, Version 2.0 (the "License");
 Unless required by applicable law or agreed to in writing, software.
+You may obtain a copy of the License at
 
+       http://www.apache.org/licenses/LICENSE-2.0
+ 
 Distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
@@ -112,17 +133,12 @@ def validate_config_file() -> (int, dict):
     return 0, config_file
 
 
-def read_docker_compose_file(example_folder_path: str) -> dict[str, ]:
-    """This function is responsible for reading the docker-compose file of the container."""
-    
-    with open(os.path.join(example_folder_path, "docker-compose.yml"), "r") as compose_file:
-        docker_compose_file = yaml.full_load(compose_file)
-    
-    return docker_compose_file
-
-
 def read_config_file() -> dict:
-    """This function is responsible for reading the config file."""
+    """
+    Read config.yml file
+    Return:
+        a dict of configs
+    """
     
     with open(os.path.join(os.getcwd(), "data/config.yml"), "r") as stream:
         try:

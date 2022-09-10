@@ -1,11 +1,28 @@
 #!/usr/bin/env python
-"""Main module responsible for the attack graph generation pipeline."""
+
+#  Copyright 2022 Hanwen Zhang
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  Unless required by applicable law or agreed to in writing, software.
+#  You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 
 import sys
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
 
-from layers import attack_graph_layer, topology_graph_layer, composed_graph_layer, vulnerability_layer
+from layers.composed_graph_layer import ComposedGraphLayer
+from layers.vulnerability_layer import VulnerabilityLayer
+from layers.merged_graph_layer import MergedGraphLayer
+from layers.attack_graph_layer import AttackGraphLayer
+from layers.topology_layer import TopologyLayer
+
 from mio import wrapper
 
 __version__ = "1.0-dev4"
@@ -24,9 +41,7 @@ def main(argv):
     else:
         executor = None
     
-    attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], executor)
-    executor = ProcessPoolExecutor(int(config['nums-of-processes']), mp.get_context('forkserver'))
-    attack_vectors = vulnerability_layer.get_attack_vectors(config["attack-vector-folder-path"], executor)
+    attack_vectors = VulnerabilityLayer.get_attack_vectors(config["attack-vector-folder-path"], executor)
     
     for example in examples:
         example_folder, result_folder = wrapper.create_folders(example, config)
@@ -42,39 +57,25 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     Main function responsible for running the attack graph generations pipeline for multiple graphs.
     """
     
-    networks, services, gateway_nodes, dt = topology_graph_layer.parse_topology(example_folder)
+    topology_layer = TopologyLayer(example_folder)
     
-    topology_graph, gateway_graph, gateway_graph_labels, dg = topology_graph_layer.create_graphs(networks, services)
+    vulnerability_layer = VulnerabilityLayer(example_folder, topology_layer.services, config, attack_vectors)
     
-    print('\nTime for topology parser module:', dt + dg, 'seconds.')
+    attack_graph_layer = AttackGraphLayer(vulnerability_layer, topology_layer, config, executor)
     
-    status, vulnerabilities, parsed_images, dv = vulnerability_layer.parse_vulnerabilities(example_folder, services)
-    if status != 0:
-        return status
-    
-    exploitable_vulnerabilities, scores, dvp = vulnerability_layer.get_exploitable_vulnerabilities(
-        services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors,
-        config['single-edge-label'])
-    
-    print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
-    
-    attack_graph, graph_labels, da = attack_graph_layer.\
-        generate_attack_graph(networks, services, exploitable_vulnerabilities, scores, executor,
-                              config['single-exploit-per-node'])
-    
-    composed_graph, composed_labels, dcg = composed_graph_layer.get_graph_compose(attack_graph, graph_labels)
-    
-    print('\nTime for attack graph generating module:', da + dcg, 'seconds.')
+    composed_graph_layer = ComposedGraphLayer(attack_graph_layer)
+
+    merged_graph_layer = MergedGraphLayer(topology_layer, vulnerability_layer, attack_graph_layer, composed_graph_layer)
     
     # Printing time summary of the attack graph generation.
-    wrapper.print_summary(topology_graph.number_of_nodes(),
-                          topology_graph.number_of_edges(),
-                          composed_graph.number_of_nodes(),
-                          composed_graph.number_of_edges())
+    wrapper.print_summary(topology_layer.topology_graph.number_of_nodes(),
+                          topology_layer.topology_graph.number_of_edges(),
+                          composed_graph_layer.composed_graph.number_of_nodes(),
+                          composed_graph_layer.composed_graph.number_of_edges())
     
     if config['generate-graphs']:
-        wrapper.visualise(topology_graph, gateway_graph, gateway_graph_labels,
-                          composed_graph, composed_labels, result_folder, 0)
+        wrapper.visualise(topology_layer, attack_graph_layer, composed_graph_layer,
+                          merged_graph_layer, result_folder, 0)
     
     return 0
 

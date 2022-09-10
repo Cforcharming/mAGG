@@ -1,84 +1,107 @@
-"""Module responsible for generating the attack graph."""
+#  Copyright 2022 Hanwen Zhang
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  Unless required by applicable law or agreed to in writing, software.
+#  You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+"""
+Layer for manipulation of the attack graphs of networks.
+Including class AttackGraphLayer
+"""
 
 import time
 import math
 import networkx as nx
-from concurrent.futures import ProcessPoolExecutor, Future, wait
+from collections import deque
+from concurrent.futures import Executor, Future, wait
 
-import vulnerability_layer
-
-
-def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str]],
-                          exploitable_vulnerabilities: dict[str, dict[str, dict]],
-                          scores: dict[str, int], executor: ProcessPoolExecutor,
-                          single_exploit: bool, single_label: bool) \
-        -> (dict[str, nx.DiGraph], dict[str, dict[((str, str), (str, str)), str]], int):
-    
-    """Main pipeline for the attack graph generation algorithm."""
-    
-    print('Attack graphs of subnets generation started.')
-    start = time.time()
-    attack_graph: dict[str, nx.DiGraph] = dict()
-    graph_labels: dict[str, dict[((str, str), (str, str)), str]] = dict()
-    
-    update_by_networks(networks, attack_graph, graph_labels, services, exploitable_vulnerabilities, scores, executor,
-                       [*networks.keys()], single_exploit, single_label)
-    
-    da = time.time() - start
-    print('Time for attack graphs of subnets generation:', da, 'seconds.')
-    return attack_graph, graph_labels, da
+from layers.vulnerability_layer import VulnerabilityLayer
+from layers.topology_layer import TopologyLayer
 
 
-def get_graph_compose(attack_graph: dict[str, nx.DiGraph],
-                      graph_labels: dict[str, dict[((str, str), (str, str)), str]]) \
-        -> (nx.DiGraph, dict[((str, str), (str, str)), str]):
-    """This functions prints graph properties."""
+class AttackGraphLayer:
+    """
+    Encapsulation of attack graphs sub networks.
 
-    dcg = time.time()
-    print('Composing attack graphs from subnets started.')
+    Properties:
     
-    composed_graph = nx.compose_all([*attack_graph.values()])
-    composed_labels: dict[((str, str), (str, str)), str] = dict()
+    """
     
-    for network in graph_labels:
-        composed_labels |= graph_labels[network]
-    
-    dcg = time.time() - dcg
-    print('Time for composing subnets:', dcg, 'seconds.')
-    return composed_graph, composed_labels, dcg
+    def __init__(self, vulnerability_layer: VulnerabilityLayer, topology_layer: TopologyLayer, config: dict,
+                 executor: Executor):
+        
+        self._attack_graph = dict()
+        self._graph_labels = dict()
+        self._config = config
+        self._executor = executor
+        self._topology_layer = topology_layer
+        self._vulnerability_layer = vulnerability_layer
+        
+        print('Attack graphs of subnets generation started.')
+        start = time.time()
 
+        self.update_by_networks([*topology_layer.networks.keys()])
 
-def update_by_networks(networks: dict[str, dict[str, set]], attack_graph: dict[str, nx.DiGraph],
-                       graph_labels: dict[str, dict[((str, str), (str, str)), str]], services: dict[str, dict[str]],
-                       exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
-                       executor: ProcessPoolExecutor, affected_networks: list[str],
-                       single_exploit: bool, single_label: bool):
-    
-    futures: list[Future] = list()
+        da = time.time() - start
+        print('Time for attack graphs of subnets generation:', da, 'seconds.')
 
-    if executor is not None:
-        for network in affected_networks:
-            future = executor.submit(generate_sub_graph, services, networks, network, exploitable_vulnerabilities,
-                                     scores, single_exploit, single_label)
-            future.add_done_callback(update(attack_graph, graph_labels, network))
-            futures.append(future)
+    @property
+    def attack_graph(self) -> dict[str, nx.DiGraph]:
+        return self._attack_graph
     
-    elif 'exposed' in affected_networks:
-        composed_graph, composed_labels = generate_full_from_exposed(services, exploitable_vulnerabilities, networks,
-                                                                     scores, single_exploit, single_label)
-        attack_graph['full'] = composed_graph
-        graph_labels['full'] = composed_labels
+    @property
+    def graph_labels(self) -> dict[str, dict[((str, str), (str, str)), str]]:
+        return self._graph_labels
     
-    else:
-        for network in affected_networks:
-            sub_graph, sub_labels = \
-                generate_sub_graph(services, networks, network, exploitable_vulnerabilities, scores,
-                                   single_exploit, single_label)
-            attack_graph[network] = sub_graph
-            graph_labels[network] = sub_labels
+    @attack_graph.setter
+    def attack_graph(self, attack_graph: dict[str, nx.DiGraph]):
+        self._attack_graph = attack_graph
+    
+    @graph_labels.setter
+    def graph_labels(self, graph_labels: dict[str, dict[((str, str), (str, str)), str]]):
+        self._graph_labels = graph_labels
+    
+    def update_by_networks(self, affected_networks: list[str]):
+        
+        futures: list[Future] = list()
+        
+        services = self._topology_layer.services
+        networks = self._topology_layer.networks
+        exploitable_vulnerabilities = self._vulnerability_layer.exploitable_vulnerabilities
+        scores = self._vulnerability_layer.scores
+        single_exploit = self._config['single-exploit-per-node']
+        single_label = self._config['single-edge-label']
+        
+        if self._executor is not None:
+            for network in affected_networks:
+                future = self._executor.submit(generate_sub_graph, services, networks, network,
+                                               exploitable_vulnerabilities, scores, single_exploit, single_label)
+                future.add_done_callback(update(self.attack_graph, self.graph_labels, network))
+                futures.append(future)
 
-    if executor is not None:
-        wait(futures)
+        elif 'exposed' in affected_networks:
+            composed_graph, composed_labels = generate_full_from_exposed(services, exploitable_vulnerabilities,
+                                                                         networks, scores, single_exploit, single_label)
+            self.attack_graph['full'] = composed_graph
+            self.graph_labels['full'] = composed_labels
+
+        else:
+            for network in affected_networks:
+                sub_graph, sub_labels = \
+                    generate_sub_graph(services, networks, network, exploitable_vulnerabilities, scores,
+                                       single_exploit, single_label)
+                self.attack_graph[network] = sub_graph
+                self.graph_labels[network] = sub_labels
+
+        if self._executor is not None:
+            wait(futures)
 
 
 def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
@@ -111,7 +134,7 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
         else:
             gateway_post_privileges: dict[int, list[str]] = exploitable_vulnerabilities[gateway]['post']
         
-        depth_stack: list[(str, int)] = list()
+        depth_stack = deque()
         exploited_nodes: set[str] = {gateway}
         
         for current_privilege in gateway_post_privileges:
@@ -135,7 +158,8 @@ def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulne
     composed_labels: dict[((str, str), (str, str)), str] = {}
     
     exploited_vulnerabilities: set[str] = set()
-    depth_stack: list[(str, int)] = [('outside', 4)]
+    depth_stack = deque()
+    depth_stack.append(('outside', 4))
     exploited_nodes: set[str] = {'outside'}
 
     while len(depth_stack) > 0:
@@ -164,7 +188,7 @@ def get_neighbours(services: dict[str, dict[str]], networks: dict[str, dict[str,
 def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: set[str], services: dict[str, dict[str]],
                        networks: dict[str, dict[str, set]], exploitable_vulnerabilities: dict[str, dict[str, dict]],
                        scores: dict[str, int], sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), str],
-                       depth_stack: list[(str, int)], single_exploit: bool, single_label: bool, neighbours=None):
+                       depth_stack: deque, single_exploit: bool, single_label: bool, neighbours=None):
     
     (exploited_node, current_privilege) = depth_stack.pop()
     
@@ -184,8 +208,8 @@ def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: set
                 
                 neighbour_post_condition = neighbour_post[vulnerability]
                 score = scores[vulnerability]
-                start_node = (exploited_node, vulnerability_parser.get_privilege_level(current_privilege))
-                end_node = (neighbour, vulnerability_parser.get_privilege_level(neighbour_post_condition))
+                start_node = (exploited_node, VulnerabilityLayer.get_privilege_str(current_privilege))
+                end_node = (neighbour, VulnerabilityLayer.get_privilege_str(neighbour_post_condition))
                 
                 if single_exploit:
                     if neighbour not in exploited_nodes:

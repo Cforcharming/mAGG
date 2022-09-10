@@ -1,14 +1,30 @@
-from layers import vulnerability_layer
-from concurrent.futures import ProcessPoolExecutor
+#  Copyright 2022 Hanwen Zhang
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  Unless required by applicable law or agreed to in writing, software.
+#  You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+from layers.composed_graph_layer import ComposedGraphLayer
+from layers.vulnerability_layer import VulnerabilityLayer
+from layers.attack_graph_layer import AttackGraphLayer
+from layers.merged_graph_layer import MergedGraphLayer
+from layers.topology_layer import TopologyLayer
+
 from mio import reader, writer
-import networkx as nx
 import time
 import os
 
 
 def init(argv: list) -> (int, dict, list[str], int):
     times = 0
-
+    
     # Opening the configuration file.
     stat, config = reader.validate_config_file()
     if stat != 0:
@@ -23,108 +39,53 @@ def init(argv: list) -> (int, dict, list[str], int):
 
 
 def create_folders(example_basename: str, config: dict) -> (str, str):
-
-    # Create folder where the result files will be stored.
+    """
+    Create folder where the result files will be stored.
+    """
     example_folder = os.path.join(os.getcwd(), config['examples-path'], example_basename)
-    result_folder = writer.create_result_folder(example_basename, config)
+    result_folder = writer.create_result_folder(example_basename, config["examples-results-path"])
     
     return example_folder, result_folder
 
 
-def add_node(config: dict, example_folder: str, networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]],
-             topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_nodes: set[str],
-             attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), str]],
-             executor: ProcessPoolExecutor, gateway_graph_labels: dict[(str, str), str],
-             image: str, new_networks: list[str], name: str, vulnerabilities: dict[str, dict[str, ]],
-             exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
-             attack_vectors: dict[str, dict[str, ]], parsed_images: set[str]):
+def add_node(topology_layer: TopologyLayer, vulnerability_layer: VulnerabilityLayer,
+             attack_graph_layer: AttackGraphLayer, composed_graph_layer: ComposedGraphLayer,
+             merged_graph_layer: MergedGraphLayer, image: str, new_networks: list[str], name: str):
     
     new_service = {'image': image, 'networks': new_networks}
     
-    topology_parser.add_service_networks(networks, gateway_nodes, new_service, name)
-    services[name] = new_service
-    
-    topology_parser.add_service_to_graph(networks, topology_graph, gateway_graph,
-                                         gateway_graph_labels, new_service, name)
-    
-    vulnerability_parser.add(config, services, vulnerabilities, attack_vectors, exploitable_vulnerabilities, scores,
-                             parsed_images, example_folder, image, config['single-edge-label'])
-
-    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, services, exploitable_vulnerabilities,
-                                           scores, executor, new_networks,
-                                           config['single-exploit-per-node'], config['single-edge-label'])
+    vulnerability_layer.add_image(image)
+    topology_layer.add_service(new_service, name)
+    attack_graph_layer.update_by_networks(new_networks)
+    composed_graph_layer.get_graph_compose()
+    merged_graph_layer.merge()
     
     print("Node added:", new_service)
 
 
-def del_node(networks: dict[str, dict[str, set]], services: dict[str, dict[str, ]], topology_graph: nx.Graph,
-             gateway_graph: nx.Graph, attack_graph: dict[str, nx.DiGraph], config: dict,
-             graph_labels: dict[str, dict[((str, str), (str, str)), str]], executor: ProcessPoolExecutor,
-             affected_networks, gateway_nodes: set[str], gateway_graph_labels: dict[(str, str), str],
-             exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int], name: str):
+def del_node(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer,
+             composed_graph_layer: ComposedGraphLayer, merged_graph_layer: MergedGraphLayer, name: str):
     
-    topology_parser.delete(networks, services, topology_graph, gateway_graph, gateway_nodes, gateway_graph_labels, name)
-
-    attack_graph_parser. \
-        update_by_networks(networks, attack_graph, graph_labels, services, exploitable_vulnerabilities,
-                           scores, executor, affected_networks,
-                           config['single-exploit-per-node'], config['single-edge-label'])
+    affected_networks = topology_layer.services[name]['networks']
+    del topology_layer[name]
+    attack_graph_layer.update_by_networks(affected_networks)
+    composed_graph_layer.get_graph_compose()
+    merged_graph_layer.merge()
     
     print("Node deleted: ", name)
 
 
-def gen_defence_list(gateway_graph: nx.Graph, to: str, from_n='outside') -> list[str, int]:
-    
-    path_counts = {}
-    
-    for path in nx.all_simple_paths(gateway_graph, from_n, to):
-        for node in path:
-            if node in path_counts:
-                path_counts[node] = path_counts[node] + 1
-            else:
-                path_counts[node] = 1
-    
-    return sorted(path_counts.items())
-
-
-def deploy_honeypot(config: dict, example_folder: str, networks: dict[str, dict[str, set]],
-                    services: dict[str, dict[str, ]], topology_graph: nx.Graph, gateway_graph: nx.Graph,
-                    gateway_nodes: set[str], gateway_graph_labels: dict[(str, str), str], new_networks: list[str],
-                    attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), str]],
-                    executor: ProcessPoolExecutor, vulnerabilities: dict[str, dict[str, ]],
-                    exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
-                    parsed_images: set[str], attack_vectors: dict[str, dict[str, ]], path_counts, minimum):
-    h = 0
-    
-    affected_networks = []
-    
-    for name in path_counts:
-        if path_counts[name] < minimum:
-            break
-        honeypot_name = 'honey-' + str(h)
-        networks[honeypot_name] = {'nodes': {name, honeypot_name}, 'gateways': {name}}
-        image = 'nginx'
-        
-        add_node(config, example_folder, networks, services, topology_graph, gateway_graph, gateway_nodes, attack_graph,
-                 graph_labels, executor, gateway_graph_labels, image, new_networks, name, vulnerabilities,
-                 exploitable_vulnerabilities, scores, attack_vectors, parsed_images)
-        
-        h += 1
-
-    attack_graph_parser.update_by_networks(networks, attack_graph, graph_labels, services, exploitable_vulnerabilities,
-                                           scores, executor, affected_networks,
-                                           config['single-exploit-per-node'], config['single-edge-label'])
-
-
-def visualise(topology_graph: nx.Graph, gateway_graph: nx.Graph, gateway_graph_labels: dict[(str, str), str],
-              attack_graph: nx.DiGraph, composed_labels: dict[((str, str), (str, str)), str], result_folder: str,
-              times: int):
+def visualise(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer,
+              composed_graph_layer: ComposedGraphLayer, merged_graph_layer: MergedGraphLayer,
+              result_folder: str, times: int):
     
     time_start = time.time()
     
-    writer.write_topology_graph(topology_graph, result_folder, times)
-    writer.write_attack_graph(attack_graph, composed_labels, result_folder, times)
-    writer.write_gateway_graph(gateway_graph, gateway_graph_labels, result_folder, times)
+    writer.write_topology_graph(topology_layer, result_folder, times)
+    writer.write_gateway_graph(topology_layer, result_folder, times)
+    writer.write_attack_graphs(attack_graph_layer, result_folder, times)
+    writer.write_composed_graph(composed_graph_layer, result_folder, times)
+    writer.write_merged_graph(merged_graph_layer, result_folder, times)
     
     print('Time for visualising:', time.time() - time_start, 'seconds.')
 
