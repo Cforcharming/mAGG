@@ -1,4 +1,4 @@
-from parsers import vulnerability_parser, attack_graph_parser, topology_parser
+from layers import vulnerability_layer
 from concurrent.futures import ProcessPoolExecutor
 from mio import reader, writer
 import networkx as nx

@@ -4,7 +4,8 @@ import time
 import math
 import networkx as nx
 from concurrent.futures import ProcessPoolExecutor, Future, wait
-from parsers import vulnerability_parser
+
+import vulnerability_layer
 
 
 def generate_attack_graph(networks: dict[str, dict[str, set]], services: dict[str, dict[str]],
@@ -35,23 +36,13 @@ def get_graph_compose(attack_graph: dict[str, nx.DiGraph],
 
     dcg = time.time()
     print('Composing attack graphs from subnets started.')
-
-    if 'full' not in attack_graph:
-        
-        composed_labels: dict[((str, str), (str, str)), str] = dict()
     
-        try:
-            composed_graph: nx.DiGraph = nx.compose_all([*attack_graph.values()])
-            
-            for network in graph_labels:
-                composed_labels |= graph_labels[network]
-        except ValueError:
-            composed_graph = nx.DiGraph()
+    composed_graph = nx.compose_all([*attack_graph.values()])
+    composed_labels: dict[((str, str), (str, str)), str] = dict()
     
-    else:
-        composed_graph = attack_graph['full']
-        composed_labels = graph_labels['full']
-        
+    for network in graph_labels:
+        composed_labels |= graph_labels[network]
+    
     dcg = time.time() - dcg
     print('Time for composing subnets:', dcg, 'seconds.')
     return composed_graph, composed_labels, dcg
