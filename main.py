@@ -5,7 +5,7 @@ import sys
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
 
-from parsers import vulnerability_parser, attack_graph_parser, topology_parser
+from layers import attack_graph_layer, topology_graph_layer, composed_graph_layer, vulnerability_layer
 from mio import wrapper
 
 __version__ = "1.0-dev4"
@@ -19,7 +19,7 @@ def main(argv):
         return stat
     
     executor = ProcessPoolExecutor(int(config['nums-of-processes']), mp.get_context('forkserver'))
-    attack_vectors = vulnerability_parser.get_attack_vectors(config["attack-vector-folder-path"], executor)
+    attack_vectors = vulnerability_layer.get_attack_vectors(config["attack-vector-folder-path"], executor)
     
     for example in examples:
         example_folder, result_folder = wrapper.create_folders(example, config)
@@ -35,27 +35,27 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     Main function responsible for running the attack graph generations pipeline for multiple graphs.
     """
     
-    networks, services, gateway_nodes, dt = topology_parser.parse_topology(example_folder)
+    networks, services, gateway_nodes, dt = topology_graph_layer.parse_topology(example_folder)
     
-    topology_graph, gateway_graph, gateway_graph_labels, dg = topology_parser.create_graphs(networks, services)
+    topology_graph, gateway_graph, gateway_graph_labels, dg = topology_graph_layer.create_graphs(networks, services)
     
     print('\nTime for topology parser module:', dt + dg, 'seconds.')
     
-    status, vulnerabilities, parsed_images, dv = vulnerability_parser.parse_vulnerabilities(example_folder, services)
+    status, vulnerabilities, parsed_images, dv = vulnerability_layer.parse_vulnerabilities(example_folder, services)
     if status != 0:
         return status
     
-    exploitable_vulnerabilities, scores, dvp = vulnerability_parser.get_exploitable_vulnerabilities(
+    exploitable_vulnerabilities, scores, dvp = vulnerability_layer.get_exploitable_vulnerabilities(
         services, vulnerabilities, config["preconditions-rules"], config["postconditions-rules"], attack_vectors,
         config['single-edge-label'])
     
     print('\nTime for vulnerability parser module:', dv + dvp, 'seconds.')
     
-    attack_graph, graph_labels, da = attack_graph_parser.\
+    attack_graph, graph_labels, da = attack_graph_layer.\
         generate_attack_graph(networks, exploitable_vulnerabilities, scores, executor,
                               config['single-exploit-per-node'])
     
-    composed_graph, composed_labels, dcg = attack_graph_parser.get_graph_compose(attack_graph, graph_labels)
+    composed_graph, composed_labels, dcg = composed_graph_layer.get_graph_compose(attack_graph, graph_labels)
     
     print('\nTime for attack graph generating module:', da + dcg, 'seconds.')
     
