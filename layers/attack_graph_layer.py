@@ -17,7 +17,6 @@ Including class AttackGraphLayer
 """
 
 import time
-import math
 import networkx as nx
 from collections import deque
 from concurrent.futures import Executor, Future, wait
@@ -28,7 +27,7 @@ from layers.topology_layer import TopologyLayer
 
 class AttackGraphLayer:
     """
-    Encapsulation of attack graphs sub networks.
+    Encapsulation of attack graphs subnetworks.
 
     Properties:
     
@@ -75,27 +74,26 @@ class AttackGraphLayer:
         services = self._topology_layer.services
         networks = self._topology_layer.networks
         exploitable_vulnerabilities = self._vulnerability_layer.exploitable_vulnerabilities
-        scores = self._vulnerability_layer.scores
         single_exploit = self._config['single-exploit-per-node']
         single_label = self._config['single-edge-label']
         
         if self._executor is not None:
             for network in affected_networks:
                 future = self._executor.submit(generate_sub_graph, services, networks, network,
-                                               exploitable_vulnerabilities, scores, single_exploit, single_label)
+                                               exploitable_vulnerabilities, single_exploit, single_label)
                 future.add_done_callback(update(self.attack_graph, self.graph_labels, network))
                 futures.append(future)
 
         elif 'exposed' in affected_networks:
             composed_graph, composed_labels = generate_full_from_exposed(services, exploitable_vulnerabilities,
-                                                                         networks, scores, single_exploit, single_label)
+                                                                         networks, single_exploit, single_label)
             self.attack_graph['full'] = composed_graph
             self.graph_labels['full'] = composed_labels
 
         else:
             for network in affected_networks:
                 sub_graph, sub_labels = \
-                    generate_sub_graph(services, networks, network, exploitable_vulnerabilities, scores,
+                    generate_sub_graph(services, networks, network, exploitable_vulnerabilities,
                                        single_exploit, single_label)
                 self.attack_graph[network] = sub_graph
                 self.graph_labels[network] = sub_labels
@@ -114,7 +112,7 @@ def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((s
 
 
 def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[str, set]], network: str,
-                       exploitable_vulnerabilities: dict[str, dict[str, dict]], scores: dict[str, int],
+                       exploitable_vulnerabilities: dict[str, dict[str, dict]],
                        single_exploit: bool, single_label: bool) \
         -> (nx.DiGraph, dict[((str, str), (str, str)), str]):
     """Breadth first search approach for generation of sub graphs."""
@@ -142,7 +140,7 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
             
         while len(depth_stack) > 0:
             depth_first_search(exploited_nodes, exploited_vulnerabilities, services, networks,
-                               exploitable_vulnerabilities, scores, sub_graph, sub_labels, depth_stack,
+                               exploitable_vulnerabilities, sub_labels, depth_stack,
                                single_exploit, single_label, neighbours)
     
     print('Generated sub attack graph for network', network, flush=True)
@@ -150,21 +148,20 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
 
 
 def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulnerabilities: dict[str, dict[str, dict]],
-                               networks: dict[str, dict[str, set]], scores: dict[str, int],
-                               single_exploit: bool, single_label: bool) \
+                               networks: dict[str, dict[str, set]], single_exploit: bool, single_label: bool) \
         -> (nx.DiGraph, dict[((str, str), (str, str)), str]):
     
     composed_graph = nx.DiGraph()
     composed_labels: dict[((str, str), (str, str)), str] = {}
     
-    exploited_vulnerabilities: set[str] = set()
+    exploited_vulnerabilities: dict[(str, str), set[str]] = {}
     depth_stack = deque()
     depth_stack.append(('outside', 4))
     exploited_nodes: set[str] = {'outside'}
 
     while len(depth_stack) > 0:
         depth_first_search(exploited_nodes, exploited_vulnerabilities, services, networks, exploitable_vulnerabilities,
-                           scores, composed_graph, composed_labels, depth_stack, single_exploit, single_label)
+                           composed_labels, depth_stack, single_exploit, single_label)
     
     print('Generated full attack graph from outside.', flush=True)
     return composed_graph, composed_labels
@@ -185,10 +182,11 @@ def get_neighbours(services: dict[str, dict[str]], networks: dict[str, dict[str,
     return neighbours
 
 
-def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: set[str], services: dict[str, dict[str]],
-                       networks: dict[str, dict[str, set]], exploitable_vulnerabilities: dict[str, dict[str, dict]],
-                       scores: dict[str, int], sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), str],
-                       depth_stack: deque, single_exploit: bool, single_label: bool, neighbours=None):
+def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: dict[(str, str), set[str]],
+                       services: dict[str, dict[str]], networks: dict[str, dict[str, set]],
+                       exploitable_vulnerabilities: dict[str, dict[str, dict]],
+                       sub_labels: dict[((str, str), (str, str)), str], depth_stack: deque,
+                       single_exploit: bool, single_label: bool, neighbours=None):
     
     (exploited_node, current_privilege) = depth_stack.pop()
     
@@ -207,26 +205,31 @@ def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: set
             for vulnerability in neighbour_exploitable[neighbour_pre_condition]:
                 
                 neighbour_post_condition = neighbour_post[vulnerability]
-                score = scores[vulnerability]
                 start_node = (exploited_node, VulnerabilityLayer.get_privilege_str(current_privilege))
                 end_node = (neighbour, VulnerabilityLayer.get_privilege_str(neighbour_post_condition))
                 
                 if single_exploit:
                     if neighbour not in exploited_nodes:
                         exploited_nodes.add(neighbour)
-                        add_edge(sub_graph, sub_labels, start_node, end_node, vulnerability, score)
+                        add_edge(sub_labels, start_node, end_node, vulnerability)
                         depth_stack.append((neighbour, neighbour_pre_condition))
                 
                 else:
-                    if (start_node, end_node) not in sub_labels \
-                             or (not single_label and vulnerability not in sub_labels[(start_node, end_node)]):
-                        exploited_vulnerabilities.add(vulnerability)
-                        add_edge(sub_graph, sub_labels, start_node, end_node, vulnerability, score)
+                    label = (start_node, end_node)
+                    if label not in sub_labels or \
+                            (not single_label and vulnerability not in exploited_vulnerabilities[label]):
+                        
+                        if label in exploited_vulnerabilities:
+                            exploited_vulnerabilities[label].add(vulnerability)
+                        else:
+                            exploited_vulnerabilities[label] = {vulnerability}
+                        
+                        add_edge(sub_labels, start_node, end_node, vulnerability)
                         depth_stack.append((neighbour, neighbour_pre_condition))
 
 
-def add_edge(sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), str], start_node: (str, str),
-             end_node: (str, str), vulnerability: str, score: int):
+def add_edge(sub_labels: dict[((str, str), (str, str)), str], start_node: (str, str),
+             end_node: (str, str), vulnerability: str):
     """
     Adding an edge to the attack graph.
     """
@@ -238,8 +241,3 @@ def add_edge(sub_graph: nx.DiGraph, sub_labels: dict[((str, str), (str, str)), s
         sub_labels[(start_node, end_node)] += '\n' + vulnerability
     else:
         sub_labels[(start_node, end_node)] = vulnerability
-
-
-def get_weight_from_score(score: int) -> float:
-    weight = math.pow(10, -score)
-    return weight
