@@ -82,6 +82,12 @@ class MergedGraphLayer:
     
     def gen_defence_list(self, to_n: str, from_n='outside') -> dict[str, int]:
         
+        if from_n not in self.merged_graph:
+            raise ValueError(f'Start node {from_n} is not in the merged graph.')
+        
+        if to_n not in self.merged_graph:
+            raise ValueError(f'Start node {to_n} is not in the merged graph.')
+        
         tg = time.time()
         path_counts: dict[str, int] = dict()
         for gateway in self._topology_layer.gateway_nodes:
