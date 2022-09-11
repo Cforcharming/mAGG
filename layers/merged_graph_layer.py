@@ -41,7 +41,7 @@ class MergedGraphLayer:
         self._composed_graph_layer = composed_graph_layer
         self.merge()
         tm = time.time() - tm
-        print('\nTime for graph merging:', tm, 'seconds.')
+        print(f'Time for graph merging: {tm} seconds.')
         
     @property
     def merged_graph(self) -> nx.DiGraph:
@@ -82,6 +82,7 @@ class MergedGraphLayer:
     
     def gen_defence_list(self, to_n: str, from_n='outside') -> dict[str, int]:
         
+        tg = time.time()
         path_counts: dict[str, int] = dict()
         for gateway in self._topology_layer.gateway_nodes:
             degree: int = self._topology_layer.topology_graph.degree(gateway)
@@ -92,7 +93,9 @@ class MergedGraphLayer:
                 path_counts[node] = path_counts[node] + 1
             else:
                 path_counts[node] = 1
-        
+        tg = time.time() - tg
+        print(f'The nodes to protect: {[*path_counts.keys()]}')
+        print(f'Time for generating defence list: {tg} seconds.')
         return path_counts
     
     def deploy_honeypot(self, path_counts, minimum):
@@ -100,18 +103,34 @@ class MergedGraphLayer:
         affected_networks = []
         
         image = 'nginx'
-        self._vulnerability_layer.add_image(image)
         
+        td = time.time()
         h = 0
         for name in path_counts:
+            
+            if name == 'outside':
+                continue
+            
             if path_counts[name] < minimum:
                 break
+            
             honeypot_name = 'honey-' + str(h)
-            self._topology_layer.networks[honeypot_name] = {'nodes': {name, honeypot_name}, 'gateways': {name}}
+            
+            # self._topology_layer.networks[honeypot_name] = {'nodes': {name}, 'gateways': {name}}
+            old_service = self._topology_layer.services[name]
+            old_service['networks'].append(honeypot_name)
+            self._topology_layer.update_service(old_service, name)
+            
             new_service = {'image': image, 'networks': [honeypot_name]}
             self._topology_layer.add_service(new_service, honeypot_name)
+            self._vulnerability_layer.add_service(image, honeypot_name)
+            
+            print(f'Honeypot {honeypot_name} deployed at {name}.')
+            affected_networks.append(honeypot_name)
             h += 1
-
+        
+        td = time.time() - td
+        print(f'Time for deploying honeypots: {td} seconds.')
         self._attack_graph_layer.update_by_networks(affected_networks)
         self._composed_graph_layer.get_graph_compose()
         self.merge()
