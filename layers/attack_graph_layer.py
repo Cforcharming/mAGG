@@ -125,6 +125,9 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
     
     exploited_vulnerabilities: dict[(str, str), set[str]] = {}
     
+    if 'outside' in neighbours:
+        gateways.add('outside')
+    
     for gateway in gateways:
         
         if gateway == 'outside':
