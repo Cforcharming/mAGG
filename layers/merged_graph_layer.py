@@ -71,7 +71,8 @@ class MergedGraphLayer:
                     and weight_to_compare >= self._merged_labels[new_label]['weight']:
                 continue
             
-            self._merged_labels[new_label] = {'weight': weight_to_compare, 'score': score, 'CVE': vulnerabilities}
+            self._merged_labels[new_label] = {'weight': weight_to_compare, 'possibility': 1 / weight_to_compare,
+                                              'CVE': vulnerabilities}
         
         for label in self._merged_labels:
             (start_node, end_node) = label
