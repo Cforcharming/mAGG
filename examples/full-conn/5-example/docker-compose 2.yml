@@ -1,0 +1,30 @@
+networks:
+  frontend: {}
+services:
+  py1:
+    image: python
+    networks:
+    - frontend
+  py2:
+    image: python
+    networks:
+    - frontend
+  py3:
+    image: python
+    networks:
+    - frontend
+  py4:
+    image: python
+    networks:
+    - frontend
+  py5:
+    image: python
+    networks:
+    - frontend
+  tc:
+    image: tomcat
+    networks:
+    - frontend
+    ports:
+    - '80'
+version: '3.8'

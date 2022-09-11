@@ -1,0 +1,3038 @@
+networks: !!set
+  A: null
+  B1: null
+  B2: null
+  C1: null
+  C2: null
+  C3: null
+  C4: null
+  D1: null
+  D2: null
+  E1: null
+  E2: null
+  E3: null
+  F1: null
+  F2: null
+  F3: null
+services:
+  A-B1:
+    image: nginx
+    networks:
+    - A1
+    - B1
+  A-B2:
+    image: nginx
+    networks:
+    - A1
+    - B2
+  B1-C:
+    image: nginx
+    networks:
+    - B1
+    - C1
+    - C2
+  B2-C:
+    image: nginx
+    networks:
+    - B2
+    - C3
+    - C3
+  C-D1:
+    image: nginx
+    networks:
+    - C1
+    - C2
+    - D1
+  C-D2:
+    image: nginx
+    networks:
+    - C3
+    - C4
+    - D2
+  C2-C3:
+    image: nginx
+    networks:
+    - C2
+    - C3
+  D1-E1:
+    image: nginx
+    networks:
+    - D1
+    - E1
+  D2-E3:
+    image: nginx
+    networks:
+    - D2
+    - E3
+  E1-E2:
+    image: nginx
+    networks:
+    - E1
+    - E2
+  E1-F1:
+    image: nginx
+    networks:
+    - E1
+    - F1
+  E2-E3:
+    image: nginx
+    networks:
+    - E2
+    - E3
+  E2-F2:
+    image: nginx
+    networks:
+    - E2
+    - F3
+  E3-F3:
+    image: nginx
+    networks:
+    - E3
+    - F3
+  atsea_app1:
+    image: atsea_app
+    networks:
+    - C3
+  atsea_app10:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app100:
+    image: atsea_app
+    networks:
+    - B1
+  atsea_app101:
+    image: atsea_app
+    networks:
+    - B1
+  atsea_app102:
+    image: atsea_app
+    networks:
+    - B1
+  atsea_app103:
+    image: atsea_app
+    networks:
+    - B1
+  atsea_app104:
+    image: atsea_app
+    networks:
+    - B1
+  atsea_app105:
+    image: atsea_app
+    networks:
+    - B1
+  atsea_app106:
+    image: atsea_app
+    networks:
+    - B1
+  atsea_app107:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app108:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app109:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app11:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app110:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app111:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app112:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app113:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app114:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app115:
+    image: atsea_app
+    networks:
+    - A
+  atsea_app116:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app117:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app118:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app119:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app12:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app120:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app121:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app122:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app123:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app124:
+    image: atsea_app
+    networks:
+    - D1
+  atsea_app125:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app126:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app127:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app128:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app129:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app13:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app130:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app131:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app132:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app133:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app134:
+    image: atsea_app
+    networks:
+    - E1
+  atsea_app135:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app136:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app137:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app138:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app139:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app14:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app140:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app141:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app142:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app143:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app144:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app145:
+    image: atsea_app
+    networks:
+    - D2
+  atsea_app15:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app16:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app17:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app18:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app19:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app2:
+    image: atsea_app
+    networks:
+    - C3
+  atsea_app20:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app21:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app22:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app23:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app24:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app25:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app26:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app27:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app28:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app29:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app3:
+    image: atsea_app
+    networks:
+    - C3
+  atsea_app30:
+    image: atsea_app
+    networks:
+    - C4
+  atsea_app31:
+    image: atsea_app
+    networks:
+    - E2
+  atsea_app32:
+    image: atsea_app
+    networks:
+    - E2
+  atsea_app33:
+    image: atsea_app
+    networks:
+    - E2
+  atsea_app34:
+    image: atsea_app
+    networks:
+    - E2
+  atsea_app35:
+    image: atsea_app
+    networks:
+    - E2
+  atsea_app36:
+    image: atsea_app
+    networks:
+    - E2
+  atsea_app37:
+    image: atsea_app
+    networks:
+    - E2
+  atsea_app38:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app39:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app4:
+    image: atsea_app
+    networks:
+    - C3
+  atsea_app40:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app41:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app42:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app43:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app44:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app45:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app46:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app47:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app48:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app49:
+    image: atsea_app
+    networks:
+    - C1
+  atsea_app5:
+    image: atsea_app
+    networks:
+    - C3
+  atsea_app50:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app51:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app52:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app53:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app54:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app55:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app56:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app57:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app58:
+    image: atsea_app
+    networks:
+    - C2
+  atsea_app59:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app6:
+    image: atsea_app
+    networks:
+    - C3
+  atsea_app60:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app61:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app62:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app63:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app64:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app65:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app66:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app67:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app68:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app69:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app7:
+    image: atsea_app
+    networks:
+    - C3
+  atsea_app70:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app71:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app72:
+    image: atsea_app
+    networks:
+    - B2
+  atsea_app73:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app74:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app75:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app76:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app77:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app78:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app79:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app8:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app80:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app81:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app82:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app83:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app84:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app85:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app86:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app87:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app88:
+    image: atsea_app
+    networks:
+    - E3
+  atsea_app89:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app9:
+    image: atsea_app
+    networks:
+    - F1
+  atsea_app90:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app91:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app92:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app93:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app94:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app95:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app96:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app97:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app98:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app99:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_db1:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db10:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db100:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db101:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db102:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db103:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db104:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db105:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db106:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db107:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db108:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db109:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db11:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db110:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db111:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db112:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db113:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db114:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db115:
+    image: atsea_db
+    networks:
+    - B1
+  atsea_db116:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db117:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db118:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db119:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db12:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db120:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db121:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db122:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db123:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db124:
+    image: atsea_db
+    networks:
+    - A
+  atsea_db125:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db126:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db127:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db128:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db129:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db13:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db130:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db131:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db132:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db133:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db134:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db135:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db136:
+    image: atsea_db
+    networks:
+    - D1
+  atsea_db137:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db138:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db139:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db14:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db140:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db141:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db142:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db143:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db144:
+    image: atsea_db
+    networks:
+    - E1
+  atsea_db145:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db146:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db147:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db148:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db149:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db15:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db150:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db151:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db152:
+    image: atsea_db
+    networks:
+    - D2
+  atsea_db16:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db17:
+    image: atsea_db
+    networks:
+    - F1
+  atsea_db18:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db19:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db2:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db20:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db21:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db22:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db23:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db24:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db25:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db26:
+    image: atsea_db
+    networks:
+    - C4
+  atsea_db27:
+    image: atsea_db
+    networks:
+    - E2
+  atsea_db28:
+    image: atsea_db
+    networks:
+    - E2
+  atsea_db29:
+    image: atsea_db
+    networks:
+    - E2
+  atsea_db3:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db30:
+    image: atsea_db
+    networks:
+    - E2
+  atsea_db31:
+    image: atsea_db
+    networks:
+    - E2
+  atsea_db32:
+    image: atsea_db
+    networks:
+    - E2
+  atsea_db33:
+    image: atsea_db
+    networks:
+    - E2
+  atsea_db34:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db35:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db36:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db37:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db38:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db39:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db4:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db40:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db41:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db42:
+    image: atsea_db
+    networks:
+    - C1
+  atsea_db43:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db44:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db45:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db46:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db47:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db48:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db49:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db5:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db50:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db51:
+    image: atsea_db
+    networks:
+    - C2
+  atsea_db52:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db53:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db54:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db55:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db56:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db57:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db58:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db59:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db6:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db60:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db61:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db62:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db63:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db64:
+    image: atsea_db
+    networks:
+    - B2
+  atsea_db65:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db66:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db67:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db68:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db69:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db7:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db70:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db71:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db72:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db73:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db74:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db75:
+    image: atsea_db
+    networks:
+    - F2
+  atsea_db76:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db77:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db78:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db79:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db8:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db80:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db81:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db82:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db83:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db84:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db85:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db86:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db87:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db88:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db89:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db9:
+    image: atsea_db
+    networks:
+    - C3
+  atsea_db90:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db91:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db92:
+    image: atsea_db
+    networks:
+    - E3
+  atsea_db93:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db94:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db95:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db96:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db97:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db98:
+    image: atsea_db
+    networks:
+    - F3
+  atsea_db99:
+    image: atsea_db
+    networks:
+    - F3
+  mysql1:
+    image: mysql
+    networks:
+    - C3
+  mysql10:
+    image: mysql
+    networks:
+    - C3
+  mysql100:
+    image: mysql
+    networks:
+    - A
+  mysql101:
+    image: mysql
+    networks:
+    - A
+  mysql102:
+    image: mysql
+    networks:
+    - A
+  mysql103:
+    image: mysql
+    networks:
+    - A
+  mysql104:
+    image: mysql
+    networks:
+    - A
+  mysql105:
+    image: mysql
+    networks:
+    - A
+  mysql106:
+    image: mysql
+    networks:
+    - A
+  mysql107:
+    image: mysql
+    networks:
+    - D1
+  mysql108:
+    image: mysql
+    networks:
+    - D1
+  mysql109:
+    image: mysql
+    networks:
+    - D1
+  mysql11:
+    image: mysql
+    networks:
+    - C3
+  mysql110:
+    image: mysql
+    networks:
+    - D1
+  mysql111:
+    image: mysql
+    networks:
+    - D1
+  mysql112:
+    image: mysql
+    networks:
+    - D1
+  mysql113:
+    image: mysql
+    networks:
+    - D1
+  mysql114:
+    image: mysql
+    networks:
+    - D1
+  mysql115:
+    image: mysql
+    networks:
+    - D1
+  mysql116:
+    image: mysql
+    networks:
+    - D1
+  mysql117:
+    image: mysql
+    networks:
+    - E1
+  mysql118:
+    image: mysql
+    networks:
+    - E1
+  mysql119:
+    image: mysql
+    networks:
+    - E1
+  mysql12:
+    image: mysql
+    networks:
+    - F1
+  mysql120:
+    image: mysql
+    networks:
+    - E1
+  mysql121:
+    image: mysql
+    networks:
+    - E1
+  mysql122:
+    image: mysql
+    networks:
+    - E1
+  mysql123:
+    image: mysql
+    networks:
+    - E1
+  mysql124:
+    image: mysql
+    networks:
+    - E1
+  mysql125:
+    image: mysql
+    networks:
+    - E1
+  mysql126:
+    image: mysql
+    networks:
+    - E1
+  mysql127:
+    image: mysql
+    networks:
+    - E1
+  mysql128:
+    image: mysql
+    networks:
+    - E1
+  mysql129:
+    image: mysql
+    networks:
+    - D2
+  mysql13:
+    image: mysql
+    networks:
+    - F1
+  mysql130:
+    image: mysql
+    networks:
+    - D2
+  mysql131:
+    image: mysql
+    networks:
+    - D2
+  mysql132:
+    image: mysql
+    networks:
+    - D2
+  mysql133:
+    image: mysql
+    networks:
+    - D2
+  mysql134:
+    image: mysql
+    networks:
+    - D2
+  mysql135:
+    image: mysql
+    networks:
+    - D2
+  mysql136:
+    image: mysql
+    networks:
+    - D2
+  mysql137:
+    image: mysql
+    networks:
+    - D2
+  mysql138:
+    image: mysql
+    networks:
+    - D2
+  mysql139:
+    image: mysql
+    networks:
+    - D2
+  mysql14:
+    image: mysql
+    networks:
+    - F1
+  mysql15:
+    image: mysql
+    networks:
+    - F1
+  mysql16:
+    image: mysql
+    networks:
+    - F1
+  mysql17:
+    image: mysql
+    networks:
+    - F1
+  mysql18:
+    image: mysql
+    networks:
+    - F1
+  mysql19:
+    image: mysql
+    networks:
+    - F1
+  mysql2:
+    image: mysql
+    networks:
+    - C3
+  mysql20:
+    image: mysql
+    networks:
+    - C4
+  mysql21:
+    image: mysql
+    networks:
+    - C4
+  mysql22:
+    image: mysql
+    networks:
+    - C4
+  mysql23:
+    image: mysql
+    networks:
+    - C4
+  mysql24:
+    image: mysql
+    networks:
+    - C4
+  mysql25:
+    image: mysql
+    networks:
+    - C4
+  mysql26:
+    image: mysql
+    networks:
+    - C4
+  mysql27:
+    image: mysql
+    networks:
+    - C4
+  mysql28:
+    image: mysql
+    networks:
+    - C4
+  mysql29:
+    image: mysql
+    networks:
+    - C4
+  mysql3:
+    image: mysql
+    networks:
+    - C3
+  mysql30:
+    image: mysql
+    networks:
+    - E2
+  mysql31:
+    image: mysql
+    networks:
+    - E2
+  mysql32:
+    image: mysql
+    networks:
+    - E2
+  mysql33:
+    image: mysql
+    networks:
+    - E2
+  mysql34:
+    image: mysql
+    networks:
+    - E2
+  mysql35:
+    image: mysql
+    networks:
+    - E2
+  mysql36:
+    image: mysql
+    networks:
+    - E2
+  mysql37:
+    image: mysql
+    networks:
+    - E2
+  mysql38:
+    image: mysql
+    networks:
+    - E2
+  mysql39:
+    image: mysql
+    networks:
+    - E2
+  mysql4:
+    image: mysql
+    networks:
+    - C3
+  mysql40:
+    image: mysql
+    networks:
+    - E2
+  mysql41:
+    image: mysql
+    networks:
+    - E2
+  mysql42:
+    image: mysql
+    networks:
+    - E2
+  mysql43:
+    image: mysql
+    networks:
+    - E2
+  mysql44:
+    image: mysql
+    networks:
+    - C1
+  mysql45:
+    image: mysql
+    networks:
+    - C1
+  mysql46:
+    image: mysql
+    networks:
+    - C1
+  mysql47:
+    image: mysql
+    networks:
+    - C1
+  mysql48:
+    image: mysql
+    networks:
+    - C1
+  mysql49:
+    image: mysql
+    networks:
+    - C2
+  mysql5:
+    image: mysql
+    networks:
+    - C3
+  mysql50:
+    image: mysql
+    networks:
+    - C2
+  mysql51:
+    image: mysql
+    networks:
+    - C2
+  mysql52:
+    image: mysql
+    networks:
+    - C2
+  mysql53:
+    image: mysql
+    networks:
+    - C2
+  mysql54:
+    image: mysql
+    networks:
+    - C2
+  mysql55:
+    image: mysql
+    networks:
+    - C2
+  mysql56:
+    image: mysql
+    networks:
+    - C2
+  mysql57:
+    image: mysql
+    networks:
+    - B2
+  mysql58:
+    image: mysql
+    networks:
+    - B2
+  mysql59:
+    image: mysql
+    networks:
+    - B2
+  mysql6:
+    image: mysql
+    networks:
+    - C3
+  mysql60:
+    image: mysql
+    networks:
+    - F2
+  mysql61:
+    image: mysql
+    networks:
+    - F2
+  mysql62:
+    image: mysql
+    networks:
+    - F2
+  mysql63:
+    image: mysql
+    networks:
+    - F2
+  mysql64:
+    image: mysql
+    networks:
+    - F2
+  mysql65:
+    image: mysql
+    networks:
+    - F2
+  mysql66:
+    image: mysql
+    networks:
+    - F2
+  mysql67:
+    image: mysql
+    networks:
+    - F2
+  mysql68:
+    image: mysql
+    networks:
+    - F2
+  mysql69:
+    image: mysql
+    networks:
+    - E3
+  mysql7:
+    image: mysql
+    networks:
+    - C3
+  mysql70:
+    image: mysql
+    networks:
+    - E3
+  mysql71:
+    image: mysql
+    networks:
+    - E3
+  mysql72:
+    image: mysql
+    networks:
+    - E3
+  mysql73:
+    image: mysql
+    networks:
+    - E3
+  mysql74:
+    image: mysql
+    networks:
+    - E3
+  mysql75:
+    image: mysql
+    networks:
+    - E3
+  mysql76:
+    image: mysql
+    networks:
+    - F3
+  mysql77:
+    image: mysql
+    networks:
+    - F3
+  mysql78:
+    image: mysql
+    networks:
+    - F3
+  mysql79:
+    image: mysql
+    networks:
+    - F3
+  mysql8:
+    image: mysql
+    networks:
+    - C3
+  mysql80:
+    image: mysql
+    networks:
+    - F3
+  mysql81:
+    image: mysql
+    networks:
+    - F3
+  mysql82:
+    image: mysql
+    networks:
+    - F3
+  mysql83:
+    image: mysql
+    networks:
+    - F3
+  mysql84:
+    image: mysql
+    networks:
+    - F3
+  mysql85:
+    image: mysql
+    networks:
+    - F3
+  mysql86:
+    image: mysql
+    networks:
+    - F3
+  mysql87:
+    image: mysql
+    networks:
+    - F3
+  mysql88:
+    image: mysql
+    networks:
+    - F3
+  mysql89:
+    image: mysql
+    networks:
+    - F3
+  mysql9:
+    image: mysql
+    networks:
+    - C3
+  mysql90:
+    image: mysql
+    networks:
+    - B1
+  mysql91:
+    image: mysql
+    networks:
+    - B1
+  mysql92:
+    image: mysql
+    networks:
+    - B1
+  mysql93:
+    image: mysql
+    networks:
+    - B1
+  mysql94:
+    image: mysql
+    networks:
+    - B1
+  mysql95:
+    image: mysql
+    networks:
+    - B1
+  mysql96:
+    image: mysql
+    networks:
+    - B1
+  mysql97:
+    image: mysql
+    networks:
+    - B1
+  mysql98:
+    image: mysql
+    networks:
+    - B1
+  mysql99:
+    image: mysql
+    networks:
+    - A
+  proxy:
+    image: nginx
+    networks:
+    - A1
+    ports:
+    - '80'
+  python1:
+    image: python
+    networks:
+    - C3
+  python10:
+    image: python
+    networks:
+    - C3
+  python100:
+    image: python
+    networks:
+    - B1
+  python101:
+    image: python
+    networks:
+    - B1
+  python102:
+    image: python
+    networks:
+    - B1
+  python103:
+    image: python
+    networks:
+    - B1
+  python104:
+    image: python
+    networks:
+    - B1
+  python105:
+    image: python
+    networks:
+    - B1
+  python106:
+    image: python
+    networks:
+    - B1
+  python107:
+    image: python
+    networks:
+    - B1
+  python108:
+    image: python
+    networks:
+    - A
+  python109:
+    image: python
+    networks:
+    - A
+  python11:
+    image: python
+    networks:
+    - F1
+  python110:
+    image: python
+    networks:
+    - A
+  python111:
+    image: python
+    networks:
+    - A
+  python112:
+    image: python
+    networks:
+    - A
+  python113:
+    image: python
+    networks:
+    - A
+  python114:
+    image: python
+    networks:
+    - A
+  python115:
+    image: python
+    networks:
+    - A
+  python116:
+    image: python
+    networks:
+    - D1
+  python117:
+    image: python
+    networks:
+    - D1
+  python118:
+    image: python
+    networks:
+    - D1
+  python119:
+    image: python
+    networks:
+    - D1
+  python12:
+    image: python
+    networks:
+    - F1
+  python120:
+    image: python
+    networks:
+    - D1
+  python121:
+    image: python
+    networks:
+    - D1
+  python122:
+    image: python
+    networks:
+    - D1
+  python123:
+    image: python
+    networks:
+    - D1
+  python124:
+    image: python
+    networks:
+    - D1
+  python125:
+    image: python
+    networks:
+    - E1
+  python126:
+    image: python
+    networks:
+    - E1
+  python127:
+    image: python
+    networks:
+    - E1
+  python128:
+    image: python
+    networks:
+    - E1
+  python129:
+    image: python
+    networks:
+    - E1
+  python13:
+    image: python
+    networks:
+    - F1
+  python130:
+    image: python
+    networks:
+    - E1
+  python131:
+    image: python
+    networks:
+    - E1
+  python132:
+    image: python
+    networks:
+    - E1
+  python133:
+    image: python
+    networks:
+    - E1
+  python134:
+    image: python
+    networks:
+    - D2
+  python135:
+    image: python
+    networks:
+    - D2
+  python136:
+    image: python
+    networks:
+    - D2
+  python137:
+    image: python
+    networks:
+    - D2
+  python138:
+    image: python
+    networks:
+    - D2
+  python139:
+    image: python
+    networks:
+    - D2
+  python14:
+    image: python
+    networks:
+    - F1
+  python140:
+    image: python
+    networks:
+    - D2
+  python141:
+    image: python
+    networks:
+    - D2
+  python142:
+    image: python
+    networks:
+    - D2
+  python143:
+    image: python
+    networks:
+    - D2
+  python144:
+    image: python
+    networks:
+    - D2
+  python15:
+    image: python
+    networks:
+    - F1
+  python16:
+    image: python
+    networks:
+    - F1
+  python17:
+    image: python
+    networks:
+    - F1
+  python18:
+    image: python
+    networks:
+    - F1
+  python19:
+    image: python
+    networks:
+    - C4
+  python2:
+    image: python
+    networks:
+    - C3
+  python20:
+    image: python
+    networks:
+    - C4
+  python21:
+    image: python
+    networks:
+    - C4
+  python22:
+    image: python
+    networks:
+    - C4
+  python23:
+    image: python
+    networks:
+    - C4
+  python24:
+    image: python
+    networks:
+    - C4
+  python25:
+    image: python
+    networks:
+    - C4
+  python26:
+    image: python
+    networks:
+    - C4
+  python27:
+    image: python
+    networks:
+    - E2
+  python28:
+    image: python
+    networks:
+    - E2
+  python29:
+    image: python
+    networks:
+    - E2
+  python3:
+    image: python
+    networks:
+    - C3
+  python30:
+    image: python
+    networks:
+    - E2
+  python31:
+    image: python
+    networks:
+    - E2
+  python32:
+    image: python
+    networks:
+    - E2
+  python33:
+    image: python
+    networks:
+    - E2
+  python34:
+    image: python
+    networks:
+    - E2
+  python35:
+    image: python
+    networks:
+    - E2
+  python36:
+    image: python
+    networks:
+    - E2
+  python37:
+    image: python
+    networks:
+    - E2
+  python38:
+    image: python
+    networks:
+    - C1
+  python39:
+    image: python
+    networks:
+    - C1
+  python4:
+    image: python
+    networks:
+    - C3
+  python40:
+    image: python
+    networks:
+    - C1
+  python41:
+    image: python
+    networks:
+    - C1
+  python42:
+    image: python
+    networks:
+    - C1
+  python43:
+    image: python
+    networks:
+    - C1
+  python44:
+    image: python
+    networks:
+    - C1
+  python45:
+    image: python
+    networks:
+    - C1
+  python46:
+    image: python
+    networks:
+    - C1
+  python47:
+    image: python
+    networks:
+    - C1
+  python48:
+    image: python
+    networks:
+    - C1
+  python49:
+    image: python
+    networks:
+    - C1
+  python5:
+    image: python
+    networks:
+    - C3
+  python50:
+    image: python
+    networks:
+    - C1
+  python51:
+    image: python
+    networks:
+    - C2
+  python52:
+    image: python
+    networks:
+    - C2
+  python53:
+    image: python
+    networks:
+    - C2
+  python54:
+    image: python
+    networks:
+    - C2
+  python55:
+    image: python
+    networks:
+    - C2
+  python56:
+    image: python
+    networks:
+    - C2
+  python57:
+    image: python
+    networks:
+    - C2
+  python58:
+    image: python
+    networks:
+    - C2
+  python59:
+    image: python
+    networks:
+    - C2
+  python6:
+    image: python
+    networks:
+    - C3
+  python60:
+    image: python
+    networks:
+    - C2
+  python61:
+    image: python
+    networks:
+    - C2
+  python62:
+    image: python
+    networks:
+    - C2
+  python63:
+    image: python
+    networks:
+    - C2
+  python64:
+    image: python
+    networks:
+    - B2
+  python65:
+    image: python
+    networks:
+    - B2
+  python66:
+    image: python
+    networks:
+    - B2
+  python67:
+    image: python
+    networks:
+    - B2
+  python68:
+    image: python
+    networks:
+    - B2
+  python69:
+    image: python
+    networks:
+    - B2
+  python7:
+    image: python
+    networks:
+    - C3
+  python70:
+    image: python
+    networks:
+    - B2
+  python71:
+    image: python
+    networks:
+    - B2
+  python72:
+    image: python
+    networks:
+    - B2
+  python73:
+    image: python
+    networks:
+    - B2
+  python74:
+    image: python
+    networks:
+    - B2
+  python75:
+    image: python
+    networks:
+    - F2
+  python76:
+    image: python
+    networks:
+    - F2
+  python77:
+    image: python
+    networks:
+    - F2
+  python78:
+    image: python
+    networks:
+    - F2
+  python79:
+    image: python
+    networks:
+    - F2
+  python8:
+    image: python
+    networks:
+    - C3
+  python80:
+    image: python
+    networks:
+    - F2
+  python81:
+    image: python
+    networks:
+    - F2
+  python82:
+    image: python
+    networks:
+    - F2
+  python83:
+    image: python
+    networks:
+    - F2
+  python84:
+    image: python
+    networks:
+    - F2
+  python85:
+    image: python
+    networks:
+    - E3
+  python86:
+    image: python
+    networks:
+    - E3
+  python87:
+    image: python
+    networks:
+    - E3
+  python88:
+    image: python
+    networks:
+    - E3
+  python89:
+    image: python
+    networks:
+    - E3
+  python9:
+    image: python
+    networks:
+    - C3
+  python90:
+    image: python
+    networks:
+    - E3
+  python91:
+    image: python
+    networks:
+    - E3
+  python92:
+    image: python
+    networks:
+    - F3
+  python93:
+    image: python
+    networks:
+    - F3
+  python94:
+    image: python
+    networks:
+    - F3
+  python95:
+    image: python
+    networks:
+    - F3
+  python96:
+    image: python
+    networks:
+    - F3
+  python97:
+    image: python
+    networks:
+    - F3
+  python98:
+    image: python
+    networks:
+    - F3
+  python99:
+    image: python
+    networks:
+    - F3
+  tomcat1:
+    image: tomcat
+    networks:
+    - C3
+  tomcat10:
+    image: tomcat
+    networks:
+    - C3
+  tomcat100:
+    image: tomcat
+    networks:
+    - B1
+  tomcat101:
+    image: tomcat
+    networks:
+    - B1
+  tomcat102:
+    image: tomcat
+    networks:
+    - B1
+  tomcat103:
+    image: tomcat
+    networks:
+    - B1
+  tomcat104:
+    image: tomcat
+    networks:
+    - B1
+  tomcat105:
+    image: tomcat
+    networks:
+    - B1
+  tomcat106:
+    image: tomcat
+    networks:
+    - B1
+  tomcat107:
+    image: tomcat
+    networks:
+    - B1
+  tomcat108:
+    image: tomcat
+    networks:
+    - B1
+  tomcat109:
+    image: tomcat
+    networks:
+    - B1
+  tomcat11:
+    image: tomcat
+    networks:
+    - C3
+  tomcat110:
+    image: tomcat
+    networks:
+    - B1
+  tomcat111:
+    image: tomcat
+    networks:
+    - B1
+  tomcat112:
+    image: tomcat
+    networks:
+    - B1
+  tomcat113:
+    image: tomcat
+    networks:
+    - B1
+  tomcat114:
+    image: tomcat
+    networks:
+    - A
+  tomcat115:
+    image: tomcat
+    networks:
+    - A
+  tomcat116:
+    image: tomcat
+    networks:
+    - A
+  tomcat117:
+    image: tomcat
+    networks:
+    - A
+  tomcat118:
+    image: tomcat
+    networks:
+    - A
+  tomcat119:
+    image: tomcat
+    networks:
+    - A
+  tomcat12:
+    image: tomcat
+    networks:
+    - C3
+  tomcat120:
+    image: tomcat
+    networks:
+    - A
+  tomcat121:
+    image: tomcat
+    networks:
+    - A
+  tomcat122:
+    image: tomcat
+    networks:
+    - A
+  tomcat123:
+    image: tomcat
+    networks:
+    - A
+  tomcat124:
+    image: tomcat
+    networks:
+    - A
+  tomcat125:
+    image: tomcat
+    networks:
+    - A
+  tomcat126:
+    image: tomcat
+    networks:
+    - A
+  tomcat127:
+    image: tomcat
+    networks:
+    - A
+  tomcat128:
+    image: tomcat
+    networks:
+    - A
+  tomcat129:
+    image: tomcat
+    networks:
+    - D1
+  tomcat13:
+    image: tomcat
+    networks:
+    - F1
+  tomcat130:
+    image: tomcat
+    networks:
+    - D1
+  tomcat131:
+    image: tomcat
+    networks:
+    - D1
+  tomcat132:
+    image: tomcat
+    networks:
+    - D1
+  tomcat133:
+    image: tomcat
+    networks:
+    - D1
+  tomcat134:
+    image: tomcat
+    networks:
+    - D1
+  tomcat135:
+    image: tomcat
+    networks:
+    - D1
+  tomcat136:
+    image: tomcat
+    networks:
+    - D1
+  tomcat137:
+    image: tomcat
+    networks:
+    - D1
+  tomcat138:
+    image: tomcat
+    networks:
+    - E1
+  tomcat139:
+    image: tomcat
+    networks:
+    - E1
+  tomcat14:
+    image: tomcat
+    networks:
+    - F1
+  tomcat140:
+    image: tomcat
+    networks:
+    - E1
+  tomcat141:
+    image: tomcat
+    networks:
+    - E1
+  tomcat142:
+    image: tomcat
+    networks:
+    - E1
+  tomcat143:
+    image: tomcat
+    networks:
+    - E1
+  tomcat144:
+    image: tomcat
+    networks:
+    - E1
+  tomcat145:
+    image: tomcat
+    networks:
+    - E1
+  tomcat146:
+    image: tomcat
+    networks:
+    - E1
+  tomcat147:
+    image: tomcat
+    networks:
+    - E1
+  tomcat148:
+    image: tomcat
+    networks:
+    - D2
+  tomcat149:
+    image: tomcat
+    networks:
+    - D2
+  tomcat15:
+    image: tomcat
+    networks:
+    - F1
+  tomcat150:
+    image: tomcat
+    networks:
+    - D2
+  tomcat151:
+    image: tomcat
+    networks:
+    - D2
+  tomcat152:
+    image: tomcat
+    networks:
+    - D2
+  tomcat153:
+    image: tomcat
+    networks:
+    - D2
+  tomcat154:
+    image: tomcat
+    networks:
+    - D2
+  tomcat155:
+    image: tomcat
+    networks:
+    - D2
+  tomcat16:
+    image: tomcat
+    networks:
+    - F1
+  tomcat17:
+    image: tomcat
+    networks:
+    - F1
+  tomcat18:
+    image: tomcat
+    networks:
+    - F1
+  tomcat19:
+    image: tomcat
+    networks:
+    - F1
+  tomcat2:
+    image: tomcat
+    networks:
+    - C3
+  tomcat20:
+    image: tomcat
+    networks:
+    - F1
+  tomcat21:
+    image: tomcat
+    networks:
+    - F1
+  tomcat22:
+    image: tomcat
+    networks:
+    - F1
+  tomcat23:
+    image: tomcat
+    networks:
+    - F1
+  tomcat24:
+    image: tomcat
+    networks:
+    - F1
+  tomcat25:
+    image: tomcat
+    networks:
+    - F1
+  tomcat26:
+    image: tomcat
+    networks:
+    - F1
+  tomcat27:
+    image: tomcat
+    networks:
+    - C4
+  tomcat28:
+    image: tomcat
+    networks:
+    - C4
+  tomcat29:
+    image: tomcat
+    networks:
+    - C4
+  tomcat3:
+    image: tomcat
+    networks:
+    - C3
+  tomcat30:
+    image: tomcat
+    networks:
+    - C4
+  tomcat31:
+    image: tomcat
+    networks:
+    - C4
+  tomcat32:
+    image: tomcat
+    networks:
+    - C4
+  tomcat33:
+    image: tomcat
+    networks:
+    - C4
+  tomcat34:
+    image: tomcat
+    networks:
+    - C4
+  tomcat35:
+    image: tomcat
+    networks:
+    - C4
+  tomcat36:
+    image: tomcat
+    networks:
+    - C4
+  tomcat37:
+    image: tomcat
+    networks:
+    - E2
+  tomcat38:
+    image: tomcat
+    networks:
+    - E2
+  tomcat39:
+    image: tomcat
+    networks:
+    - E2
+  tomcat4:
+    image: tomcat
+    networks:
+    - C3
+  tomcat40:
+    image: tomcat
+    networks:
+    - E2
+  tomcat41:
+    image: tomcat
+    networks:
+    - E2
+  tomcat42:
+    image: tomcat
+    networks:
+    - E2
+  tomcat43:
+    image: tomcat
+    networks:
+    - E2
+  tomcat44:
+    image: tomcat
+    networks:
+    - E2
+  tomcat45:
+    image: tomcat
+    networks:
+    - E2
+  tomcat46:
+    image: tomcat
+    networks:
+    - E2
+  tomcat47:
+    image: tomcat
+    networks:
+    - C1
+  tomcat48:
+    image: tomcat
+    networks:
+    - C1
+  tomcat49:
+    image: tomcat
+    networks:
+    - C1
+  tomcat5:
+    image: tomcat
+    networks:
+    - C3
+  tomcat50:
+    image: tomcat
+    networks:
+    - C1
+  tomcat51:
+    image: tomcat
+    networks:
+    - C1
+  tomcat52:
+    image: tomcat
+    networks:
+    - C1
+  tomcat53:
+    image: tomcat
+    networks:
+    - C1
+  tomcat54:
+    image: tomcat
+    networks:
+    - C1
+  tomcat55:
+    image: tomcat
+    networks:
+    - C1
+  tomcat56:
+    image: tomcat
+    networks:
+    - C1
+  tomcat57:
+    image: tomcat
+    networks:
+    - C2
+  tomcat58:
+    image: tomcat
+    networks:
+    - C2
+  tomcat59:
+    image: tomcat
+    networks:
+    - C2
+  tomcat6:
+    image: tomcat
+    networks:
+    - C3
+  tomcat60:
+    image: tomcat
+    networks:
+    - C2
+  tomcat61:
+    image: tomcat
+    networks:
+    - C2
+  tomcat62:
+    image: tomcat
+    networks:
+    - C2
+  tomcat63:
+    image: tomcat
+    networks:
+    - C2
+  tomcat64:
+    image: tomcat
+    networks:
+    - C2
+  tomcat65:
+    image: tomcat
+    networks:
+    - C2
+  tomcat66:
+    image: tomcat
+    networks:
+    - C2
+  tomcat67:
+    image: tomcat
+    networks:
+    - B2
+  tomcat68:
+    image: tomcat
+    networks:
+    - B2
+  tomcat69:
+    image: tomcat
+    networks:
+    - B2
+  tomcat7:
+    image: tomcat
+    networks:
+    - C3
+  tomcat70:
+    image: tomcat
+    networks:
+    - B2
+  tomcat71:
+    image: tomcat
+    networks:
+    - B2
+  tomcat72:
+    image: tomcat
+    networks:
+    - B2
+  tomcat73:
+    image: tomcat
+    networks:
+    - B2
+  tomcat74:
+    image: tomcat
+    networks:
+    - B2
+  tomcat75:
+    image: tomcat
+    networks:
+    - F2
+  tomcat76:
+    image: tomcat
+    networks:
+    - F2
+  tomcat77:
+    image: tomcat
+    networks:
+    - F2
+  tomcat78:
+    image: tomcat
+    networks:
+    - F2
+  tomcat79:
+    image: tomcat
+    networks:
+    - F2
+  tomcat8:
+    image: tomcat
+    networks:
+    - C3
+  tomcat80:
+    image: tomcat
+    networks:
+    - F2
+  tomcat81:
+    image: tomcat
+    networks:
+    - F2
+  tomcat82:
+    image: tomcat
+    networks:
+    - F2
+  tomcat83:
+    image: tomcat
+    networks:
+    - F2
+  tomcat84:
+    image: tomcat
+    networks:
+    - F2
+  tomcat85:
+    image: tomcat
+    networks:
+    - F2
+  tomcat86:
+    image: tomcat
+    networks:
+    - E3
+  tomcat87:
+    image: tomcat
+    networks:
+    - E3
+  tomcat88:
+    image: tomcat
+    networks:
+    - E3
+  tomcat89:
+    image: tomcat
+    networks:
+    - E3
+  tomcat9:
+    image: tomcat
+    networks:
+    - C3
+  tomcat90:
+    image: tomcat
+    networks:
+    - E3
+  tomcat91:
+    image: tomcat
+    networks:
+    - E3
+  tomcat92:
+    image: tomcat
+    networks:
+    - E3
+  tomcat93:
+    image: tomcat
+    networks:
+    - E3
+  tomcat94:
+    image: tomcat
+    networks:
+    - E3
+  tomcat95:
+    image: tomcat
+    networks:
+    - E3
+  tomcat96:
+    image: tomcat
+    networks:
+    - F3
+  tomcat97:
+    image: tomcat
+    networks:
+    - F3
+  tomcat98:
+    image: tomcat
+    networks:
+    - F3
+  tomcat99:
+    image: tomcat
+    networks:
+    - F3
+version: '3.8'
