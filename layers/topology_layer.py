@@ -186,15 +186,19 @@ class TopologyLayer:
                 network['gateways'].remove(name)
         
         self.topology_graph.remove_node(name)
-        if self.gateway_graph.has_node(name):
-            self.gateway_graph.remove_node(name)
-            self.gateway_nodes.remove(name)
-            for (u, v) in self.gateway_graph_labels.copy():
-                if u == name or v == name:
-                    del self.gateway_graph_labels[(u, v)]
         
         if name in self.gateway_nodes:
             self.gateway_nodes.remove(name)
+            for (u, v) in self.gateway_graph_labels.copy():
+                if self.gateway_graph_labels[(u, v)] == name:
+                    if self.gateway_graph.has_edge(u, v):
+                        self.gateway_graph.remove_edge(u, v)
+                    del self.gateway_graph_labels[(u, v)]
+        
+        for node in list(self.gateway_graph.nodes):
+            if self.gateway_graph.degree(node) == 0:
+                self.gateway_graph.remove_node(node)
+        
         del self.services[name]
 
     def __parse_folder(self):
