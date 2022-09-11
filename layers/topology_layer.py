@@ -156,10 +156,9 @@ class TopologyLayer:
             ValueError if name of service is not in
         """
         
-        if name not in self.services:
-            raise ValueError('Name\'' + name + '\' not defined in topology.')
+        if name in self.services:
+            del self[name]
         
-        del self[name]
         self.services[name] = new_service
         self.__add_service_networks(name)
         self.__add_service_to_graph(name)
