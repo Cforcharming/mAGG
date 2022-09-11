@@ -71,7 +71,7 @@ class MergedGraphLayer:
                     and weight_to_compare >= self._merged_labels[new_label]['weight']:
                 continue
             
-            self._merged_labels[new_label] = {'weight': weight_to_compare, 'possibility': 1 / weight_to_compare,
+            self._merged_labels[new_label] = {'weight': weight_to_compare, 'possibility': 1 - weight_to_compare,
                                               'CVE': vulnerabilities}
         
         for label in self._merged_labels:
@@ -118,5 +118,5 @@ class MergedGraphLayer:
     
     @staticmethod
     def __get_weight_from_score(score: float) -> float:
-        weight = math.pow(10, -score)
+        weight = math.pow(1.2, -score)
         return weight
