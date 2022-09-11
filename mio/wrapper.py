@@ -54,8 +54,8 @@ def add_node(topology_layer: TopologyLayer, vulnerability_layer: VulnerabilityLa
     
     new_service = {'image': image, 'networks': new_networks}
     
-    vulnerability_layer.add_image(image)
     topology_layer.add_service(new_service, name)
+    vulnerability_layer.add_service(image, name)
     attack_graph_layer.update_by_networks(new_networks)
     composed_graph_layer.get_graph_compose()
     merged_graph_layer.merge()
