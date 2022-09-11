@@ -292,7 +292,9 @@ class TopologyLayer:
         Parameters:
             name: the service to add provided by name
         """
-    
+        
+        self.topology_graph.add_node(name)
+        
         service = self.services[name]
         service_network = service['networks']
         for sn in service_network:
