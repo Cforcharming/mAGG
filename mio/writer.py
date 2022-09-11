@@ -168,6 +168,9 @@ def write_merged_graph(merged_graph_layer: MergedGraphLayer, result_folder: str,
         nx.draw_networkx_nodes(merged_graph, pos)
         nx.draw_networkx_edges(merged_graph, pos)
         nx.draw_networkx_labels(merged_graph, pos)
+        nx.draw_networkx_edge_labels(merged_graph, pos)
+        edge_labels = nx.get_edge_attributes(merged_graph, 'possibility')
+        nx.draw_networkx_edge_labels(merged_graph, pos, edge_labels)
         plt.show()
         plt.savefig(merged_graph_folder, transparent=True)
     
