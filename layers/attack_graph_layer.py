@@ -123,7 +123,7 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
     gateways: set[str] = networks[network]['gateways']
     neighbours: set[str] = networks[network]['nodes']
     
-    exploited_vulnerabilities: set[str] = set()
+    exploited_vulnerabilities: dict[(str, str), set[str]] = {}
     
     for gateway in gateways:
         
@@ -143,6 +143,7 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
                                exploitable_vulnerabilities, sub_labels, depth_stack,
                                single_exploit, single_label, neighbours)
     
+    sub_graph.add_edges_from([*sub_labels.keys()])
     print('Generated sub attack graph for network', network, flush=True)
     return sub_graph, sub_labels
 
@@ -163,6 +164,7 @@ def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulne
         depth_first_search(exploited_nodes, exploited_vulnerabilities, services, networks, exploitable_vulnerabilities,
                            composed_labels, depth_stack, single_exploit, single_label)
     
+    composed_graph.add_edges_from([*composed_labels.keys()])
     print('Generated full attack graph from outside.', flush=True)
     return composed_graph, composed_labels
     
@@ -234,9 +236,14 @@ def add_edge(sub_labels: dict[((str, str), (str, str)), str], start_node: (str, 
     Adding an edge to the attack graph.
     """
     
-    weight = get_weight_from_score(score)
+    """
+    If add_edge() is called from here, it will encounter performance issue.
+    Maybe it has some reasons with Python's deep copy mechanism.
+    So, the calling is outside of depth_first_search() with sub_graph.add_edges_from([*sub_labels.keys()])
     
     sub_graph.add_edge(start_node, end_node, weight=weight)
+    """
+    
     if (start_node, end_node) in sub_labels:
         sub_labels[(start_node, end_node)] += '\n' + vulnerability
     else:
