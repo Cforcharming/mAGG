@@ -25,7 +25,7 @@ from layers.topology_layer import TopologyLayer
 
 from mio import wrapper
 
-__version__ = "1.0-dev4"
+__version__ = "1.0-dev5"
 
 
 def main(argv):
@@ -68,10 +68,7 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     merged_graph_layer = MergedGraphLayer(topology_layer, vulnerability_layer, attack_graph_layer, composed_graph_layer)
     
     # Printing time summary of the attack graph generation.
-    wrapper.print_summary(topology_layer.topology_graph.number_of_nodes(),
-                          topology_layer.topology_graph.number_of_edges(),
-                          composed_graph_layer.composed_graph.number_of_nodes(),
-                          composed_graph_layer.composed_graph.number_of_edges())
+    wrapper.print_summary(topology_layer, composed_graph_layer, merged_graph_layer)
     
     if config['generate-graphs']:
         wrapper.visualise(topology_layer, attack_graph_layer, composed_graph_layer,

@@ -7,7 +7,7 @@ examples-results-path: example-results
 # The locations from where the example-folders are read and where their results are being stored.
 examples-path: examples
 
-# nums of processes
+# nums of processes, 0 will cause no concurrency. Set this according to your CPU.
 nums-of-processes: 12
 
 # This property states if topology and attack graphs are going to be produced.

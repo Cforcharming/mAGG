@@ -90,10 +90,13 @@ def visualise(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLaye
     print('Time for visualising:', time.time() - time_start, 'seconds.')
 
 
-def print_summary(topology_nodes, topology_edges, attack_graph_nodes, attack_graph_edges):
+def print_summary(topology_layer: TopologyLayer, composed_graph_layer: ComposedGraphLayer,
+                  merged_graph_layer: MergedGraphLayer):
     """Function responsible for printing the time and properties summary."""
     
-    print('The number of nodes in the topology graph is', topology_nodes)
-    print('The number of edges in the topology graph is', topology_edges)
-    print('The number of nodes in the attack graph is', attack_graph_nodes)
-    print('The number of edges in the attack graph is', attack_graph_edges, end='\n\n\n')
+    print('The number of nodes in the topology graph is', topology_layer.topology_graph.number_of_nodes())
+    print('The number of edges in the topology graph is', topology_layer.topology_graph.number_of_edges())
+    print('The number of nodes in the composed graph is', composed_graph_layer.composed_graph.number_of_nodes())
+    print('The number of edges in the composed graph is', composed_graph_layer.composed_graph.number_of_edges())
+    print('The number of nodes in the merged graph is', merged_graph_layer.merged_graph.number_of_nodes())
+    print('The number of edges in the merged graph is', merged_graph_layer.merged_graph.number_of_edges(), end='\n\n\n')

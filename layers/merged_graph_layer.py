@@ -21,6 +21,8 @@ from layers.vulnerability_layer import VulnerabilityLayer
 from layers.attack_graph_layer import AttackGraphLayer
 from layers.topology_layer import TopologyLayer
 import networkx as nx
+import math
+import time
 
 
 class MergedGraphLayer:
@@ -28,13 +30,19 @@ class MergedGraphLayer:
     def __init__(self, topology_layer: TopologyLayer, vulnerability_layer: VulnerabilityLayer,
                  attack_graph_layer: AttackGraphLayer, composed_graph_layer: ComposedGraphLayer):
         
+        print('Graph merging started.')
+        tm = time.time()
         self._merged_graph = nx.DiGraph()
+        self._merged_labels = dict()
+        self._weighted_edges = list()
         self._topology_layer = topology_layer
         self._vulnerability_layer = vulnerability_layer
         self._attack_graph_layer = attack_graph_layer
         self._composed_graph_layer = composed_graph_layer
         self.merge()
-    
+        tm = time.time() - tm
+        print('\nTime for graph merging:', tm, 'seconds.')
+        
     @property
     def merged_graph(self) -> nx.DiGraph:
         return self._merged_graph
@@ -42,10 +50,34 @@ class MergedGraphLayer:
     @merged_graph.setter
     def merged_graph(self, merged_graph: nx.DiGraph):
         self._merged_graph = merged_graph
-        
+    
     def merge(self):
-        # TODO
-        pass
+        for label in self._composed_graph_layer.composed_labels:
+            
+            ((start_node, privilege1), (end_node, privilege2)) = label
+            
+            if start_node == end_node:
+                continue
+            
+            vulnerabilities = self._composed_graph_layer.composed_labels[label]
+            score = 0
+            for vulnerability in vulnerabilities.split('\n'):
+                if vulnerability != '':
+                    score = max(score, self._vulnerability_layer.scores[vulnerability])
+            weight_to_compare = MergedGraphLayer.__get_weight_from_score(score)
+            new_label = (start_node, end_node)
+            
+            if new_label in self._merged_labels \
+                    and weight_to_compare >= self._merged_labels[new_label]['weight']:
+                continue
+            
+            self._merged_labels[new_label] = {'weight': weight_to_compare, 'score': score, 'CVE': vulnerabilities}
+        
+        for label in self._merged_labels:
+            (start_node, end_node) = label
+            self._weighted_edges.append((start_node, end_node, self._merged_labels[label]))
+        
+        self.merged_graph.add_edges_from(self._weighted_edges)
     
     def gen_defence_list(self, to_n: str, from_n='outside') -> dict[str, int]:
         
@@ -82,3 +114,8 @@ class MergedGraphLayer:
         self._attack_graph_layer.update_by_networks(affected_networks)
         self._composed_graph_layer.get_graph_compose()
         self.merge()
+    
+    @staticmethod
+    def __get_weight_from_score(score: float) -> float:
+        weight = math.pow(10, -score)
+        return weight
