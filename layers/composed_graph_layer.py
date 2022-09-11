@@ -27,7 +27,7 @@ class ComposedGraphLayer:
     def __init__(self, attack_graph_layer: AttackGraphLayer):
         
         self._composed_graph = None
-        self._composed_labels = dict()
+        self._composed_labels = None
         self._attack_graph_layer = attack_graph_layer
         self.get_graph_compose()
         self.__remove_redundant()
@@ -53,7 +53,8 @@ class ComposedGraphLayer:
     
         dcg = time.time()
         print('Composing attack graphs from subnets started.')
-    
+        self._composed_labels = dict()
+        
         if 'full' not in self._attack_graph_layer.attack_graph:
         
             try:
@@ -67,7 +68,7 @@ class ComposedGraphLayer:
         else:
             self.composed_graph = self._attack_graph_layer.attack_graph['full']
             self.composed_labels = self._attack_graph_layer.graph_labels['full']
-            
+        
         dcg = time.time() - dcg
         print('Time for composing subnets:', dcg, 'seconds.')
     

@@ -100,6 +100,11 @@ class AttackGraphLayer:
 
         if self._executor is not None:
             wait(futures)
+        
+        for network in [*self.graph_labels.keys()]:
+            if len(self.graph_labels[network]) == 0:
+                del self.graph_labels[network]
+                del self.attack_graph[network]
 
 
 def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
