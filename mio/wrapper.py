@@ -56,53 +56,6 @@ def create_folders(example_basename: str, config: dict[str]) -> (str, str):
     return example_folder, result_folder
 
 
-def add_node(merged_graph_layer: MergedGraphLayer, image: str, new_networks: list[str], name: str):
-    """
-    Add node to all layers
-    Parameters:
-        merged_graph_layer: MergedGraphLayer
-        image: image of the node
-        new_networks: networks of the node
-        name: name of the node
-    """
-    new_service = {'image': image, 'networks': new_networks}
-
-    composed_graph_layer = merged_graph_layer.composed_graph_layer
-    attack_graph_layer = composed_graph_layer.attack_graph_layer
-    vulnerability_layer = attack_graph_layer.vulnerability_layer
-    topology_layer = vulnerability_layer.topology_layer
-    
-    topology_layer.add_service(new_service, name)
-    vulnerability_layer.add_service(image, name)
-    attack_graph_layer.update_by_networks(new_networks)
-    composed_graph_layer.get_graph_compose()
-    merged_graph_layer.merge()
-    
-    print(f'Node added: {new_service}.')
-
-
-def remove_node(merged_graph_layer: MergedGraphLayer, name: str):
-    """
-    Remove a node from all layers
-    Parameters:
-        merged_graph_layer: MergedGraphLayer
-        name: name of service to remove
-    """
-    
-    composed_graph_layer = merged_graph_layer.composed_graph_layer
-    attack_graph_layer = composed_graph_layer.attack_graph_layer
-    vulnerability_layer = attack_graph_layer.vulnerability_layer
-    topology_layer = vulnerability_layer.topology_layer
-    
-    affected_networks = topology_layer.services[name]['networks']
-    del topology_layer[name]
-    attack_graph_layer.update_by_networks(affected_networks)
-    composed_graph_layer.get_graph_compose()
-    merged_graph_layer.merge()
-    
-    print(f'Node removed: {name}.')
-
-
 def visualise(merged_graph_layer: MergedGraphLayer, result_folder: str, times: int):
     """
     Visualise layers and save to file.
