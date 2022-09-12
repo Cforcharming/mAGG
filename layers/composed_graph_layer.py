@@ -31,7 +31,7 @@ class ComposedGraphLayer:
         composed_labels: labels for composed_graph, containing detailed CVE entries
 
         attack_graph_layer: AttackGraphLayer binding
-        """
+    """
     def __init__(self, attack_graph_layer: AttackGraphLayer):
         
         self._composed_graph = None
