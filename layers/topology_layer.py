@@ -54,10 +54,10 @@ class TopologyLayer:
         self._gateway_graph = nx.Graph()
         self._gateway_graph_labels = dict()
         self._example_folder = example_folder
-
+        
         dt = self.__parse_topology()
         dg = self.__create_graphs()
-        print('\nTime for initialising topology layer:', dt + dg, 'seconds.')
+        print(f'Time for initialising topology layer: {dt + dg} seconds.')
     
     @property
     def networks(self) -> dict[str, dict[str, set]]:
@@ -107,6 +107,10 @@ class TopologyLayer:
         """
         return self._gateway_graph_labels
     
+    @property
+    def example_folder(self) -> str:
+        return self._example_folder
+    
     @networks.setter
     def networks(self,  networks: dict[str, dict[str, set]]):
         self._networks = networks
@@ -130,6 +134,10 @@ class TopologyLayer:
     @gateway_graph_labels.setter
     def gateway_graph_labels(self, gateway_graph_labels: dict[(str, str), str]):
         self._gateway_graph_labels = gateway_graph_labels
+        
+    @example_folder.setter
+    def example_folder(self, example_folder: str):
+        self._example_folder = example_folder
     
     def add_service(self, new_service: dict[str], name: str):
         """
@@ -142,7 +150,7 @@ class TopologyLayer:
             ValueError if name of service is already in
         """
         if name in self.services:
-            raise ValueError('Name\'' + name + '\' already defined in topology.')
+            raise ValueError(f'Name \'{name}\' already defined in topology.')
         self.update_service(new_service, name)
     
     def update_service(self, new_service: dict[str], name: str):
@@ -229,7 +237,7 @@ class TopologyLayer:
             self.__add_service_networks(name)
         
         dt = time.time() - time_start
-        print('Time for parsing topology:', dt, 'seconds.')
+        print(f'Time for parsing topology: {dt} seconds.')
         return dt
     
     def __create_graphs(self) -> float:
@@ -246,7 +254,7 @@ class TopologyLayer:
             self.__add_service_to_graph(name)
         
         dg = time.time() - start
-        print('Time for creating topology graphs:', dg, 'seconds.')
+        print(f'Time for creating topology graphs: {dg} seconds.')
         return dg
 
     def __add_service_networks(self, name: str):
@@ -277,11 +285,11 @@ class TopologyLayer:
                     else:
                         self.networks[sn] = {'nodes': {name}, 'gateways': set()}
             
-                if "ports" in service.keys():
+                if 'ports' in service.keys():
                     self.networks[sn]['gateways'].add(name)
                     self.gateway_nodes.add(name)
     
-        if "ports" in service.keys():
+        if 'ports' in service.keys():
             service['networks'].append('exposed')
             self.networks['exposed']['nodes'].add(name)
             self.networks['exposed']['gateways'].add(name)
@@ -310,7 +318,7 @@ class TopologyLayer:
                         self.gateway_graph.add_edge(sn, s2)
                         self.gateway_graph_labels[(sn, s2)] = name
         
-            if "ports" in service.keys():
+            if 'ports' in service.keys():
                 self.topology_graph.add_edge('outside', name)
                 if sn != 'exposed':
                     self.gateway_graph.add_edge('exposed', sn)
@@ -323,7 +331,7 @@ class TopologyLayer:
              a dictionary of docker-compose.yml
         """
     
-        with open(os.path.join(self._example_folder, "docker-compose.yml"), "r") as compose_file:
+        with open(os.path.join(self.example_folder, 'docker-compose.yml'), 'r') as compose_file:
             docker_compose_file = yaml.full_load(compose_file)
     
         return docker_compose_file
