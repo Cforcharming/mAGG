@@ -20,44 +20,62 @@ import time
 import networkx as nx
 from collections import deque
 from concurrent.futures import Executor, Future, wait
-
 from layers.vulnerability_layer import VulnerabilityLayer
-from layers.topology_layer import TopologyLayer
 
 
 class AttackGraphLayer:
     """
     Encapsulation of attack graphs subnetworks.
-
     Properties:
-    
+        attack_graph: a dictionary of nx.DiGraph, where members are attack graphs for a subnet.
+        
+        graph_labels: labels for attack graphs, containing detailed CVE entries.
+        
+        vulnerability_layer: VulnerabilityLayer binding
     """
     
-    def __init__(self, vulnerability_layer: VulnerabilityLayer, topology_layer: TopologyLayer, config: dict,
-                 executor: Executor):
+    def __init__(self, vulnerability_layer: VulnerabilityLayer, executor: Executor):
+        """
         
+        :param vulnerability_layer:
+        :param executor:
+        """
         self._attack_graph = dict()
         self._graph_labels = dict()
-        self._config = config
         self._executor = executor
-        self._topology_layer = topology_layer
         self._vulnerability_layer = vulnerability_layer
         
         print('Attack graphs of subnets generation started.')
         start = time.time()
 
-        self.update_by_networks([*topology_layer.networks.keys()])
+        self.update_by_networks([*self._vulnerability_layer.topology_layer.networks.keys()])
 
         da = time.time() - start
-        print('Time for attack graphs of subnets generation:', da, 'seconds.')
+        print(f'Time for attack graphs of subnets generation: {da} seconds.')
 
     @property
     def attack_graph(self) -> dict[str, nx.DiGraph]:
+        """
+        Returns:
+            a dictionary of nx.DiGraph, where members are attack graphs for a subnet.
+        """
         return self._attack_graph
     
     @property
     def graph_labels(self) -> dict[str, dict[((str, str), (str, str)), str]]:
+        """
+        Returns:
+            labels for attack graphs, containing detailed CVE entries.
+        """
         return self._graph_labels
+    
+    @property
+    def vulnerability_layer(self) -> VulnerabilityLayer:
+        """
+        Returns:
+            VulnerabilityLayer binding
+        """
+        return self._vulnerability_layer
     
     @attack_graph.setter
     def attack_graph(self, attack_graph: dict[str, nx.DiGraph]):
@@ -68,14 +86,19 @@ class AttackGraphLayer:
         self._graph_labels = graph_labels
     
     def update_by_networks(self, affected_networks: list[str]):
+        """
+        Update attack graphs with a list of networks
+        Parameters:
+            affected_networks: list of networks to update attack graph
+        """
         
         futures: list[Future] = list()
         
-        services = self._topology_layer.services
-        networks = self._topology_layer.networks
-        exploitable_vulnerabilities = self._vulnerability_layer.exploitable_vulnerabilities
-        single_exploit = self._config['single-exploit-per-node']
-        single_label = self._config['single-edge-label']
+        services = self.vulnerability_layer.topology_layer.services
+        networks = self.vulnerability_layer.topology_layer.networks
+        exploitable_vulnerabilities = self.vulnerability_layer.exploitable_vulnerabilities
+        single_exploit = self.vulnerability_layer.config['single-exploit-per-node']
+        single_label = self.vulnerability_layer.config['single-edge-label']
         
         if self._executor is not None:
             for network in affected_networks:
@@ -109,7 +132,22 @@ class AttackGraphLayer:
 
 def update(attack_graph: dict[str, nx.DiGraph], graph_labels: dict[str, dict[((str, str), (str, str)), (str, str)]],
            network: str):
-    def cbs(future):
+    """
+    Update attack_graph and graph_labels according to future results
+    Parameters:
+        attack_graph:
+        graph_labels:
+        network:
+    Returns:
+        a function with future as only parameter.
+    """
+    def cbs(future: Future):
+        """
+        Concurrent callback functions for Future objects.
+        Parameter:
+            future: concurrent.futures.Future
+        
+        """
         sub_graph, sub_labels = future.result()
         attack_graph[network] = sub_graph
         graph_labels[network] = sub_labels
@@ -120,7 +158,18 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
                        exploitable_vulnerabilities: dict[str, dict[str, dict]],
                        single_exploit: bool, single_label: bool) \
         -> (nx.DiGraph, dict[((str, str), (str, str)), str]):
-    """Breadth first search approach for generation of sub graphs."""
+    """
+    Generate attack graph for full connected networks.
+    Parameters:
+        services:
+        networks:
+        network:
+        exploitable_vulnerabilities:
+        single_exploit:
+        single_label:
+    Returns:
+        a nx.Digraph object and its labels in dict
+    """
     
     sub_graph = nx.DiGraph()
     sub_labels: dict[((str, str), (str, str)), str] = {}
@@ -152,13 +201,24 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
                                single_exploit, single_label, neighbours)
     
     sub_graph.add_edges_from([*sub_labels.keys()])
-    print('Generated sub attack graph for network', network, flush=True)
+    print(f'Generated sub attack graph for network \'{network}\'', flush=True)
     return sub_graph, sub_labels
 
 
 def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulnerabilities: dict[str, dict[str, dict]],
                                networks: dict[str, dict[str, set]], single_exploit: bool, single_label: bool) \
         -> (nx.DiGraph, dict[((str, str), (str, str)), str]):
+    """
+    Generate a full attack graph from exposed nodes.
+    Parameters:
+        services:
+        exploitable_vulnerabilities:
+        networks:
+        single_exploit:
+        single_label:
+    Returns:
+        a nx.Digraph object and its labels in dict
+    """
     
     composed_graph = nx.DiGraph()
     composed_labels: dict[((str, str), (str, str)), str] = {}
@@ -178,6 +238,15 @@ def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulne
     
 
 def get_neighbours(services: dict[str, dict[str]], networks: dict[str, dict[str, set]], node: str) -> set[str]:
+    """
+    Get neighbours of a node
+    Parameters:
+        services:
+        networks:
+        node:
+        Returns:
+          A set of neighbours
+    """
     
     neighbours: set[str] = set()
     if node != 'outside':
@@ -196,7 +265,21 @@ def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: dic
                        services: dict[str, dict[str]], networks: dict[str, dict[str, set]],
                        exploitable_vulnerabilities: dict[str, dict[str, dict]],
                        sub_labels: dict[((str, str), (str, str)), str], depth_stack: deque,
-                       single_exploit: bool, single_label: bool, neighbours=None):
+                       single_exploit: bool, single_label: bool, neighbours: set[str] = None):
+    """
+    Depth first search algorithm for generating graphs
+    Parameters:
+        exploited_nodes:
+        exploited_vulnerabilities:
+        services:
+        networks:
+        exploitable_vulnerabilities:
+        sub_labels:
+        depth_stack:
+        single_exploit:
+        single_label:
+        neighbours:
+    """
     
     (exploited_node, current_privilege) = depth_stack.pop()
     
@@ -241,16 +324,19 @@ def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: dic
 def add_edge(sub_labels: dict[((str, str), (str, str)), str], start_node: (str, str),
              end_node: (str, str), vulnerability: str):
     """
-    Adding an edge to the attack graph.
+    Adding an edge to the attack graph
+    Parameters:
+        sub_labels:
+        start_node:
+        end_node:
+        vulnerability:
     """
     
-    """
-    If add_edge() is called from here, it will encounter performance issue.
-    Maybe it has some reasons with Python's deep copy mechanism.
-    So, the calling is outside of depth_first_search() with sub_graph.add_edges_from([*sub_labels.keys()])
-    
-    sub_graph.add_edge(start_node, end_node, weight=weight)
-    """
+    # If add_edge() is called from here, it will encounter performance issue.
+    # Maybe it has some reasons with Python's deep copy mechanism.
+    # So, the calling is outside of depth_first_search() with sub_graph.add_edges_from([*sub_labels.keys()])
+    #
+    # sub_graph.add_edge(start_node, end_node, weight=weight)
     
     if (start_node, end_node) in sub_labels:
         sub_labels[(start_node, end_node)] += '\n' + vulnerability
