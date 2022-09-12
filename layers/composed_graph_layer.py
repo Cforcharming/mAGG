@@ -23,7 +23,15 @@ from layers.attack_graph_layer import AttackGraphLayer
 
 
 class ComposedGraphLayer:
-    
+    """
+    Encapsulation of attack graph over a network.
+    Properties:
+        composed_graph: a nx.DiGraph, the attack true graph
+
+        composed_labels: labels for composed_graph, containing detailed CVE entries
+
+        attack_graph_layer: AttackGraphLayer binding
+        """
     def __init__(self, attack_graph_layer: AttackGraphLayer):
         
         self._composed_graph = None
@@ -34,11 +42,27 @@ class ComposedGraphLayer:
         
     @property
     def composed_graph(self) -> nx.DiGraph:
+        """
+        Returns:
+            composed_graph: a nx.DiGraph, the attack true graph
+        """
         return self._composed_graph
     
     @property
     def composed_labels(self) -> dict[((str, str), (str, str)), str]:
+        """
+        Returns:
+            composed_labels: labels for composed_graph, containing detailed CVE entries
+        """
         return self._composed_labels
+    
+    @property
+    def attack_graph_layer(self) -> AttackGraphLayer:
+        """
+        Returns:
+            attack_graph_layer: AttackGraphLayer binding
+        """
+        return self._attack_graph_layer
     
     @composed_graph.setter
     def composed_graph(self, composed_graph: nx.DiGraph):
@@ -48,9 +72,15 @@ class ComposedGraphLayer:
     def composed_labels(self, composed_labels: dict[((str, str), (str, str)), str]):
         self._composed_labels = composed_labels
     
-    def get_graph_compose(self):
-        """This functions prints graph properties."""
+    @attack_graph_layer.setter
+    def attack_graph_layer(self, attack_graph_layer: AttackGraphLayer):
+        self._attack_graph_layer = attack_graph_layer
     
+    def get_graph_compose(self):
+        """
+        Composing sub graphs from attack graph layer, and remove redundant edges with depth first search
+        """
+        
         dcg = time.time()
         print('Composing attack graphs from subnets started.')
         self._composed_labels = dict()
@@ -70,7 +100,7 @@ class ComposedGraphLayer:
             self.composed_labels = self._attack_graph_layer.graph_labels['full']
         
         dcg = time.time() - dcg
-        print('Time for composing subnets:', dcg, 'seconds.')
+        print(f'Time for composing subnets: {dcg} seconds.')
     
     # noinspection PyCallingNonCallable
     def __remove_redundant(self):
