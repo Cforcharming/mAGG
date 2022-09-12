@@ -29,7 +29,7 @@ from layers.topology_layer import TopologyLayer
 
 from mio import wrapper
 
-__version__ = "1.0-dev5"
+__version__ = '1.0-dev6'
 
 
 def main(argv):
