@@ -139,29 +139,13 @@ class TopologyLayer:
     def example_folder(self, example_folder: str):
         self._example_folder = example_folder
     
-    def add_service(self, new_service: dict[str], name: str):
-        """
-        Add a service to topology
-        
-        Parameters:
-            new_service: new service to add
-            name: name of new service
-        Raises:
-            ValueError if name of service is already in
-        """
-        if name in self.services:
-            raise ValueError(f'Name \'{name}\' already defined in topology.')
-        self.update_service(new_service, name)
-    
-    def update_service(self, new_service: dict[str], name: str):
+    def __setitem__(self, name: str, new_service: dict[str]):
         """
         Update a service to topology
         
         Parameters:
             new_service: new service to add
             name: name of new service
-        Raises:
-            ValueError if name of service is not in
         """
         
         self.services[name] = new_service
