@@ -11,7 +11,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""This module is responsible for writing operations."""
+"""
+This module is responsible for writing graphs and creating files.
+"""
 
 import os
 import networkx as nx
@@ -26,7 +28,6 @@ from layers.composed_graph_layer import ComposedGraphLayer
 def write_composed_graph(composed_graph_layer: ComposedGraphLayer, result_folder: str, i: int):
     """
     Write attack graph to result folders in form of PNG file.
-    
     Parameters:
         composed_graph_layer:
         result_folder: result folder to write
@@ -52,7 +53,7 @@ def write_composed_graph(composed_graph_layer: ComposedGraphLayer, result_folder
         plt.show()
         plt.savefig(composed_graph_folder, transparent=True)
     
-    print('Composed graph is at:', composed_graph_path)
+    print(f'Composed graph is at: {composed_graph_path}.')
 
 
 # noinspection DuplicatedCode
@@ -84,7 +85,7 @@ def write_topology_graph(topology_layer: TopologyLayer, result_folder: str, i: i
         plt.show()
         plt.savefig(topology_graph_path, transparent=True)
     
-    print('Topology graph is at:', topology_graph_path)
+    print(f'Topology graph is at: {topology_graph_path}.')
 
 
 # noinspection DuplicatedCode
@@ -116,7 +117,7 @@ def write_gateway_graph(topology_layer: TopologyLayer, result_folder: str, i: in
         plt.show()
         plt.savefig(gateway_graph_path, transparent=True)
         
-    print('Gateway graph is at:', gateway_graph_path)
+    print(f'Gateway graph is at: {gateway_graph_path}.')
 
 
 # noinspection DuplicatedCode
@@ -141,14 +142,13 @@ def write_attack_graphs(attack_graph_layer: AttackGraphLayer, result_folder: str
             nx.draw_networkx_edge_labels(sub_graph, pos, edge_labels=sub_labels)
             plt.show()
             plt.savefig(attack_graph_path, transparent=True)
-            print('Sub graph is at:', attack_graph_path)
+            print(f'Sub graph is at: {attack_graph_path}.')
 
 
 # noinspection DuplicatedCode
 def write_merged_graph(merged_graph_layer: MergedGraphLayer, result_folder: str, i: int):
     """
     Write attack graph to result folders in form of PNG file.
-
     Parameters:
         merged_graph_layer:
         result_folder: result folder to write
@@ -174,7 +174,7 @@ def write_merged_graph(merged_graph_layer: MergedGraphLayer, result_folder: str,
         plt.show()
         plt.savefig(merged_graph_folder, transparent=True)
     
-    print('Merged graph is at:', merged_graph_path)
+    print(f'Merged graph is at: {merged_graph_path}.')
 
 
 def create_result_folder(example_folder: str, examples_result_path: str) -> str:

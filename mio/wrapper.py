@@ -11,48 +11,66 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from layers.composed_graph_layer import ComposedGraphLayer
-from layers.vulnerability_layer import VulnerabilityLayer
-from layers.attack_graph_layer import AttackGraphLayer
+"""
+This module wraps dirty works of IO like initialisation readings and file writings.
+"""
+
 from layers.merged_graph_layer import MergedGraphLayer
-from layers.topology_layer import TopologyLayer
 
 from mio import reader, writer
 import time
 import os
 
 
-def init(argv: list) -> (int, dict, list[str], int):
-    times = 0
-    
+def init(argv: list) -> (dict[str], list[str]):
+    """
+    Initialise experimental environments
+    Parameters:
+        argv: sys.argv, where argv must be a list of 2
+    Returns:
+        config: config.yml file in form of dictionary
+        examples: a list of example folders
+    """
     # Opening the configuration file.
-    stat, config = reader.validate_config_file()
-    if stat != 0:
-        return stat, None, None, None, None
+    config = reader.validate_config_file()
     
     # Checks if the command-line input and config file content is valid.
-    stat, examples = reader.validate_command_line_input(argv, config)
-    if stat != 0:
-        return stat, None, None, None, None
+    examples = reader.validate_command_line_input(argv, config)
     
-    return stat, config, examples, times
+    return config, examples
 
 
-def create_folders(example_basename: str, config: dict) -> (str, str):
+def create_folders(example_basename: str, config: dict[str]) -> (str, str):
     """
     Create folder where the result files will be stored.
+    Parameters:
+        example_basename: where example folder is.
+        config: configurations
+    Returns:
+        example_folder: absolute path
+        result_folder: absolute path
     """
     example_folder = os.path.join(os.getcwd(), config['examples-path'], example_basename)
-    result_folder = writer.create_result_folder(example_basename, config["examples-results-path"])
+    result_folder = writer.create_result_folder(example_basename, config['examples-results-path'])
     
     return example_folder, result_folder
 
 
-def add_node(topology_layer: TopologyLayer, vulnerability_layer: VulnerabilityLayer,
-             attack_graph_layer: AttackGraphLayer, composed_graph_layer: ComposedGraphLayer,
-             merged_graph_layer: MergedGraphLayer, image: str, new_networks: list[str], name: str):
-    
+def add_node(merged_graph_layer: MergedGraphLayer, image: str, new_networks: list[str], name: str):
+    """
+    Add node to all layers
+    Parameters:
+        merged_graph_layer: MergedGraphLayer
+        image: image of the node
+        new_networks: networks of the node
+        name: name of the node
+    """
     new_service = {'image': image, 'networks': new_networks}
+
+    composed_graph_layer = merged_graph_layer.composed_graph_layer
+    attack_graph_layer = composed_graph_layer.attack_graph_layer
+    vulnerability_layer = attack_graph_layer.vulnerability_layer
+    topology_layer = vulnerability_layer.topology_layer
     
     topology_layer.add_service(new_service, name)
     vulnerability_layer.add_service(image, name)
@@ -63,8 +81,18 @@ def add_node(topology_layer: TopologyLayer, vulnerability_layer: VulnerabilityLa
     print(f'Node added: {new_service}.')
 
 
-def remove_node(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer,
-                composed_graph_layer: ComposedGraphLayer, merged_graph_layer: MergedGraphLayer, name: str):
+def remove_node(merged_graph_layer: MergedGraphLayer, name: str):
+    """
+    Remove a node from all layers
+    Parameters:
+        merged_graph_layer: MergedGraphLayer
+        name: name of service to remove
+    """
+    
+    composed_graph_layer = merged_graph_layer.composed_graph_layer
+    attack_graph_layer = composed_graph_layer.attack_graph_layer
+    vulnerability_layer = attack_graph_layer.vulnerability_layer
+    topology_layer = vulnerability_layer.topology_layer
     
     affected_networks = topology_layer.services[name]['networks']
     del topology_layer[name]
@@ -75,11 +103,20 @@ def remove_node(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLa
     print(f'Node removed: {name}.')
 
 
-def visualise(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer,
-              composed_graph_layer: ComposedGraphLayer, merged_graph_layer: MergedGraphLayer,
-              result_folder: str, times: int):
-    
+def visualise(merged_graph_layer: MergedGraphLayer, result_folder: str, times: int):
+    """
+    Visualise layers and save to file.
+    Parameters:
+        merged_graph_layer: MergedGraphLayer
+        result_folder: where results are stored.
+        times: the sub folder in result_folder, where i indicates times of writing
+    """
     time_start = time.time()
+    
+    composed_graph_layer = merged_graph_layer.composed_graph_layer
+    attack_graph_layer = composed_graph_layer.attack_graph_layer
+    vulnerability_layer = attack_graph_layer.vulnerability_layer
+    topology_layer = vulnerability_layer.topology_layer
     
     writer.write_topology_graph(topology_layer, result_folder, times)
     writer.write_gateway_graph(topology_layer, result_folder, times)
@@ -90,9 +127,17 @@ def visualise(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLaye
     print(f'Time for visualising: {time.time() - time_start} seconds.')
 
 
-def print_summary(topology_layer: TopologyLayer, composed_graph_layer: ComposedGraphLayer,
-                  merged_graph_layer: MergedGraphLayer):
-    """Function responsible for printing the time and properties summary."""
+def print_summary(merged_graph_layer: MergedGraphLayer):
+    """
+    print graph properties.
+    Parameters:
+        merged_graph_layer: MergedGraphLayer
+    """
+    
+    composed_graph_layer = merged_graph_layer.composed_graph_layer
+    attack_graph_layer = composed_graph_layer.attack_graph_layer
+    vulnerability_layer = attack_graph_layer.vulnerability_layer
+    topology_layer = vulnerability_layer.topology_layer
     
     print(f'The number of nodes in the topology graph is {topology_layer.topology_graph.number_of_nodes()}')
     print(f'The number of edges in the topology graph is {topology_layer.topology_graph.number_of_edges()}')

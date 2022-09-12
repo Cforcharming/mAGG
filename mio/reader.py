@@ -11,20 +11,25 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""Module responsible for all the input reading and validation."""
+"""
+Module responsible for all the input reading and validation.
+"""
 
-import errno
+import main
 import yaml
 import sys
 import os
 
 
-def validate_command_line_input(argv: list, config: dict) -> (int, list[str]):
+def validate_command_line_input(argv: list, config: dict) -> list[str]:
     """
-    
-    :param argv:
-    :param config:
-    :return:
+    Parameters:
+        argv: sys.argv
+        config: a dict of configs
+    Returns:
+        a list of example folders
+    Raises:
+        ValueError: if any args are invalid
     """
     if len(argv) < 2:
         argv = [argv[0], '-h']
@@ -51,45 +56,42 @@ def validate_command_line_input(argv: list, config: dict) -> (int, list[str]):
             sys.exit(0)
             
         case '-v' | '--version' | 'version':
-            from main import __version__
-            print('mAGG version:', __version__, end='\n\n')
-            print('''Copyright 2022 张瀚文
-
+            print(f'mAGG version: {main.__version__}', end='\n\n')
+            print('''Copyright 2022 Hanwen Zhang
 Licensed under the Apache License, Version 2.0 (the "License");
 Unless required by applicable law or agreed to in writing, software.
-You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
  
 Distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.''')
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.''')
             sys.exit(0)
             
         case _:
             example_folders = []
             example_base = config['examples-path']
+            
             for arg in argv[1:]:
                 example_folder = os.path.join(example_base, arg)
+                
                 # Check if the specified folder exists.
                 if not os.path.exists(example_folder):
-                    print('The entered example folder name does not exist', arg, file=sys.stderr)
-                    return errno.ENOTDIR, None
+                    raise ValueError(f'The entered example folder name does not exist: {arg}.')
                 
                 # Check if there is a docker-compose.yml file in the specified folder.
-                if "docker-compose.yml" not in os.listdir(example_folder):
-                    print('docker-compose.yml is missing in the folder', arg, file=sys.stderr)
-                    return errno.ENOENT, None
+                if 'docker-compose.yml' not in os.listdir(example_folder):
+                    raise ValueError(f'docker-compose.yml is missing in the folder: {arg}.')
                 
                 example_folders.append(arg)
             
-    return 0, example_folders
+    return example_folders
 
 
-def validate_config_file() -> (int, dict):
+def validate_config_file() -> dict[str]:
     """
     This function validates the config file content.
+    Returns:
+        a dict of configs
+    Raises:
+        ValueError: if contents in config is invalid.
     """
     
     config_file = read_config_file()
@@ -100,51 +102,47 @@ def validate_config_file() -> (int, dict):
     
     for main_keyword in main_keywords:
         if main_keyword not in config_file.keys():
-            print('Keyword \'', main_keyword, '\' is missing in the config file.', sep='', file=sys.stderr)
-            return errno.EBADF, None
+            raise ValueError(f'Keyword \'{main_keyword}\' is missing in the config file.')
     
     # Check if the generate_graphs keyword has the right values
     generate_graphs = config_file['generate-graphs']
     if type(generate_graphs) is not bool:
-        print('Value \'', generate_graphs, '\' is invalid for keyword \'generate-graphs\', it must be bool', sep='',
-              file=sys.stderr)
-        return errno.EBADF, None
+        raise ValueError(f'Value \'{generate_graphs}\' is invalid for keyword \'generate-graphs\', it must be bool')
     
     # Check if the show_one_vul_per_edge keyword has the right values
     single_edge_label = config_file['single-edge-label']
     if type(single_edge_label) is not bool:
-        print('Value \'', single_edge_label, '\' is invalid for keyword \'single-edge-label\', it must be bool', sep='',
-              file=sys.stderr)
-        return errno.EBADF, None
+        raise ValueError(f'Value \'{single_edge_label}\' is invalid for keyword \'single-edge-label\', it must be bool')
     
     # Check if the labels_edges keyword has the right values
     single_exploit_per_node = config_file['single-exploit-per-node']
     if type(single_exploit_per_node) is not bool:
-        print('Value \'', single_exploit_per_node, '\' is invalid for keyword \'single-exploit-per-node\', '
-                                                   'it must be bool', sep='', file=sys.stderr)
-        return errno.EBADF, None
+        raise ValueError(f'Value \'{single_exploit_per_node}\' is invalid for keyword \'single-exploit-per-node\', '
+                         f'it must be bool')
 
     concurrency = config_file['nums-of-processes']
     if type(concurrency) is not int or concurrency < 0:
-        print('Value \'', concurrency, '\' is invalid for keyword \'nums-of-processes\', '
-                                       'it must be an integer no less than 0.', sep='', file=sys.stderr)
-        return errno.EBADF, None
+        raise ValueError(f'Value \'{concurrency}\' is invalid for keyword \'nums-of-processes\', '
+                         f'it must be an integer no less than 0.')
     
-    return 0, config_file
+    return config_file
 
 
-def read_config_file() -> dict:
+def read_config_file() -> dict[str]:
     """
     Read config.yml file
-    Return:
+    Returns:
         a dict of configs
+    Raises:
+        ValueError: if no such file
     """
     
-    with open(os.path.join(os.getcwd(), "data/config.yml"), "r") as stream:
-        try:
-            config_file = yaml.full_load(stream)
-        except yaml.YAMLError as exc:
-            print(exc, file=sys.stderr)
-            exit(errno.ENOENT)
+    config_file_path = os.path.join(os.getcwd(), 'data/config.yml')
+    
+    if not os.path.exists(config_file_path):
+        raise ValueError(f'No such file: {config_file_path}')
+    
+    with open(config_file_path, 'r') as stream:
+        config_file = yaml.full_load(stream)
     
     return config_file

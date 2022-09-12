@@ -13,6 +13,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+"""
+Main module that builds a pipeline for multiple experiments. For details, please see main.ipydb
+"""
+
 import sys
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
@@ -29,11 +33,12 @@ __version__ = "1.0-dev5"
 
 
 def main(argv):
-
-    stat, config, examples, times = wrapper.init(argv)
-    
-    if stat != 0:
-        return stat
+    """
+    Main function responsible for running the attack graph generations pipeline for multiple graphs.
+    Parameters:
+        argv: sys.argv
+    """
+    config, examples = wrapper.init(argv)
     
     concurrency = config['nums-of-processes']
     if concurrency > 0:
@@ -45,37 +50,46 @@ def main(argv):
     
     for example in examples:
         example_folder, result_folder = wrapper.create_folders(example, config)
-        if ret := parse_one_folder(example_folder, result_folder, config, attack_vectors, executor) != 0:
-            return ret
+        parse_one_folder(example_folder, result_folder, config, attack_vectors, executor)
     
     return 0
 
 
-def parse_one_folder(example_folder: str, result_folder: str, config: dict, attack_vectors: dict[str, dict[str, ]],
+def parse_one_folder(example_folder: str, result_folder: str, config: dict, attack_vectors: dict[str, dict[str]],
                      executor: ProcessPoolExecutor):
     """
-    Main function responsible for running the attack graph generations pipeline for multiple graphs.
+    Creating layers of one example folder, then test honeypot deployments.
+    Parameters:
+        example_folder:
+        result_folder:
+        config: config.yml file in form of dictionary
+        attack_vectors: result of VulnerabilityLayer.get_attack_vectors()
+        executor: concurrent.futures.Executor, default: None
     """
     
+    # get topology layer
     topology_layer = TopologyLayer(example_folder)
     
-    vulnerability_layer = VulnerabilityLayer(example_folder, topology_layer.services, config, attack_vectors)
+    # get vulnerability layer
+    vulnerability_layer = VulnerabilityLayer(topology_layer, config, attack_vectors)
     
-    attack_graph_layer = AttackGraphLayer(vulnerability_layer, topology_layer, config, executor)
+    # get attack graph layer
+    attack_graph_layer = AttackGraphLayer(vulnerability_layer, executor)
     
+    # get composed graph layer
     composed_graph_layer = ComposedGraphLayer(attack_graph_layer)
-
-    merged_graph_layer = MergedGraphLayer(topology_layer, vulnerability_layer, attack_graph_layer, composed_graph_layer)
+    
+    # get merged graph layer
+    merged_graph_layer = MergedGraphLayer(composed_graph_layer)
     
     # Printing time summary of the attack graph generation.
-    wrapper.print_summary(topology_layer, composed_graph_layer, merged_graph_layer)
+    wrapper.print_summary(merged_graph_layer)
     
     if config['generate-graphs']:
-        wrapper.visualise(topology_layer, attack_graph_layer, composed_graph_layer,
-                          merged_graph_layer, result_folder, 0)
-    
-    return 0
+        # draw graphs
+        wrapper.visualise(merged_graph_layer, result_folder, 0)
 
 
 if __name__ == '__main__':
+    # All magics start from here...
     sys.exit(main(sys.argv))
