@@ -60,11 +60,11 @@ def add_node(topology_layer: TopologyLayer, vulnerability_layer: VulnerabilityLa
     composed_graph_layer.get_graph_compose()
     merged_graph_layer.merge()
     
-    print("Node added:", new_service)
+    print(f'Node added: {new_service}.')
 
 
-def del_node(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer,
-             composed_graph_layer: ComposedGraphLayer, merged_graph_layer: MergedGraphLayer, name: str):
+def remove_node(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer,
+                composed_graph_layer: ComposedGraphLayer, merged_graph_layer: MergedGraphLayer, name: str):
     
     affected_networks = topology_layer.services[name]['networks']
     del topology_layer[name]
@@ -72,7 +72,7 @@ def del_node(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer
     composed_graph_layer.get_graph_compose()
     merged_graph_layer.merge()
     
-    print("Node deleted: ", name)
+    print(f'Node removed: {name}.')
 
 
 def visualise(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLayer,
@@ -87,16 +87,16 @@ def visualise(topology_layer: TopologyLayer, attack_graph_layer: AttackGraphLaye
     writer.write_composed_graph(composed_graph_layer, result_folder, times)
     writer.write_merged_graph(merged_graph_layer, result_folder, times)
     
-    print('Time for visualising:', time.time() - time_start, 'seconds.')
+    print(f'Time for visualising: {time.time() - time_start} seconds.')
 
 
 def print_summary(topology_layer: TopologyLayer, composed_graph_layer: ComposedGraphLayer,
                   merged_graph_layer: MergedGraphLayer):
     """Function responsible for printing the time and properties summary."""
     
-    print('The number of nodes in the topology graph is', topology_layer.topology_graph.number_of_nodes())
-    print('The number of edges in the topology graph is', topology_layer.topology_graph.number_of_edges())
-    print('The number of nodes in the composed graph is', composed_graph_layer.composed_graph.number_of_nodes())
-    print('The number of edges in the composed graph is', composed_graph_layer.composed_graph.number_of_edges())
-    print('The number of nodes in the merged graph is', merged_graph_layer.merged_graph.number_of_nodes())
-    print('The number of edges in the merged graph is', merged_graph_layer.merged_graph.number_of_edges(), end='\n\n\n')
+    print(f'The number of nodes in the topology graph is {topology_layer.topology_graph.number_of_nodes()}')
+    print(f'The number of edges in the topology graph is {topology_layer.topology_graph.number_of_edges()}')
+    print(f'The number of nodes in the composed graph is {composed_graph_layer.composed_graph.number_of_nodes()}')
+    print(f'The number of edges in the composed graph is {composed_graph_layer.composed_graph.number_of_edges()}')
+    print(f'The number of nodes in the merged graph is {merged_graph_layer.merged_graph.number_of_nodes()}')
+    print(f'The number of edges in the merged graph is {merged_graph_layer.merged_graph.number_of_edges()}\n\n')
