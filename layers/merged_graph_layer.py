@@ -172,7 +172,7 @@ class MergedGraphLayer:
             raise ValueError(f'Start node {from_n} is not in the merged graph.')
         
         if to_n not in self.merged_graph:
-            raise ValueError(f'Start node {to_n} is not in the merged graph.')
+            raise ValueError(f'End node {to_n} is not in the merged graph.')
         
         tg = time.time()
         path_counts: dict[str, int] = dict()
