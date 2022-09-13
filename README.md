@@ -63,7 +63,7 @@ real                      run all examples in sub directory 'designed'
 -h | --help | help:       print this message
 ```
 
-The above command starts the [main.py](main.py) script and generates an attack graph for the system in the directory . 
+The above command starts the [main.py](main.py) script and generates an attack graph for the system in the directory. 
 It performs the attack graph analysis. Note that a `docker-compose.yml` is needed in the directory.
 
 Examples are
