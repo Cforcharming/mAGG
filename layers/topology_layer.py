@@ -189,7 +189,31 @@ class TopologyLayer:
                 self.gateway_graph.remove_node(node)
         
         del self.services[name]
-
+    
+    @staticmethod
+    def get_neighbours(services: dict[str, dict[str]], networks: dict[str, dict[str, set]], node: str) -> set[str]:
+        """
+        Get neighbours of a node
+        Parameters:
+            services:
+            networks:
+            node:
+            Returns:
+              A set of neighbours
+        """
+    
+        neighbours: set[str] = set()
+        if node != 'outside':
+            nws = services[node]['networks']
+        else:
+            nws = ['exposed']
+    
+        for nw in nws:
+            for neighbour in networks[nw]['nodes']:
+                neighbours.add(neighbour)
+    
+        return neighbours
+    
     def __parse_folder(self):
         """
         It returns a dictionary of all services defined in docker-compose.yml

@@ -20,6 +20,8 @@ import time
 import networkx as nx
 from collections import deque
 from concurrent.futures import Executor, Future, wait
+
+from layers.topology_layer import TopologyLayer
 from layers.vulnerability_layer import VulnerabilityLayer
 
 
@@ -36,10 +38,12 @@ class AttackGraphLayer:
     
     def __init__(self, vulnerability_layer: VulnerabilityLayer, executor: Executor):
         """
-        
-        :param vulnerability_layer:
-        :param executor:
+        Initialise the attack graph layer
+        Parameters:
+            vulnerability_layer: VulnerabilityLayer binding
+            executor: concurrent.futures.Executor or None
         """
+        
         self._attack_graph = dict()
         self._graph_labels = dict()
         self._executor = executor
@@ -235,30 +239,6 @@ def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulne
     composed_graph.add_edges_from([*composed_labels.keys()])
     print('Generated full attack graph from outside.', flush=True)
     return composed_graph, composed_labels
-    
-
-def get_neighbours(services: dict[str, dict[str]], networks: dict[str, dict[str, set]], node: str) -> set[str]:
-    """
-    Get neighbours of a node
-    Parameters:
-        services:
-        networks:
-        node:
-        Returns:
-          A set of neighbours
-    """
-    
-    neighbours: set[str] = set()
-    if node != 'outside':
-        nws = services[node]['networks']
-    else:
-        nws = ['exposed']
-    
-    for nw in nws:
-        for neighbour in networks[nw]['nodes']:
-            neighbours.add(neighbour)
-    
-    return neighbours
 
 
 def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: dict[(str, str), set[str]],
@@ -284,7 +264,7 @@ def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: dic
     (exploited_node, current_privilege) = depth_stack.pop()
     
     if neighbours is None:
-        neighbours = get_neighbours(services, networks, exploited_node)
+        neighbours = TopologyLayer.get_neighbours(services, networks, exploited_node)
     
     for neighbour in neighbours:
         
@@ -324,7 +304,7 @@ def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: dic
 def add_edge(sub_labels: dict[((str, str), (str, str)), str], start_node: (str, str),
              end_node: (str, str), vulnerability: str):
     """
-    Adding an edge to the attack graph
+    Add an edge to the attack graph
     Parameters:
         sub_labels:
         start_node:
