@@ -164,6 +164,11 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 
 echo
+
+echo unzipping nvd json feed...
+unzip data/nvd-json-feed/nvdcve.zip -d data/nvd-json-feed/
+
+echo
 # clairctl
 type clairctl || curl -L https://raw.githubusercontent.com/jgsqware/clairctl/master/install.sh | sudo sh
 clairctl_path="$HOME/go/src/github.com/jgsqware/clairctl"

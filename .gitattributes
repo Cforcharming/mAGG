@@ -1,0 +1,1 @@
+data/nvd-json-feed/nvdcve.zip filter=lfs diff=lfs merge=lfs -text

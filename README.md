@@ -8,7 +8,6 @@ The following dependencies are needed:
 
 * bash
 * Python >= 3.10
-* Docker Desktop (Engine >= 19.03, Compose >= 1.27)
 * [clairctl](https://github.com/jgsqware/clairctl) with [Clair](https://github.com/quay/clair) version 2.1.8
 
 Under proper configurations, all *nix systems can run mAGG. We provide a script to install dependencies:
@@ -26,7 +25,16 @@ Other versions of the above OS, e.g. `Ubuntu 20.04 LTS`, `macOS Big Sur`,
 Also, the script may work on all `Arch-Based Linux` distros and `Debian Linux`.
 
 ### Python modules
-The needed python modules are listed in [requirements.txt](requirements.txt). You can simply install them by 
+The needed python modules are listed in [requirements.txt](requirements.txt). 
+```
+matplotlib >= 3.5
+graphviz >= 0.20
+networkx >= 2.8
+jupyter >= 1.0
+PyYAML >= 6.0
+scipy >= 1.9
+```
+You can simply install them by 
 ```
 pip install -r requirements.txt
 ```
@@ -72,6 +80,12 @@ $ ./main.py example
 $ ./main.py atsea
 $ ./main.py full
 ```
+### About NVD Data Feeds
+We use [NVD Data feeds](https://nvd.nist.gov/vuln/data-feeds) in format of json, and can be downloaded 
+from [here](https://nvd.nist.gov/vuln/data-feeds#JSON_FEED).
+As alternative, we provide a zip file in [data/nvd-json-feed/nvdcve.zip](data/nvd-json-feed/nvdcve.zip),
+and [Git LFS](https://git-lfs.github.com) is required to be installed.
+
 
 
 ### About Clair and Clairctl
