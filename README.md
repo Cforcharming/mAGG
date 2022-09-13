@@ -1,4 +1,4 @@
-# mAGG: a managed Attack Graph Generator
+# mAGG: a managed multi-layer Attack Graph Generator
 
 ## Installing
 
@@ -9,12 +9,11 @@ The following dependencies are needed:
 * bash
 * Python >= 3.10
 * Docker Desktop (Engine >= 19.03, Compose >= 1.27)
-* go
+* [clairctl](https://github.com/jgsqware/clairctl) with [Clair](https://github.com/quay/clair) version 2.1.8
 
-You may install them with 
-```
-./install_dependencies.bash
-```
+Under proper configurations, all *nix systems can run mAGG. We provide a script to install dependencies:
+[install_dependencies.bash](install_dependencies.bash)
+
 Note that this script is recommended to be running on following systems:
 
 * macOS Monterey
@@ -41,7 +40,6 @@ For example, on Debian-based Linuxes like Ubuntu 22.04 or Kali 2022.2, you need 
 ```
 sudo apt install python3.10-venv
 ```
-to have venv enabled. Please change ```python3.10``` to your python major version.
 
 
 ## Running
@@ -49,39 +47,53 @@ to have venv enabled. Please change ```python3.10``` to your python major versio
 The general usage of the script is:
 
 ```
-$ ./main.py {CONFIG_DIR}
+$ ./main.py [options] | [dir1 dir2 dir3..]
+options:
+dir1 dir2 dir3:           dirs must be in 'example-results' of data/config.yml
+                          dirs must contain a valid docker-compose file, and
+                          may also containing vulnerability files
+                          of images in format of clair json report.
+
+full:                     run all examples in sub directory 'full-conn'
+
+real                      run all examples in sub directory 'designed'
+
+-v | --version | version: show version and license
+
+-h | --help | help:       print this message
 ```
 
-The above command starts the [main.py](main.py) script and generates an attack graph for the system in the directory
-`{CONFIG_DIR}`. 
-It performs the attack graph analysis. Note that a `docker-compose.yaml` is needed in the directory.
+The above command starts the [main.py](main.py) script and generates an attack graph for the system in the directory . 
+It performs the attack graph analysis. Note that a `docker-compose.yml` is needed in the directory.
 
 Examples are
 ```
-$ ./main.py ./examples/1_example
-$ ./main.py ./examples/atsea
+$ ./main.py example
+$ ./main.py atsea
+$ ./main.py full
 ```
 
-* Please note that on the first try, `Clair` populates the database, so that is why the attack graph will be empty. 
-* Furthermore, building the images in the vulnerability-parser for the first time takes longer. The code is tested
-on a macOS and on the virtual machines of above-mentioned operating systems hosted on it.
 
-## Customizing the attack graph generation
+### About Clair and Clairctl
+In each run, the program will look up for json files, namely output of 'clairctl reports', 
+in the same directory of `docker-compose.yml` to load CVE entries. If it is not found,
+the program will call clairctl to give proper reports.
 
-The config file is the main point where the attack graphs can be customized. 
-The attack graph generation can be conducted in either online or offline mode. 
-Online mode uses Clair for vulnerabilities detection and takes more time. 
-Offline mode uses already created vulnerability files (by Clair) and performs the attack graph analysis. 
-Therefore, the offline mode does not require an internet connection. Because the edges can have many vulnerabilities, 
-there is an option if we want to display the attack graph with separate edges with different vulnerabilities 
-or combine all of them in one edge. Another option is to display only one vulnerability per edge in the attack graph. 
-Finally, the user has to possibility to modify the pre- and postcondition rules 
+[Clairctl](https://github.com/jgsqware/clairctl) is a command line interface for [Clair](https://github.com/quay/clair),
+which is known as detecting CVEs in a docker container. As Clairctl stopped maintaining about five years ago,
+it still can be built and used, with a specified Clair version 2.1.8.
+
+## Customising
+
+File [data/config.yml](data/config.yml) is the main point where the attack graphs can be customized. 
+
+The user may also modify the pre- and post-condition rules 
 from which the attack graphs are created. For additional details on how to use the config file, please refer to 
-the comments in the config.yml file.
+the comments in the [data/config.yml](data/config.yml) file.
 
 ## License and Acknowledgments
 
-Copyright 2022 张瀚文
+Copyright 2022 Hanwen Zhang
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -99,9 +111,9 @@ This project uses the tools cloned from
 [tum-i4/attack-graph-generator](https://github.com/tum-i4/attack-graph-generator)
 by ibrahim *et al.* for [CVE](https://cve.org) and [NVD](https://nvd.nist.gov) data reading and parsings, 
 sharing same config file settings, For details, [Clair](https://github.com/quay/clair) version 2.1.8,
-and [claircrl](https://github.com/jgsqware/clairctl) are used for vulnerability exploiting.
+and [clairctl](https://github.com/jgsqware/clairctl) are used for vulnerability exploiting.
 
-As the names of some python files and functions still remain the same, 
+As the names of some python files and functions remain the same, 
 their implementations, algorithms and return variables are  based on our proposed methods
 for topology parsings and attack graph generations.
 

@@ -51,7 +51,12 @@ def validate_command_line_input(argv: list, config: dict) -> list[str]:
                   '                          may also containing vulnerability files',
                   '                          of images in format of clair json report.',
                   '',
+                  'full:                     run all examples in sub directory \'full-conn\''
+                  '',
+                  'real                      run all examples in sub directory \'designed\''
+                  '',
                   '-v | --version | version: show version and license',
+                  '',
                   '-h | --help | help:       print this message', sep='\n')
             sys.exit(0)
             
