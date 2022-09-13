@@ -3401,6 +3401,10 @@ services:
     image: python
     networks:
     - frontend
+  target:
+    image: mysql
+    networks:
+    - frontend
   tc:
     image: tomcat
     networks:

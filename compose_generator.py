@@ -24,16 +24,27 @@ import shutil
 def generate_full_conn(j):
     """Function that generates the docker-compose.yml with full connections."""
 
-    example_folder = 'examples/full-conn/' + str(j) + '-example/'
+    example_folder = f'examples/full-conn/{j}-example/'
     
     if not os.path.exists(example_folder):
         os.makedirs(example_folder)
     
     data = {"version": "3.8",
-            "networks": {"frontend": {}},
-            "services": {"tc": {"image": "tomcat",
-                                "networks": ["frontend"],
-                                "ports": ["80"]}}}
+            "networks": {
+                "frontend": {}
+            },
+            "services": {
+                "tc": {
+                    "image": "tomcat",
+                    "networks": ["frontend"],
+                    "ports": ["80"]
+                },
+                "target": {
+                    "image": "mysql",
+                    "networks": ["frontend"],
+                }
+            }
+            }
     
     for i in range(1, j + 1):
         name_container = "py" + str(i)
@@ -43,9 +54,12 @@ def generate_full_conn(j):
     
     shutil.copy(os.path.join(os.getcwd(), 'examples/example/tomcat-vulnerabilities.json'), example_folder)
     shutil.copy(os.path.join(os.getcwd(), 'examples/example/python-vulnerabilities.json'), example_folder)
+    shutil.copy(os.path.join(os.getcwd(), 'examples/example/mysql-vulnerabilities.json'), example_folder)
     
     with open(os.path.join(example_folder, 'docker-compose.yml'), 'w') as outfile:
         yaml.dump(data, outfile, default_flow_style=False)
+
+    print(f'Generated dir: {example_folder}', flush=True)
 
 
 def generate_designed(num_each_subnet):
@@ -62,7 +76,7 @@ Where O indicates a full connect subnet:
   A   B   C   D   E   F
     """
     
-    example_folder = 'examples/designed/' + str(num_each_subnet) + '-example/'
+    example_folder = f'examples/designed/{num_each_subnet}-example/'
     
     if not os.path.exists(example_folder):
         os.makedirs(example_folder)
@@ -135,6 +149,10 @@ Where O indicates a full connect subnet:
                 "image": "nginx",
                 "networks": ["E3", "F3"],
             },
+            "target": {
+                "image": "mysql",
+                "networks": ["F3"],
+            }
         }
     }
     
@@ -185,10 +203,14 @@ Where O indicates a full connect subnet:
     with open(os.path.join(example_folder, 'docker-compose.yml'), 'w') as outfile:
         yaml.dump(data, outfile, default_flow_style=False)
     
-    print('Generated dir:', example_folder, flush=True)
+    print(f'Generated dir: {example_folder}', flush=True)
 
 
 if __name__ == '__main__':
-    for rg in range(50, 501, 50):
+    rgs = [1, 5, 10]
+    for rg in rgs:
+        generate_designed(rg)
+        generate_full_conn(rg)
+    for rg in range(50, 1001, 50):
         generate_designed(rg)
         generate_full_conn(rg)

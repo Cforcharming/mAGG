@@ -95,4 +95,8 @@ services:
     - A1
     ports:
     - '80'
+  target:
+    image: mysql
+    networks:
+    - F3
 version: '3.8'

@@ -92,23 +92,35 @@ services:
   atsea_app1:
     image: atsea_app
     networks:
-    - B1
+    - A1
   atsea_app10:
     image: atsea_app
     networks:
-    - E3
+    - E2
   atsea_app11:
     image: atsea_app
     networks:
-    - F2
+    - E2
   atsea_app12:
     image: atsea_app
     networks:
-    - F2
+    - E3
   atsea_app13:
     image: atsea_app
     networks:
+    - E3
+  atsea_app14:
+    image: atsea_app
+    networks:
     - F2
+  atsea_app15:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app16:
+    image: atsea_app
+    networks:
+    - F3
   atsea_app2:
     image: atsea_app
     networks:
@@ -116,11 +128,11 @@ services:
   atsea_app3:
     image: atsea_app
     networks:
-    - B2
+    - B1
   atsea_app4:
     image: atsea_app
     networks:
-    - C2
+    - C1
   atsea_app5:
     image: atsea_app
     networks:
@@ -128,11 +140,11 @@ services:
   atsea_app6:
     image: atsea_app
     networks:
-    - C4
+    - C3
   atsea_app7:
     image: atsea_app
     networks:
-    - D1
+    - C3
   atsea_app8:
     image: atsea_app
     networks:
@@ -140,7 +152,7 @@ services:
   atsea_app9:
     image: atsea_app
     networks:
-    - E3
+    - E1
   atsea_db1:
     image: atsea_db
     networks:
@@ -148,11 +160,11 @@ services:
   atsea_db10:
     image: atsea_db
     networks:
-    - D2
+    - E1
   atsea_db11:
     image: atsea_db
     networks:
-    - E1
+    - E2
   atsea_db12:
     image: atsea_db
     networks:
@@ -164,12 +176,8 @@ services:
   atsea_db14:
     image: atsea_db
     networks:
-    - F1
+    - F2
   atsea_db15:
-    image: atsea_db
-    networks:
-    - F3
-  atsea_db16:
     image: atsea_db
     networks:
     - F3
@@ -180,39 +188,39 @@ services:
   atsea_db3:
     image: atsea_db
     networks:
-    - B1
+    - A1
   atsea_db4:
     image: atsea_db
     networks:
-    - C1
+    - B1
   atsea_db5:
     image: atsea_db
     networks:
-    - C3
+    - B2
   atsea_db6:
     image: atsea_db
     networks:
-    - C3
+    - B2
   atsea_db7:
     image: atsea_db
     networks:
-    - C4
+    - C2
   atsea_db8:
     image: atsea_db
     networks:
-    - C4
+    - D1
   atsea_db9:
     image: atsea_db
     networks:
-    - D1
+    - E1
   mysql1:
     image: mysql
     networks:
-    - A1
+    - B2
   mysql10:
     image: mysql
     networks:
-    - F1
+    - E3
   mysql11:
     image: mysql
     networks:
@@ -220,39 +228,39 @@ services:
   mysql12:
     image: mysql
     networks:
-    - F3
+    - F1
   mysql2:
     image: mysql
     networks:
-    - B1
+    - C1
   mysql3:
     image: mysql
     networks:
-    - B2
+    - C1
   mysql4:
     image: mysql
     networks:
-    - B2
+    - C2
   mysql5:
     image: mysql
     networks:
-    - C1
+    - C3
   mysql6:
     image: mysql
     networks:
-    - D2
+    - C4
   mysql7:
     image: mysql
     networks:
-    - D2
+    - C4
   mysql8:
     image: mysql
     networks:
-    - E3
+    - D1
   mysql9:
     image: mysql
     networks:
-    - E3
+    - D1
   proxy:
     image: nginx
     networks:
@@ -262,63 +270,43 @@ services:
   python1:
     image: python
     networks:
-    - B2
-  python10:
-    image: python
-    networks:
-    - E2
-  python11:
-    image: python
-    networks:
-    - E2
-  python12:
-    image: python
-    networks:
-    - E2
-  python13:
-    image: python
-    networks:
-    - F2
-  python14:
-    image: python
-    networks:
-    - F3
+    - B1
   python2:
     image: python
     networks:
-    - C1
+    - C4
   python3:
     image: python
     networks:
-    - C2
+    - D2
   python4:
     image: python
     networks:
-    - C3
+    - D2
   python5:
     image: python
     networks:
-    - C4
+    - E1
   python6:
     image: python
     networks:
-    - D1
+    - E3
   python7:
     image: python
     networks:
-    - D1
+    - F1
   python8:
     image: python
     networks:
-    - E1
-  python9:
-    image: python
+    - F3
+  target:
+    image: mysql
     networks:
-    - E1
+    - F3
   tomcat1:
     image: tomcat
     networks:
-    - A1
+    - B2
   tomcat2:
     image: tomcat
     networks:
@@ -334,5 +322,21 @@ services:
   tomcat5:
     image: tomcat
     networks:
-    - E1
+    - C4
+  tomcat6:
+    image: tomcat
+    networks:
+    - D1
+  tomcat7:
+    image: tomcat
+    networks:
+    - D2
+  tomcat8:
+    image: tomcat
+    networks:
+    - F2
+  tomcat9:
+    image: tomcat
+    networks:
+    - F2
 version: '3.8'
