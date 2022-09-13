@@ -44,7 +44,6 @@ def main(argv):
     executor = None
     if concurrency > 0:
         executor = ProcessPoolExecutor(concurrency, mp.get_context('forkserver'))
-        
     
     attack_vectors = VulnerabilityLayer.get_attack_vectors(config["attack-vector-folder-path"], executor)
     
