@@ -41,10 +41,10 @@ def main(argv):
     config, examples = wrapper.init(argv)
     
     concurrency = config['nums-of-processes']
+    executor = None
     if concurrency > 0:
         executor = ProcessPoolExecutor(concurrency, mp.get_context('forkserver'))
-    else:
-        executor = None
+        
     
     attack_vectors = VulnerabilityLayer.get_attack_vectors(config["attack-vector-folder-path"], executor)
     

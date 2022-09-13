@@ -36,7 +36,7 @@ class AttackGraphLayer:
         vulnerability_layer: VulnerabilityLayer binding
     """
     
-    def __init__(self, vulnerability_layer: VulnerabilityLayer, executor: Executor):
+    def __init__(self, vulnerability_layer: VulnerabilityLayer, executor: Executor = None):
         """
         Initialise the attack graph layer
         Parameters:
