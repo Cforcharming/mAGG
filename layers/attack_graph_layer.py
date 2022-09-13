@@ -187,7 +187,7 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
         if gateway == 'outside':
             gateway_post_privileges = {4: ['']}
         else:
-            gateway_post_privileges: dict[int, list[str]] = exploitable_vulnerabilities[gateway]['post']
+            gateway_post_privileges: dict[int, list[str]] = exploitable_vulnerabilities[gateway]['post_values']
         
         depth_stack = deque()
         exploited_nodes: set[str] = {gateway}
