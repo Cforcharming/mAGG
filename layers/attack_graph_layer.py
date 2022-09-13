@@ -291,8 +291,8 @@ def depth_first_search(exploited_nodes: set[str], exploited_vulnerabilities: dic
         if neighbour == 'outside':
             continue
         
-        neighbour_exploitable = exploitable_vulnerabilities[neighbour]['pre']
-        neighbour_post = exploitable_vulnerabilities[neighbour]['postcond']
+        neighbour_exploitable = exploitable_vulnerabilities[neighbour]['pre_values']
+        neighbour_post = exploitable_vulnerabilities[neighbour]['post_conditions']
         
         for neighbour_pre_condition in range(0, current_privilege + 1):
             for vulnerability in neighbour_exploitable[neighbour_pre_condition]:
