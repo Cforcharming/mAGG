@@ -172,12 +172,12 @@ def generate_sub_graph(services: dict[str, dict[str]], networks: dict[str, dict[
     """
     
     sub_graph = nx.DiGraph()
-    sub_labels: dict[((str, str), (str, str)), str] = {}
+    sub_labels: dict[((str, str), (str, str)), str] = dict()
     
     gateways: set[str] = networks[network]['gateways']
     neighbours: set[str] = networks[network]['nodes']
     
-    exploited_vulnerabilities: dict[(str, str), set[str]] = {}
+    exploited_vulnerabilities: dict[(str, str), set[str]] = dict()
     
     if 'outside' in neighbours:
         gateways.add('outside')
@@ -221,9 +221,9 @@ def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulne
     """
     
     composed_graph = nx.DiGraph()
-    composed_labels: dict[((str, str), (str, str)), str] = {}
+    composed_labels: dict[((str, str), (str, str)), str] = dict()
     
-    exploited_vulnerabilities: dict[(str, str), set[str]] = {}
+    exploited_vulnerabilities: dict[(str, str), set[str]] = dict()
     depth_stack = deque()
     depth_stack.append(('outside', 4))
     exploited_nodes: set[str] = {'outside'}
