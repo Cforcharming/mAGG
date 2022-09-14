@@ -29,7 +29,7 @@ from layers.topology_layer import TopologyLayer
 
 from mio import wrapper
 
-__version__ = '1.0'
+__version__ = '1.1'
 
 
 def main(argv):
@@ -84,13 +84,14 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
     # Printing time summary of the attack graph generation.
     wrapper.print_summary(merged_graph_layer)
 
-    to = 'target'
-    minimum = 0
-    path_counts = merged_graph_layer.gen_defence_list(to)
-    
-    n1 = merged_graph_layer.node_probabilities.copy()
-    merged_graph_layer.deploy_honeypot(path_counts, minimum)
-    merged_graph_layer.compare_rates(n1, merged_graph_layer.node_probabilities)
+    if config['deploy-honeypots']:
+        to = config['honeypot-destination']
+        minimum = 0
+        path_counts = merged_graph_layer.gen_defence_list(to)
+        
+        n1 = merged_graph_layer.node_probabilities.copy()
+        merged_graph_layer.deploy_honeypot(path_counts, minimum)
+        merged_graph_layer.compare_rates(n1, merged_graph_layer.node_probabilities, to)
     
     if config['generate-graphs']:
         # draw graphs

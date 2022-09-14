@@ -19,6 +19,12 @@ single-edge-label: True # Options {True, False}
 # This property states if a node is exploited only once, or as much as possible
 single-exploit-per-node: False # Options {True, False}
 
+# This property states if honeypots are deployed
+deploy-honeypots: False # Options {True, False}
+
+# # This property states the destination of honeypots
+honeypot-destination: target # Options None
+
 # The rules required to produce pre- and postconditions. They follow a specific pattern.
 preconditions-rules:
   rule1:

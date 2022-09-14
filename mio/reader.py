@@ -103,7 +103,8 @@ def validate_config_file() -> dict[str]:
     
     # Check if the main keywords are present in the config file.
     main_keywords = {'attack-vector-folder-path', 'examples-results-path', 'examples-path', 'nums-of-processes',
-                     'generate-graphs', 'single-edge-label', 'single-exploit-per-node'}
+                     'generate-graphs', 'single-edge-label', 'single-exploit-per-node',
+                     'deploy-honeypots', 'honeypot-destination'}
     
     for main_keyword in main_keywords:
         if main_keyword not in config_file.keys():
@@ -129,6 +130,15 @@ def validate_config_file() -> dict[str]:
     if type(concurrency) is not int or concurrency < 0:
         raise ValueError(f'Value \'{concurrency}\' is invalid for keyword \'nums-of-processes\', '
                          f'it must be an integer no less than 0.')
+
+    deploy_honeypots = config_file['deploy-honeypots']
+    if type(deploy_honeypots) is not bool:
+        raise ValueError(f'Value \'{deploy_honeypots}\' is invalid for keyword \'single-exploit-per-node\', '
+                         f'it must be bool')
+    
+    honeypot_destination = config_file['honeypot-destination']
+    if honeypot_destination == 'None':
+        config_file['honeypot-destination'] = None
     
     return config_file
 

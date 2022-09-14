@@ -159,7 +159,7 @@ class MergedGraphLayer:
         tm = time.time() - tm
         print(f'Time for merging graphs: {tm} seconds.')
     
-    def gen_defence_list(self, to_n: str, from_n='outside') -> dict[str, int]:
+    def gen_defence_list(self, from_n='outside', to_n: str = None) -> dict[str, int]:
         """
         Generate a list of nodes to deploy honeypots, based on connectivities and probabilities
         Parameters
@@ -171,7 +171,7 @@ class MergedGraphLayer:
         if from_n not in self.merged_graph:
             raise ValueError(f'Start node {from_n} is not in the merged graph.')
         
-        if to_n not in self.merged_graph:
+        if to_n is not None and to_n not in self.merged_graph:
             raise ValueError(f'End node {to_n} is not in the merged graph.')
         
         tg = time.time()
@@ -180,12 +180,13 @@ class MergedGraphLayer:
         for gateway in topology_layer.gateway_nodes:
             degree: int = topology_layer.topology_graph.degree(gateway)
             path_counts[gateway] = degree
-        
-        for node in nx.shortest_path(self.merged_graph, from_n, to_n):
-            if node in path_counts:
-                path_counts[node] = path_counts[node] + 1
-            else:
-                path_counts[node] = 1
+
+        if to_n is not None:
+            for node in nx.shortest_path(self.merged_graph, from_n, to_n):
+                if node in path_counts:
+                    path_counts[node] = path_counts[node] + 1
+                else:
+                    path_counts[node] = 1
         tg = time.time() - tg
         print(f'The nodes to protect: {[*path_counts.keys()]}')
         print(f'Time for generating defence list: {tg} seconds.')
@@ -348,13 +349,35 @@ class MergedGraphLayer:
         print(f'Node removed: {name}.')
     
     @staticmethod
-    def compare_rates(nodes1: dict[str, float], nodes2: dict[str, float]):
+    def compare_rates(nodes1: dict[str, float], nodes2: dict[str, float], to_n: str = None):
+        """
+        Compare bayesian probabilities
+        Parameters:
+            nodes1: set of nodes as self.node_probabilities
+            nodes2: set of nodes as self.node_probabilities
+            to_n: if not None, compare to_n only. Default: None
+        """
+        if to_n is not None:
+            if to_n not in nodes1:
+                raise ValueError(f'End node {to_n} is not in the merged graph.')
+            p1 = nodes1[to_n]
+            p2 = nodes2[to_n]
+            if p1 != 0:
+                rate = p1 - p2 / p1
+            else:
+                rate = 1
+            print(
+                f'Probability before and after deploying: {math.trunc(p1 * 100) / 100},  {math.trunc(p2 * 100) / 100},'
+                f' {math.trunc(rate * 100) / 100} less')
+            
+            return
+            
         all_down = 0
         for node in nodes1:
             p1 = nodes1[node]
             p2 = nodes2[node]
             if p1 != 0:
-                rate = math.fabs(p1 - p2) / p1
+                rate = p1 - p2 / p1
             else:
                 rate = 1
             all_down += rate
