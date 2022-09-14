@@ -151,7 +151,7 @@ Where O indicates a full connect subnet:
             },
             "target": {
                 "image": "mysql",
-                "networks": ["F3"],
+                "networks": ["B2"],
             }
         }
     }
@@ -210,7 +210,7 @@ if __name__ == '__main__':
     rgs = [1, 5, 10]
     for rg in rgs:
         generate_designed(rg)
-        generate_full_conn(rg)
+        # generate_full_conn(rg)
     for rg in range(50, 1001, 50):
         generate_designed(rg)
-        generate_full_conn(rg)
+        # generate_full_conn(rg)

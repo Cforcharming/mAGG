@@ -96,7 +96,7 @@ services:
   atsea_app10:
     image: atsea_app
     networks:
-    - C1
+    - C2
   atsea_app11:
     image: atsea_app
     networks:
@@ -108,31 +108,31 @@ services:
   atsea_app13:
     image: atsea_app
     networks:
-    - C3
+    - C4
   atsea_app14:
     image: atsea_app
     networks:
-    - D1
+    - C4
   atsea_app15:
     image: atsea_app
     networks:
-    - D1
+    - C4
   atsea_app16:
     image: atsea_app
     networks:
-    - D2
+    - D1
   atsea_app17:
     image: atsea_app
     networks:
-    - D2
+    - D1
   atsea_app18:
     image: atsea_app
     networks:
-    - E1
+    - D1
   atsea_app19:
     image: atsea_app
     networks:
-    - E1
+    - D2
   atsea_app2:
     image: atsea_app
     networks:
@@ -140,19 +140,19 @@ services:
   atsea_app20:
     image: atsea_app
     networks:
-    - E1
+    - D2
   atsea_app21:
     image: atsea_app
     networks:
-    - E1
+    - D2
   atsea_app22:
     image: atsea_app
     networks:
-    - E2
+    - D2
   atsea_app23:
     image: atsea_app
     networks:
-    - E2
+    - E1
   atsea_app24:
     image: atsea_app
     networks:
@@ -160,7 +160,7 @@ services:
   atsea_app25:
     image: atsea_app
     networks:
-    - E3
+    - E2
   atsea_app26:
     image: atsea_app
     networks:
@@ -168,11 +168,11 @@ services:
   atsea_app27:
     image: atsea_app
     networks:
-    - F1
+    - E3
   atsea_app28:
     image: atsea_app
     networks:
-    - F1
+    - F2
   atsea_app29:
     image: atsea_app
     networks:
@@ -180,35 +180,51 @@ services:
   atsea_app3:
     image: atsea_app
     networks:
-    - A1
+    - B1
   atsea_app30:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app31:
+    image: atsea_app
+    networks:
+    - F2
+  atsea_app32:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app33:
+    image: atsea_app
+    networks:
+    - F3
+  atsea_app34:
     image: atsea_app
     networks:
     - F3
   atsea_app4:
     image: atsea_app
     networks:
-    - A1
+    - B1
   atsea_app5:
     image: atsea_app
     networks:
-    - B1
+    - B2
   atsea_app6:
     image: atsea_app
     networks:
-    - B1
+    - B2
   atsea_app7:
     image: atsea_app
     networks:
-    - B1
+    - B2
   atsea_app8:
     image: atsea_app
     networks:
-    - B2
+    - C1
   atsea_app9:
     image: atsea_app
     networks:
-    - B2
+    - C1
   atsea_db1:
     image: atsea_db
     networks:
@@ -216,39 +232,39 @@ services:
   atsea_db10:
     image: atsea_db
     networks:
-    - C3
+    - E1
   atsea_db11:
     image: atsea_db
     networks:
-    - C4
+    - E1
   atsea_db12:
     image: atsea_db
     networks:
-    - C4
+    - E2
   atsea_db13:
     image: atsea_db
     networks:
-    - C4
+    - E2
   atsea_db14:
     image: atsea_db
     networks:
-    - D1
+    - E3
   atsea_db15:
     image: atsea_db
     networks:
-    - D2
+    - E3
   atsea_db16:
     image: atsea_db
     networks:
-    - E3
+    - F1
   atsea_db17:
     image: atsea_db
     networks:
-    - E3
+    - F1
   atsea_db18:
     image: atsea_db
     networks:
-    - E3
+    - F1
   atsea_db19:
     image: atsea_db
     networks:
@@ -256,27 +272,15 @@ services:
   atsea_db2:
     image: atsea_db
     networks:
-    - A1
+    - B2
   atsea_db20:
-    image: atsea_db
-    networks:
-    - F2
-  atsea_db21:
-    image: atsea_db
-    networks:
-    - F3
-  atsea_db22:
-    image: atsea_db
-    networks:
-    - F3
-  atsea_db23:
     image: atsea_db
     networks:
     - F3
   atsea_db3:
     image: atsea_db
     networks:
-    - B1
+    - B2
   atsea_db4:
     image: atsea_db
     networks:
@@ -284,23 +288,23 @@ services:
   atsea_db5:
     image: atsea_db
     networks:
-    - C1
+    - C2
   atsea_db6:
     image: atsea_db
     networks:
-    - C1
+    - C3
   atsea_db7:
     image: atsea_db
     networks:
-    - C1
+    - C4
   atsea_db8:
     image: atsea_db
     networks:
-    - C2
+    - D2
   atsea_db9:
     image: atsea_db
     networks:
-    - C2
+    - E1
   mysql1:
     image: mysql
     networks:
@@ -308,83 +312,43 @@ services:
   mysql10:
     image: mysql
     networks:
-    - C3
+    - E1
   mysql11:
     image: mysql
     networks:
-    - C4
+    - E1
   mysql12:
     image: mysql
     networks:
-    - D1
+    - E2
   mysql13:
     image: mysql
     networks:
-    - D1
+    - E3
   mysql14:
     image: mysql
     networks:
-    - D2
+    - F1
   mysql15:
     image: mysql
     networks:
-    - D2
+    - F1
   mysql16:
     image: mysql
     networks:
-    - D2
+    - F1
   mysql17:
     image: mysql
     networks:
-    - E1
+    - F2
   mysql18:
     image: mysql
     networks:
-    - E3
-  mysql19:
-    image: mysql
-    networks:
-    - E3
+    - F3
   mysql2:
     image: mysql
     networks:
-    - B1
-  mysql20:
-    image: mysql
-    networks:
-    - F1
-  mysql21:
-    image: mysql
-    networks:
-    - F1
-  mysql22:
-    image: mysql
-    networks:
-    - F1
-  mysql23:
-    image: mysql
-    networks:
-    - F1
-  mysql24:
-    image: mysql
-    networks:
-    - F2
-  mysql25:
-    image: mysql
-    networks:
-    - F2
-  mysql26:
-    image: mysql
-    networks:
-    - F2
-  mysql27:
-    image: mysql
-    networks:
-    - F3
-  mysql28:
-    image: mysql
-    networks:
-    - F3
+    - A1
   mysql3:
     image: mysql
     networks:
@@ -392,27 +356,27 @@ services:
   mysql4:
     image: mysql
     networks:
-    - B2
+    - B1
   mysql5:
     image: mysql
     networks:
-    - B2
+    - C1
   mysql6:
     image: mysql
     networks:
-    - C2
+    - C3
   mysql7:
     image: mysql
     networks:
-    - C3
+    - D2
   mysql8:
     image: mysql
     networks:
-    - C3
+    - D2
   mysql9:
     image: mysql
     networks:
-    - C3
+    - E1
   proxy:
     image: nginx
     networks:
@@ -426,143 +390,147 @@ services:
   python10:
     image: python
     networks:
-    - C2
+    - C1
   python11:
     image: python
     networks:
-    - C2
+    - C1
   python12:
     image: python
     networks:
-    - C3
+    - C1
   python13:
     image: python
     networks:
-    - C4
+    - C2
   python14:
     image: python
     networks:
-    - C4
+    - C2
   python15:
     image: python
     networks:
-    - C4
+    - C2
   python16:
     image: python
     networks:
-    - C4
+    - C2
   python17:
     image: python
     networks:
-    - C4
+    - C2
   python18:
     image: python
     networks:
-    - D1
+    - C3
   python19:
     image: python
     networks:
-    - D1
+    - C3
   python2:
     image: python
     networks:
-    - B1
+    - A1
   python20:
     image: python
     networks:
-    - D2
+    - C3
   python21:
     image: python
     networks:
-    - D2
+    - C3
   python22:
     image: python
     networks:
-    - D2
+    - C3
   python23:
     image: python
     networks:
-    - E1
+    - C4
   python24:
     image: python
     networks:
-    - E1
+    - C4
   python25:
     image: python
     networks:
-    - E1
+    - D1
   python26:
     image: python
     networks:
-    - E1
+    - D1
   python27:
     image: python
     networks:
-    - E2
+    - D1
   python28:
     image: python
     networks:
-    - E2
+    - E1
   python29:
     image: python
     networks:
-    - E2
+    - E1
   python3:
     image: python
     networks:
-    - B2
+    - A1
   python30:
     image: python
     networks:
-    - E3
+    - E2
   python31:
     image: python
     networks:
-    - F1
+    - E2
   python32:
     image: python
     networks:
-    - F1
+    - E3
   python33:
     image: python
     networks:
-    - F2
+    - E3
   python34:
     image: python
     networks:
-    - F3
+    - F2
   python35:
+    image: python
+    networks:
+    - F3
+  python36:
     image: python
     networks:
     - F3
   python4:
     image: python
     networks:
-    - B2
+    - B1
   python5:
     image: python
     networks:
-    - B2
+    - B1
   python6:
     image: python
     networks:
-    - C1
+    - B2
   python7:
     image: python
     networks:
-    - C1
+    - B2
   python8:
     image: python
     networks:
-    - C2
+    - B2
   python9:
     image: python
     networks:
-    - C2
+    - C1
   target:
     image: mysql
     networks:
-    - F3
+    - B2
   tomcat1:
     image: tomcat
     networks:
@@ -570,47 +538,79 @@ services:
   tomcat10:
     image: tomcat
     networks:
-    - D1
+    - C4
   tomcat11:
     image: tomcat
     networks:
-    - D1
+    - C4
   tomcat12:
     image: tomcat
     networks:
-    - E2
+    - D1
   tomcat13:
     image: tomcat
     networks:
-    - E2
+    - D1
   tomcat14:
     image: tomcat
     networks:
-    - E2
+    - D1
   tomcat15:
     image: tomcat
     networks:
-    - E3
+    - D2
   tomcat16:
     image: tomcat
     networks:
-    - F1
+    - D2
   tomcat17:
     image: tomcat
     networks:
-    - F2
+    - E2
   tomcat18:
     image: tomcat
     networks:
-    - F2
+    - E2
   tomcat19:
     image: tomcat
     networks:
-    - F3
+    - E3
   tomcat2:
     image: tomcat
     networks:
     - B1
+  tomcat20:
+    image: tomcat
+    networks:
+    - E3
+  tomcat21:
+    image: tomcat
+    networks:
+    - F1
+  tomcat22:
+    image: tomcat
+    networks:
+    - F1
+  tomcat23:
+    image: tomcat
+    networks:
+    - F1
+  tomcat24:
+    image: tomcat
+    networks:
+    - F2
+  tomcat25:
+    image: tomcat
+    networks:
+    - F2
+  tomcat26:
+    image: tomcat
+    networks:
+    - F3
+  tomcat27:
+    image: tomcat
+    networks:
+    - F3
   tomcat3:
     image: tomcat
     networks:
@@ -618,7 +618,7 @@ services:
   tomcat4:
     image: tomcat
     networks:
-    - B2
+    - B1
   tomcat5:
     image: tomcat
     networks:
@@ -630,13 +630,13 @@ services:
   tomcat7:
     image: tomcat
     networks:
-    - C1
+    - C2
   tomcat8:
     image: tomcat
     networks:
-    - C2
+    - C3
   tomcat9:
     image: tomcat
     networks:
-    - C3
+    - C4
 version: '3.8'

@@ -98,5 +98,5 @@ services:
   target:
     image: mysql
     networks:
-    - F3
+    - B2
 version: '3.8'
