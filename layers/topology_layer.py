@@ -39,12 +39,12 @@ class TopologyLayer:
         
         gateway_graph_labels: a dictionary label used for gateway_graph, like {('net1', 'net2'): 'g1'}
     """
-
-    def __init__(self, example_folder: str):
+    
+    def __init__(self, experiment_dir: str):
         """
         Initialise a topology layer
         Parameters:
-            example_folder: str, The folder containing topology structures and configuration files.
+            experiment_dir: str, The folder containing topology structures and configuration files.
         """
         
         self._subnets = None
@@ -53,11 +53,7 @@ class TopologyLayer:
         self._topology_graph = nx.Graph()
         self._gateway_graph = nx.Graph()
         self._gateway_graph_labels = dict()
-        self._example_folder = example_folder
-        
-        dt = self.__parse_topology()
-        dg = self.__create_graphs()
-        print(f'Time for initialising topology layer: {dt + dg} seconds.')
+        self._experiment_dir = experiment_dir
     
     @property
     def subnets(self) -> dict[str, dict[str, set]]:
@@ -108,13 +104,13 @@ class TopologyLayer:
         return self._gateway_graph_labels
     
     @property
-    def example_folder(self) -> str:
-        return self._example_folder
+    def experiment_dir(self) -> str:
+        return self._experiment_dir
     
     @subnets.setter
-    def subnets(self,  subnets: dict[str, dict[str, set]]):
+    def subnets(self, subnets: dict[str, dict[str, set]]):
         self._subnets = subnets
-
+    
     @services.setter
     def services(self, services: dict[str, dict[str]]):
         self._services = services
@@ -134,61 +130,58 @@ class TopologyLayer:
     @gateway_graph_labels.setter
     def gateway_graph_labels(self, gateway_graph_labels: dict[(str, str), str]):
         self._gateway_graph_labels = gateway_graph_labels
-        
-    @example_folder.setter
-    def example_folder(self, example_folder: str):
-        self._example_folder = example_folder
     
-    def __setitem__(self, name: str, new_service: dict[str]):
+    @experiment_dir.setter
+    def experiment_dir(self, experiment_dir: str):
+        self.experiment_dir = experiment_dir
+    
+    def __setitem__(self, uid: str, new_service: dict[str]):
         """
         Update a service to topology
-        
+
         Parameters:
             new_service: new service to add
-            name: name of new service
+            uid: uid of new service
         """
-        
-        self.services[name] = new_service
-        self.__add_service_subnets(name)
-        self.__add_service_to_graph(name)
+        self.services[uid] = new_service
     
-    def __delitem__(self, name: str):
+    def __delitem__(self, uid: str):
         """
-        Delete a service by name from the topology.
-        
-        For example:
-        
-        del topology['x']
-        
-        deletes service 'x' from the graph.
-        
-        Parameters:
-            name: a service to delete by name
-        """
-        service_to_delete = self.services[name]
+                Delete a service by uid from the topology.
+
+                For example:
+
+                del topology['x']
+
+                deletes service 'x' from the graph.
+
+                Parameters:
+                    uid: a service to delete by uid
+                """
+        service_to_delete = self.services[uid]
         subnet_to_delete = service_to_delete['subnets']
-        
+    
         for n in subnet_to_delete:
             subnet = self.subnets[n]
-            subnet['services'].remove(name)
-            if name in subnet['gateways']:
-                subnet['gateways'].remove(name)
-        
-        self.topology_graph.remove_node(name)
-        
-        if name in self.gateway_services:
-            self.gateway_services.remove(name)
+            subnet['services'].remove(uid)
+            if uid in subnet['gateways']:
+                subnet['gateways'].remove(uid)
+    
+        self.topology_graph.remove_node(uid)
+    
+        if uid in self.gateway_services:
+            self.gateway_services.remove(uid)
             for (u, v) in self.gateway_graph_labels.copy():
-                if self.gateway_graph_labels[(u, v)] == name:
+                if self.gateway_graph_labels[(u, v)] == uid:
                     if self.gateway_graph.has_edge(u, v):
                         self.gateway_graph.remove_edge(u, v)
                     del self.gateway_graph_labels[(u, v)]
-        
+    
         for service in list(self.gateway_graph.nodes):
             if self.gateway_graph.degree(service) == 0:
                 self.gateway_graph.remove_node(service)
-        
-        del self.services[name]
+    
+        del self.services[uid]
     
     @staticmethod
     def get_neighbours(services: dict[str, dict[str]], subnets: dict[str, dict[str, set]], service: str) -> set[str]:
@@ -213,8 +206,39 @@ class TopologyLayer:
                 neighbours.add(neighbour)
     
         return neighbours
+
+
+class DockerComposeTopologyLayer(TopologyLayer):
+    """
+    Docker Compose inheritance of TopologyLayer
+    """
+    def __init__(self, experiment_dir: str):
+        """
+        Initialise a Docker Compose topology layer
+        Parameters:
+            experiment_dir: str, The folder containing topology structures and configuration files.
+        """
+        super().__init__(experiment_dir)
+        
+        dt = self.__parse_topology()
+        dg = self.__create_graphs()
+        print(f'Time for initialising topology layer: {dt + dg} seconds.')
     
-    def __parse_folder(self):
+    def __setitem__(self, uid: str, new_service: dict[str]):
+        """
+        Update a service to topology
+        
+        Parameters:
+            new_service: new service to add
+            uid: uid of new service
+        """
+        
+        super(DockerComposeTopologyLayer, self).__setitem__(uid, new_service)
+        
+        self.__add_service_subnets(uid)
+        self.__add_service_to_graph(uid)
+    
+    def __parse_docker_compose_dir(self):
         """
         It returns a dictionary of all services defined in docker-compose.yml
         """
@@ -229,14 +253,17 @@ class TopologyLayer:
         
         for service in self.services:
             subnet = self.services[service]['networks']
+            task = self.services[service]['image']
             self.services[service]['subnets'] = subnet
+            self.services[service]['tasks'] = task
             del self.services[service]['networks']
+            del self.services[service]['image']
         
         self.subnets['exposed'] = {'services': {'outside'}, 'gateways': set()}
     
     def __parse_topology(self) -> float:
         """
-        Parsing topology from a folder.
+        Parsing topology from a directory.
         Returns:
             dt: time for topology generation
         """
@@ -244,10 +271,10 @@ class TopologyLayer:
         time_start = time.time()
         print("Topology parsing started.")
         
-        self.__parse_folder()
+        self.__parse_docker_compose_dir()
         
-        for name in self.services:
-            self.__add_service_subnets(name)
+        for uid in self.services:
+            self.__add_service_subnets(uid)
         
         dt = time.time() - time_start
         print(f'Time for parsing topology: {dt} seconds.')
@@ -263,79 +290,79 @@ class TopologyLayer:
         start = time.time()
         print("Topology graph creation started.")
         
-        for name in self.services:
-            self.__add_service_to_graph(name)
+        for uid in self.services:
+            self.__add_service_to_graph(uid)
         
         dg = time.time() - start
         print(f'Time for creating topology graphs: {dg} seconds.')
         return dg
 
-    def __add_service_subnets(self, name: str):
+    def __add_service_subnets(self, uid: str):
         """
         Add a specific service to its belonging subnets.
         Parameters:
-            name: the service to add provided by name
+            uid: the service to add provided by uid
         """
         
-        service = self.services[name]
+        service = self.services[uid]
         
         service_subnet: list = service['subnets']
     
         if len(service_subnet) >= 1:
         
             if len(service_subnet) > 1:
-                self.gateway_services.add(name)
+                self.gateway_services.add(uid)
         
             for sn in service_subnet:
             
                 if sn in self.subnets:
-                    self.subnets[sn]['services'].add(name)
+                    self.subnets[sn]['services'].add(uid)
                     if len(service_subnet) > 1:
-                        self.subnets[sn]['gateways'].add(name)
+                        self.subnets[sn]['gateways'].add(uid)
                 else:
                     if len(service_subnet) > 1:
-                        self.subnets[sn] = {'services': {name}, 'gateways': {name}}
+                        self.subnets[sn] = {'services': {uid}, 'gateways': {uid}}
                     else:
-                        self.subnets[sn] = {'services': {name}, 'gateways': set()}
+                        self.subnets[sn] = {'services': {uid}, 'gateways': set()}
             
                 if 'ports' in service.keys():
-                    self.subnets[sn]['gateways'].add(name)
-                    self.gateway_services.add(name)
+                    self.subnets[sn]['gateways'].add(uid)
+                    self.gateway_services.add(uid)
     
         if 'ports' in service.keys():
             service['subnets'].append('exposed')
-            self.subnets['exposed']['services'].add(name)
-            self.subnets['exposed']['gateways'].add(name)
-            self.gateway_services.add(name)
+            self.subnets['exposed']['services'].add(uid)
+            self.subnets['exposed']['gateways'].add(uid)
+            self.gateway_services.add(uid)
     
-    def __add_service_to_graph(self, name: str):
+    def __add_service_to_graph(self, uid: str):
         """
         Add a specific service to its belonging graphs.
         Parameters:
-            name: the service to add provided by name
+            uid: the service to add provided by uid
         """
         
-        self.topology_graph.add_node(name)
+        self.topology_graph.add_node(uid)
         
-        service = self.services[name]
+        service = self.services[uid]
         service_subnet = service['subnets']
         for sn in service_subnet:
             neighbours = self.subnets[sn]['services']
             for neighbour in neighbours:
-                if neighbour != name:
-                    self.topology_graph.add_edge(name, neighbour)
+                if neighbour != uid:
+                    self.topology_graph.add_edge(uid, neighbour)
         
             if len(service_subnet) > 1:
                 for s2 in service_subnet:
                     if sn != s2:
                         self.gateway_graph.add_edge(sn, s2)
-                        self.gateway_graph_labels[(sn, s2)] = name
+                        self.gateway_graph_labels[(sn, s2)] = uid
         
             if 'ports' in service.keys():
-                self.topology_graph.add_edge('outside', name)
+                self.topology_graph.add_edge('outside', uid)
                 if sn != 'exposed':
                     self.gateway_graph.add_edge('exposed', sn)
-                    self.gateway_graph_labels[('exposed', sn)] = name
+                    self.gateway_graph_labels[('exposed', sn)] = uid
     
     def __read_docker_compose_file(self) -> dict[str]:
         """
@@ -344,7 +371,7 @@ class TopologyLayer:
              a dictionary of docker-compose.yml
         """
     
-        with open(os.path.join(self.example_folder, 'docker-compose.yml'), 'r') as compose_file:
+        with open(os.path.join(self.experiment_dir, 'docker-compose.yml'), 'r') as compose_file:
             docker_compose_file = yaml.full_load(compose_file)
         
         return docker_compose_file
