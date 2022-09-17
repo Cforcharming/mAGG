@@ -206,30 +206,30 @@ class MergedGraphLayer:
         
         affected_subnets = set()
         
-        image = 'nginx'
+        task = 'nginx'
         
         td = time.time()
         h = 0
-        for name in path_counts:
+        for uid in path_counts:
             
-            if name == 'outside':
+            if uid == 'outside':
                 continue
             
-            if path_counts[name] < minimum:
+            if path_counts[uid] < minimum:
                 break
             
-            old_subnets = topology_layer.services[name]['subnets']
+            old_subnets = topology_layer.services[uid]['subnets']
             
-            honeypot_name = 'honey-' + str(h)
-            new_service = {'image': image, 'subnets': old_subnets}
+            honeypot_uid = 'honey-' + str(h)
+            new_service = {'tasks': task, 'subnets': old_subnets}
             
-            topology_layer[honeypot_name] = new_service
-            vulnerability_layer[honeypot_name] = image
+            topology_layer[honeypot_uid] = new_service
+            vulnerability_layer[honeypot_uid] = task
             
             for subnet in old_subnets:
                 affected_subnets.add(subnet)
             
-            print(f'Honeypot {honeypot_name} deployed at {name}.')
+            print(f'Honeypot {honeypot_uid} deployed at {uid}.')
             h += 1
         
         td = time.time() - td
@@ -304,49 +304,49 @@ class MergedGraphLayer:
             
             self.service_probabilities[neighbour] = neighbour_probability
     
-    def __setitem__(self, name: str, new_service: dict[str]):
+    def __setitem__(self, uid: str, new_service: dict[str]):
         """
         set service to all layers
         Parameters:
-            name: name of the service
+            uid: uid of the service
             new_service: new service to set
         """
         
-        image = new_service['image']
+        task = new_service['tasks']
         new_subnets = new_service['subnets']
         
         attack_graph_layer = self.composed_graph_layer.attack_graph_layer
         vulnerability_layer = attack_graph_layer.vulnerability_layer
         topology_layer = vulnerability_layer.topology_layer
         
-        topology_layer[name] = new_service
-        vulnerability_layer[name] = image
+        topology_layer[uid] = new_service
+        vulnerability_layer[uid] = task
         attack_graph_layer.update_by_subnets(new_subnets)
         self.composed_graph_layer.get_graph_compose()
         self.merge()
         
         print(f'Service added: {new_service}.')
     
-    def __delitem__(self, name: str):
+    def __delitem__(self, uid: str):
         """
         Remove a service from all layers
         Parameters:
-            name: name of service to remove
+            uid: uid of service to remove
         """
         
         attack_graph_layer = self.composed_graph_layer.attack_graph_layer
         vulnerability_layer = attack_graph_layer.vulnerability_layer
         topology_layer = vulnerability_layer.topology_layer
         
-        affected_subnets = topology_layer.services[name]['subnets']
+        affected_subnets = topology_layer.services[uid]['subnets']
         
-        del topology_layer[name]
-        del vulnerability_layer[name]
+        del topology_layer[uid]
+        del vulnerability_layer[uid]
         attack_graph_layer.update_by_subnets(affected_subnets)
         self.composed_graph_layer.get_graph_compose()
         self.merge()
         
-        print(f'Service removed: {name}.')
+        print(f'Service removed: {uid}.')
     
     @staticmethod
     def compare_rates(services1: dict[str, float], services2: dict[str, float], to_n: str = None):

@@ -90,8 +90,8 @@ class ComposedGraphLayer:
             try:
                 self.composed_graph = nx.compose_all([*self._attack_graph_layer.attack_graph.values()])
                 
-                for network in self._attack_graph_layer.graph_labels:
-                    self.composed_labels |= self._attack_graph_layer.graph_labels[network]
+                for subnet in self._attack_graph_layer.graph_labels:
+                    self.composed_labels |= self._attack_graph_layer.graph_labels[subnet]
             except ValueError:
                 self.composed_graph = nx.DiGraph()
         
@@ -110,8 +110,8 @@ class ComposedGraphLayer:
         for node in self.composed_graph:
             
             if self.composed_graph.in_degree(node) == 0:
-                (name, privilege) = node
-                if name != 'outside':
+                (uid, privilege) = node
+                if uid != 'outside':
                     depth_delete_stack.append(node)
         
         while len(depth_delete_stack) > 0:
