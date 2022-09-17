@@ -16,20 +16,21 @@
 """
 Main module that builds a pipeline for multiple experiments. For details, please see main.ipydb
 """
-import os.path
+
+import os
 import sys
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
 
+from layers.vulnerability_layer import ClairctlVulnerabilityLayer
+from layers.topology_layer import DockerComposeTopologyLayer
 from layers.composed_graph_layer import ComposedGraphLayer
-from layers.vulnerability_layer import VulnerabilityLayer
 from layers.merged_graph_layer import MergedGraphLayer
 from layers.attack_graph_layer import AttackGraphLayer
-from layers.topology_layer import TopologyLayer
 
 from mio import wrapper
 
-__version__ = '1.1'
+__version__ = '1.2'
 
 
 def main(argv):
@@ -38,41 +39,49 @@ def main(argv):
     Parameters:
         argv: sys.argv
     """
-    config, examples = wrapper.init(argv)
+    config, experiments = wrapper.init(argv)
     
     concurrency = config['nums-of-processes']
     executor = None
     if concurrency > 0:
         executor = ProcessPoolExecutor(concurrency, mp.get_context('forkserver'))
     
-    attack_vectors = VulnerabilityLayer.get_attack_vectors(config["attack-vector-folder-path"], executor)
+    attack_vectors = ClairctlVulnerabilityLayer.get_attack_vectors(config['nvd-feed-path'], executor)
     
-    for example in examples:
-        example_folder, result_folder = wrapper.create_folders(example, config)
-        parse_one_folder(example_folder, result_folder, config, attack_vectors, executor)
+    for experiment in experiments:
+        experiment_dir, result_dir = wrapper.create_directories(experiment, config)
+        do_experiment(experiment_dir, result_dir, config, attack_vectors, executor)
     
     return 0
 
 
-def parse_one_folder(example_folder: str, result_folder: str, config: dict, attack_vectors: dict[str, dict[str]],
-                     executor: ProcessPoolExecutor):
+def do_experiment(experiment_dir: str, result_dir: str, config: dict, attack_vectors: dict[str, dict[str]],
+                  executor: ProcessPoolExecutor):
     """
-    Creating layers of one example folder, then test honeypot deployments.
+    Creating layers of one experiment directory, then test honeypot deployments.
     Parameters:
-        example_folder:
-        result_folder:
+        experiment_dir:
+        result_dir:
         config: config.yml file in form of dictionary
         attack_vectors: result of VulnerabilityLayer.get_attack_vectors()
         executor: concurrent.futures.Executor, default: None
     """
     
-    print(f'\n\n\n\n\n******************************{os.path.basename(example_folder)}******************************')
+    print(f'\n\n\n\n\n******************************{os.path.basename(experiment_dir)}******************************')
     
     # get topology layer
-    topology_layer = TopologyLayer(example_folder)
+    if topology_type := config['topology-type'] == 'docker-compose':
+        topology_layer = DockerComposeTopologyLayer(experiment_dir)
+    else:
+        raise ValueError(f'Topology type {topology_type} not implemented, '
+                         f'please feel free to open Issue or PR on GitHub.')
     
     # get vulnerability layer
-    vulnerability_layer = VulnerabilityLayer(topology_layer, config, attack_vectors)
+    if vulnerability_type := config['vulnerability-type'] == 'clairctl':
+        vulnerability_layer = ClairctlVulnerabilityLayer(topology_layer, config, attack_vectors)
+    else:
+        raise ValueError(f'Vulnerability type {vulnerability_type} not implemented, '
+                         f'please feel free to open Issue or PR on GitHub.')
     
     # get attack graph layer
     attack_graph_layer = AttackGraphLayer(vulnerability_layer, executor)
@@ -95,9 +104,9 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
         merged_graph_layer.deploy_honeypot(path_counts, minimum)
         merged_graph_layer.compare_rates(n1, merged_graph_layer.service_probabilities, to)
     
-    if config['generate-graphs']:
+    if config['draw-graphs']:
         # draw graphs
-        wrapper.visualise(merged_graph_layer, result_folder, 0)
+        wrapper.visualise(merged_graph_layer, result_dir, 0)
 
 
 if __name__ == '__main__':

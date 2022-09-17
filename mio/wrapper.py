@@ -16,8 +16,8 @@ This module wraps dirty works of IO like initialisation readings and file writin
 """
 
 from layers.merged_graph_layer import MergedGraphLayer
-
 from mio import reader, writer
+
 import time
 import os
 
@@ -29,40 +29,40 @@ def init(argv: list) -> (dict[str], list[str]):
         argv: sys.argv, where argv must be a list of 2
     Returns:
         config: config.yml file in form of dictionary
-        examples: a list of example folders
+        experiments: a list of experiment directories
     """
     # Opening the configuration file.
     config = reader.validate_config_file()
     
     # Checks if the command-line input and config file content is valid.
-    examples = reader.validate_command_line_input(argv, config)
+    experiments = reader.read_command_line_input(argv, config)
     
-    return config, examples
+    return config, experiments
 
 
-def create_folders(example_basename: str, config: dict[str]) -> (str, str):
+def create_directories(experiment_base: str, config: dict[str]) -> (str, str):
     """
-    Create folder where the result files will be stored.
+    Create directories where the result files will be stored.
     Parameters:
-        example_basename: where example folder is.
+        experiment_base: where experiment directory is.
         config: configurations
     Returns:
-        example_folder: absolute path
-        result_folder: absolute path
+        experiment_dir: absolute path
+        result_dir: absolute path
     """
-    example_folder = os.path.join(os.getcwd(), config['examples-path'], example_basename)
-    result_folder = writer.create_result_folder(example_basename, config['examples-results-path'])
+    experiment_dir = os.path.join(os.getcwd(), config['experiment-paths'], experiment_base)
+    result_dir = writer.create_result_dir(experiment_base, config['result-paths'])
     
-    return example_folder, result_folder
+    return experiment_dir, result_dir
 
 
-def visualise(merged_graph_layer: MergedGraphLayer, result_folder: str, times: int):
+def visualise(merged_graph_layer: MergedGraphLayer, result_dir: str, times: int):
     """
     Visualise layers and save to file.
     Parameters:
         merged_graph_layer: MergedGraphLayer
-        result_folder: where results are stored.
-        times: the sub folder in result_folder, where i indicates times of writing
+        result_dir: where results are stored.
+        times: the subdirectory in result_dir, where i indicates times of writing
     """
     time_start = time.time()
     
@@ -71,11 +71,11 @@ def visualise(merged_graph_layer: MergedGraphLayer, result_folder: str, times: i
     vulnerability_layer = attack_graph_layer.vulnerability_layer
     topology_layer = vulnerability_layer.topology_layer
     
-    writer.write_topology_graph(topology_layer, result_folder, times)
-    writer.write_gateway_graph(topology_layer, result_folder, times)
-    writer.write_attack_graphs(attack_graph_layer, result_folder, times)
-    writer.write_composed_graph(composed_graph_layer, result_folder, times)
-    writer.write_merged_graph(merged_graph_layer, result_folder, times)
+    writer.write_topology_graph(topology_layer, result_dir, times)
+    writer.write_gateway_graph(topology_layer, result_dir, times)
+    writer.write_attack_graphs(attack_graph_layer, result_dir, times)
+    writer.write_composed_graph(composed_graph_layer, result_dir, times)
+    writer.write_merged_graph(merged_graph_layer, result_dir, times)
     
     print(f'Time for visualising: {time.time() - time_start} seconds.')
 

@@ -21,13 +21,13 @@ import sys
 import os
 
 
-def validate_command_line_input(argv: list, config: dict) -> list[str]:
+def read_command_line_input(argv: list, config: dict[str]) -> list[str]:
     """
     Parameters:
         argv: sys.argv
         config: a dict of configs
     Returns:
-        a list of example folders
+        a list of experiment directories
     Raises:
         ValueError: if any args are invalid
     """
@@ -36,58 +36,58 @@ def validate_command_line_input(argv: list, config: dict) -> list[str]:
     
     match argv[1]:
         case 'full':
-            example_folders = os.listdir(os.path.join(os.getcwd(), 'examples/full-conn'))
-            example_folders = ['full-conn/' + e for e in example_folders]
-            
+            experiment_dirs = os.listdir(os.path.join(os.getcwd(), 'examples/full-conn'))
+            experiment_dirs = ['full-conn/' + e for e in experiment_dirs]
+        
         case 'real':
-            example_folders = os.listdir(os.path.join(os.getcwd(), 'examples/designed'))
-            example_folders = ['designed/' + e for e in example_folders]
-            
+            experiment_dirs = os.listdir(os.path.join(os.getcwd(), 'examples/designed'))
+            experiment_dirs = ['designed/' + e for e in experiment_dirs]
+        
         case '-h' | '--help' | 'help':
             print('Usage: mAGG [options] | [dir1 dir2 ..]',
                   'options:',
-                  'dir1 dir2 dir3:           dirs must be in \'example-results\' of data/config.yml',
+                  'dir1 dir2 dir3:           dirs must be in \'experiment-paths\' of data/config.yml',
                   '                          dirs must contain a valid docker-compose file, and'
                   '                          may also containing vulnerability files',
                   '                          of images in format of clair json report.',
                   '',
-                  'full:                     run all examples in sub directory \'full-conn\''
+                  'full:                     run all examples in directory \'{experiment-paths}/full-conn\''
                   '',
-                  'real                      run all examples in sub directory \'designed\''
+                  'designed                  run all examples in sub directory \'{experiment-paths}/designed\''
                   '',
                   '-v | --version | version: show version and license',
                   '',
                   '-h | --help | help:       print this message', sep='\n')
             sys.exit(0)
-            
+        
         case '-v' | '--version' | 'version':
             print(f'mAGG version: {main.__version__}', end='\n\n')
-            print('''Copyright 2022 Hanwen Zhang
-Licensed under the Apache License, Version 2.0 (the "License");
-Unless required by applicable law or agreed to in writing, software.
- 
-Distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.''')
+            print('Copyright 2022 Hanwen Zhang',
+                  'Licensed under the Apache License, Version 2.0 (the "License");',
+                  'Unless required by applicable law or agreed to in writing, software.',
+                  '',
+                  'Distributed under the License is distributed on an "AS IS" BASIS,',
+                  'WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.', sep='\n')
             sys.exit(0)
-            
+        
         case _:
-            example_folders = []
-            example_base = config['examples-path']
+            experiment_dirs = []
+            experiment_base = config['experiment-paths']
             
             for arg in argv[1:]:
-                example_folder = os.path.join(example_base, arg)
+                experiment_dir = os.path.join(experiment_base, arg)
                 
-                # Check if the specified folder exists.
-                if not os.path.exists(example_folder):
-                    raise ValueError(f'The entered example folder name does not exist: {arg}.')
+                # Check if the specified directory exists.
+                if not os.path.exists(experiment_dir):
+                    raise ValueError(f'No such directory: {arg}.')
                 
-                # Check if there is a docker-compose.yml file in the specified folder.
-                if 'docker-compose.yml' not in os.listdir(example_folder):
-                    raise ValueError(f'docker-compose.yml is missing in the folder: {arg}.')
+                # Check if there is a docker-compose.yml file in the specified directory.
+                if 'docker-compose.yml' not in os.listdir(experiment_dir):
+                    raise ValueError(f'docker-compose.yml is missing in the directory: {arg}.')
                 
-                example_folders.append(arg)
-            
-    return example_folders
+                experiment_dirs.append(arg)
+    
+    return experiment_dirs
 
 
 def validate_config_file() -> dict[str]:
@@ -99,48 +99,52 @@ def validate_config_file() -> dict[str]:
         ValueError: if contents in config is invalid.
     """
     
-    config_file = read_config_file()
+    config = read_config_file()
     
     # Check if the main keywords are present in the config file.
-    main_keywords = {'attack-vector-folder-path', 'examples-results-path', 'examples-path', 'nums-of-processes',
-                     'generate-graphs', 'single-edge-label', 'single-exploit-per-service',
-                     'deploy-honeypots', 'honeypot-destination'}
+    main_keywords = {'nvd-feed-path', 'experiment-paths', 'result-paths', 'topology-type', 'vulnerability-type',
+                     'nums-of-processes', 'draw-graphs', 'single-edge-label', 'single-exploit-per-service',
+                     'deploy-honeypots', 'target'}
+    
+    print('Checking data/config.yml...')
     
     for main_keyword in main_keywords:
-        if main_keyword not in config_file.keys():
-            raise ValueError(f'Keyword \'{main_keyword}\' is missing in the config file.')
+        if main_keyword not in config.keys():
+            raise ValueError(f'Keyword \'{main_keyword}\' is missing in the data/config.yml.')
     
-    # Check if the generate_graphs keyword has the right values
-    generate_graphs = config_file['generate-graphs']
-    if type(generate_graphs) is not bool:
-        raise ValueError(f'Value \'{generate_graphs}\' is invalid for keyword \'generate-graphs\', it must be bool')
+    if not os.path.isdir(nvd_path := config['nvd-feed-path']):
+        raise ValueError(f'Value\' {nvd_path}\' is invalid for keyword \'nvd-feed-path\', no such directory.')
     
-    # Check if the show_one_vul_per_edge keyword has the right values
-    single_edge_label = config_file['single-edge-label']
-    if type(single_edge_label) is not bool:
-        raise ValueError(f'Value \'{single_edge_label}\' is invalid for keyword \'single-edge-label\', it must be bool')
+    if not os.path.isdir(experiment_paths := config['experiment-paths']):
+        raise ValueError(f'Value\' {experiment_paths}\' '
+                         f'is invalid for keyword \'experiment-paths\', no such directory.')
     
-    # Check if the labels_edges keyword has the right values
-    single_exploit_per_service = config_file['single-exploit-per-service']
-    if type(single_exploit_per_service) is not bool:
-        raise ValueError(f'Value \'{single_exploit_per_service}\' is invalid for keyword \'single-exploit-per-service'
-                         f'\', ' f'it must be bool')
-
-    concurrency = config_file['nums-of-processes']
-    if type(concurrency) is not int or concurrency < 0:
+    if not os.path.isdir(result_paths := config['result-paths']):
+        raise ValueError(f'Value\' {result_paths}\' is invalid for keyword \'result-paths\', no such directory.')
+    
+    if type(concurrency := config['nums-of-processes']) is not int or concurrency < 0:
         raise ValueError(f'Value \'{concurrency}\' is invalid for keyword \'nums-of-processes\', '
                          f'it must be an integer no less than 0.')
-
-    deploy_honeypots = config_file['deploy-honeypots']
-    if type(deploy_honeypots) is not bool:
-        raise ValueError(f'Value \'{deploy_honeypots}\' is invalid for keyword \'single-exploit-per-node\', '
-                         f'it must be bool')
     
-    honeypot_destination = config_file['honeypot-destination']
-    if honeypot_destination == 'None':
-        config_file['honeypot-destination'] = None
+    if type(draw_graphs := config['draw-graphs']) is not bool:
+        raise ValueError(f'Value \'{draw_graphs}\' is invalid for keyword \'generate-graphs\', it must be bool.')
     
-    return config_file
+    if type(single_edge_label := config['single-edge-label']) is not bool:
+        raise ValueError(f'Value \'{single_edge_label}\' is invalid for keyword \'single-edge-label\', '
+                         f'it must be bool.')
+    
+    if type(single_exploit_per_service := config['single-exploit-per-service']) is not bool:
+        raise ValueError(f'Value \'{single_exploit_per_service}\' is invalid for keyword \'single-exploit-per-service'
+                         f'\', ' f'it must be bool.')
+    
+    if type(deploy_honeypots := config['deploy-honeypots']) is not bool:
+        raise ValueError(f'Value \'{deploy_honeypots}\' is invalid for keyword \'deploy-honeypots\', it must be bool.')
+    
+    if config['target'] == 'None':
+        config['target'] = None
+    
+    print('Done.')
+    return config
 
 
 def read_config_file() -> dict[str]:

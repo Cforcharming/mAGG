@@ -1,31 +1,37 @@
-# The location of the folder with the NVD attack rule files.
-attack-vector-folder-path: data/nvd-json-feed
+# The location of the directory with the NVD attack rule files.
+nvd-feed-path: data/nvd-json-feed
 
-# The locations from where the example-folders are read and where their results are being stored.
-examples-results-path: example-results
+# The locations from where the experiment networks are read
+experiment-paths: examples
 
-# The locations from where the example-folders are read and where their results are being stored.
-examples-path: examples
+# The locations from where the result directories are created and where their results are stored.
+result-paths: example-results
 
-# nums of processes, 0 will cause no concurrency. Set this according to your CPU.
+# nums of concurrent processes, 0 will cause no concurrency. Set this according to your CPU.
 nums-of-processes: 12
 
-# This property states if topology and attack graphs are going to be produced.
-generate-graphs: False # Options {True, False}
+# What virtual network type of the experiment networks are. Currently, only Docker Compose is supported.
+topology-type: docker-compose # Options {docker-compose}
+
+# What vulnerability checker is used. Currently, only Clairctl is supported.
+vulnerability-type: clairctl # Options {clairctl}
+
+# if graphs are going to be drawn.
+draw-graphs: False # Options {True, False}
 
 # This property states if single or multiple vulnerabilities constitute an edge between two same services
 single-edge-label: True # Options {True, False}
 
-# This property states if a service is exploited only once, or as much as possible
+# if a service is exploited only once, or as much as possible
 single-exploit-per-service: False # Options {True, False}
 
-# This property states if honeypots are deployed
+# if honeypots are deployed
 deploy-honeypots: True # Options {True, False}
 
-# # This property states the destination of honeypots
-honeypot-destination: target # Options None
+# the target service for calculating paths when deploying honeypots
+target: None # default: None
 
-# The rules required to produce pre- and postconditions. They follow a specific pattern.
+# The rules required to produce pre- and post-conditions. They follow a specific pattern.
 preconditions-rules:
   rule1:
     accessVector: '?'
