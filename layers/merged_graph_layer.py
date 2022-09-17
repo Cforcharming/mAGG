@@ -159,7 +159,7 @@ class MergedGraphLayer:
         tm = time.time() - tm
         print(f'Time for merging graphs: {tm} seconds.')
     
-    def gen_defence_list(self, from_n='outside', to_n: str = None) -> dict[str, int]:
+    def gen_defence_list(self, to_n: str = None, from_n='outside') -> dict[str, int]:
         """
         Generate a list of nodes to deploy honeypots, based on connectivities and probabilities
         Parameters
