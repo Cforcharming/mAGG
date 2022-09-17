@@ -27,15 +27,15 @@ class TopologyLayer:
     Encapsulation of physical topology of a network.
     
     Properties:
-        networks: in shape of {'net1':{'nodes':set(), 'gateways', set()}}
+        subnets: in shape of {'net1':{'services':set(), 'gateways', set()}}
         
-        services: in shape of {'service1': {'nodes': set(), 'networks': [], 'gateways':set()}}
+        services: in shape of {'service1': {'services': set(), 'subnets': [], 'gateways':set()}}
         
-        gateway_nodes: in shape of {'g1', 'g2'}
+        gateway_services: in shape of {'g1', 'g2'}
         
-        topology_graph: a networkx.Graph object with services as nodes and connections as edges.
+        topology_graph: a nx.Graph object with services as services and connections as edges.
         
-        gateway_graph: a networkx.Graph object with subnets as nodes and gateways as edges.
+        gateway_graph: a nx.Graph object with subnets as services and gateways as edges.
         
         gateway_graph_labels: a dictionary label used for gateway_graph, like {('net1', 'net2'): 'g1'}
     """
@@ -47,9 +47,9 @@ class TopologyLayer:
             example_folder: str, The folder containing topology structures and configuration files.
         """
         
-        self._networks = None
+        self._subnets = None
         self._services = None
-        self._gateway_nodes = set()
+        self._gateway_services = set()
         self._topology_graph = nx.Graph()
         self._gateway_graph = nx.Graph()
         self._gateway_graph_labels = dict()
@@ -60,34 +60,34 @@ class TopologyLayer:
         print(f'Time for initialising topology layer: {dt + dg} seconds.')
     
     @property
-    def networks(self) -> dict[str, dict[str, set]]:
+    def subnets(self) -> dict[str, dict[str, set]]:
         """
         Returns:
-             networks: in shape of {'net1':{'nodes':set(), 'gateways', set()}}
+             subnets: in shape of {'net1':{'services':set(), 'gateways', set()}}
         """
-        return self._networks
+        return self._subnets
     
     @property
     def services(self) -> dict[str, dict[str]]:
         """
         Returns:
-            services: in shape of {'service1': {'nodes': set(), 'networks': [], 'gateways':set()}}
+            services: in shape of {'service1': {'services': set(), 'subnets': [], 'gateways':set()}}
         """
         return self._services
     
     @property
-    def gateway_nodes(self) -> set[str]:
+    def gateway_services(self) -> set[str]:
         """
         Returns:
-            gateway_nodes: in shape of {'g1', 'g2'}
+            gateway_services: in shape of {'g1', 'g2'}
         """
-        return self._gateway_nodes
+        return self._gateway_services
     
     @property
     def topology_graph(self) -> nx.Graph:
         """
         Returns:
-            topology_graph: a networkx.Graph object with services as nodes and connections as edges.
+            topology_graph: a nx.Graph object with services as services and connections as edges.
         """
         return self._topology_graph
     
@@ -95,7 +95,7 @@ class TopologyLayer:
     def gateway_graph(self) -> nx.Graph:
         """
         Returns:
-            gateway_graph: a networkx.Graph object with subnets as nodes and gateways as edges.
+            gateway_graph: a nx.Graph object with subnets as services and gateways as edges.
         """
         return self._gateway_graph
     
@@ -111,17 +111,17 @@ class TopologyLayer:
     def example_folder(self) -> str:
         return self._example_folder
     
-    @networks.setter
-    def networks(self,  networks: dict[str, dict[str, set]]):
-        self._networks = networks
+    @subnets.setter
+    def subnets(self,  subnets: dict[str, dict[str, set]]):
+        self._subnets = subnets
 
     @services.setter
     def services(self, services: dict[str, dict[str]]):
         self._services = services
     
-    @gateway_nodes.setter
-    def gateway_nodes(self, gateway_nodes: set[str]):
-        self._gateway_nodes = gateway_nodes
+    @gateway_services.setter
+    def gateway_services(self, gateway_services: set[str]):
+        self._gateway_services = gateway_services
     
     @topology_graph.setter
     def topology_graph(self, topology_graph: nx.Graph):
@@ -149,7 +149,7 @@ class TopologyLayer:
         """
         
         self.services[name] = new_service
-        self.__add_service_networks(name)
+        self.__add_service_subnets(name)
         self.__add_service_to_graph(name)
     
     def __delitem__(self, name: str):
@@ -160,56 +160,56 @@ class TopologyLayer:
         
         del topology['x']
         
-        deletes node 'x' from the graph.
+        deletes service 'x' from the graph.
         
         Parameters:
             name: a service to delete by name
         """
         service_to_delete = self.services[name]
-        network_to_delete = service_to_delete['networks']
+        subnet_to_delete = service_to_delete['subnets']
         
-        for n in network_to_delete:
-            network = self.networks[n]
-            network['nodes'].remove(name)
-            if name in network['gateways']:
-                network['gateways'].remove(name)
+        for n in subnet_to_delete:
+            subnet = self.subnets[n]
+            subnet['services'].remove(name)
+            if name in subnet['gateways']:
+                subnet['gateways'].remove(name)
         
         self.topology_graph.remove_node(name)
         
-        if name in self.gateway_nodes:
-            self.gateway_nodes.remove(name)
+        if name in self.gateway_services:
+            self.gateway_services.remove(name)
             for (u, v) in self.gateway_graph_labels.copy():
                 if self.gateway_graph_labels[(u, v)] == name:
                     if self.gateway_graph.has_edge(u, v):
                         self.gateway_graph.remove_edge(u, v)
                     del self.gateway_graph_labels[(u, v)]
         
-        for node in list(self.gateway_graph.nodes):
-            if self.gateway_graph.degree(node) == 0:
-                self.gateway_graph.remove_node(node)
+        for service in list(self.gateway_graph.nodes):
+            if self.gateway_graph.degree(service) == 0:
+                self.gateway_graph.remove_node(service)
         
         del self.services[name]
     
     @staticmethod
-    def get_neighbours(services: dict[str, dict[str]], networks: dict[str, dict[str, set]], node: str) -> set[str]:
+    def get_neighbours(services: dict[str, dict[str]], subnets: dict[str, dict[str, set]], service: str) -> set[str]:
         """
-        Get neighbours of a node
+        Get neighbours of a service
         Parameters:
             services:
-            networks:
-            node:
+            subnets:
+            service:
             Returns:
               A set of neighbours
         """
     
         neighbours: set[str] = set()
-        if node != 'outside':
-            nws = services[node]['networks']
+        if service != 'outside':
+            nws = services[service]['subnets']
         else:
             nws = ['exposed']
     
         for nw in nws:
-            for neighbour in networks[nw]['nodes']:
+            for neighbour in subnets[nw]['services']:
                 neighbours.add(neighbour)
     
         return neighbours
@@ -220,14 +220,19 @@ class TopologyLayer:
         """
     
         docker_compose = self.__read_docker_compose_file()
+        
+        self.services = docker_compose.get('services', dict())
+        self.subnets = docker_compose.get('networks', dict())
     
-        self.services = docker_compose.get("services", dict())
-        self.networks = docker_compose.get('networks', dict())
-    
-        for network in self.networks:
-            self.networks[network] = {'nodes': set(), 'gateways': set()}
-    
-        self.networks['exposed'] = {'nodes': {'outside'}, 'gateways': set()}
+        for subnet in self.subnets:
+            self.subnets[subnet] = {'services': set(), 'gateways': set()}
+        
+        for service in self.services:
+            subnet = self.services[service]['networks']
+            self.services[service]['subnets'] = subnet
+            del self.services[service]['networks']
+        
+        self.subnets['exposed'] = {'services': {'outside'}, 'gateways': set()}
     
     def __parse_topology(self) -> float:
         """
@@ -242,7 +247,7 @@ class TopologyLayer:
         self.__parse_folder()
         
         for name in self.services:
-            self.__add_service_networks(name)
+            self.__add_service_subnets(name)
         
         dt = time.time() - time_start
         print(f'Time for parsing topology: {dt} seconds.')
@@ -265,43 +270,43 @@ class TopologyLayer:
         print(f'Time for creating topology graphs: {dg} seconds.')
         return dg
 
-    def __add_service_networks(self, name: str):
+    def __add_service_subnets(self, name: str):
         """
-        Add a specific service to its belonging networks.
+        Add a specific service to its belonging subnets.
         Parameters:
             name: the service to add provided by name
         """
         
         service = self.services[name]
         
-        service_network: list = service['networks']
+        service_subnet: list = service['subnets']
     
-        if len(service_network) >= 1:
+        if len(service_subnet) >= 1:
         
-            if len(service_network) > 1:
-                self.gateway_nodes.add(name)
+            if len(service_subnet) > 1:
+                self.gateway_services.add(name)
         
-            for sn in service_network:
+            for sn in service_subnet:
             
-                if sn in self.networks:
-                    self.networks[sn]['nodes'].add(name)
-                    if len(service_network) > 1:
-                        self.networks[sn]['gateways'].add(name)
+                if sn in self.subnets:
+                    self.subnets[sn]['services'].add(name)
+                    if len(service_subnet) > 1:
+                        self.subnets[sn]['gateways'].add(name)
                 else:
-                    if len(service_network) > 1:
-                        self.networks[sn] = {'nodes': {name}, 'gateways': {name}}
+                    if len(service_subnet) > 1:
+                        self.subnets[sn] = {'services': {name}, 'gateways': {name}}
                     else:
-                        self.networks[sn] = {'nodes': {name}, 'gateways': set()}
+                        self.subnets[sn] = {'services': {name}, 'gateways': set()}
             
                 if 'ports' in service.keys():
-                    self.networks[sn]['gateways'].add(name)
-                    self.gateway_nodes.add(name)
+                    self.subnets[sn]['gateways'].add(name)
+                    self.gateway_services.add(name)
     
         if 'ports' in service.keys():
-            service['networks'].append('exposed')
-            self.networks['exposed']['nodes'].add(name)
-            self.networks['exposed']['gateways'].add(name)
-            self.gateway_nodes.add(name)
+            service['subnets'].append('exposed')
+            self.subnets['exposed']['services'].add(name)
+            self.subnets['exposed']['gateways'].add(name)
+            self.gateway_services.add(name)
     
     def __add_service_to_graph(self, name: str):
         """
@@ -313,15 +318,15 @@ class TopologyLayer:
         self.topology_graph.add_node(name)
         
         service = self.services[name]
-        service_network = service['networks']
-        for sn in service_network:
-            neighbours = self.networks[sn]['nodes']
+        service_subnet = service['subnets']
+        for sn in service_subnet:
+            neighbours = self.subnets[sn]['services']
             for neighbour in neighbours:
                 if neighbour != name:
                     self.topology_graph.add_edge(name, neighbour)
         
-            if len(service_network) > 1:
-                for s2 in service_network:
+            if len(service_subnet) > 1:
+                for s2 in service_subnet:
                     if sn != s2:
                         self.gateway_graph.add_edge(sn, s2)
                         self.gateway_graph_labels[(sn, s2)] = name
@@ -341,5 +346,5 @@ class TopologyLayer:
     
         with open(os.path.join(self.example_folder, 'docker-compose.yml'), 'r') as compose_file:
             docker_compose_file = yaml.full_load(compose_file)
-    
+        
         return docker_compose_file

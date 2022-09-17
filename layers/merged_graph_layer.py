@@ -27,13 +27,13 @@ class MergedGraphLayer:
     """
     Encapsulation of merged graph over a network for bayesian probabilities.
     Properties:
-        merged_graph: a nx.DiGraph, merging the nodes of attack graphs
+        merged_graph: a nx.DiGraph, merging the services of attack graphs
         
         merged_labels: labels for merged_graph
 
         composed_graph_layer: ComposedGraphLayer binding
         
-        node_probabilities: a dict containing bayesian probabilities
+        service_probabilities: a dict containing bayesian probabilities
     """
     
     def __init__(self, composed_graph_layer: ComposedGraphLayer):
@@ -48,7 +48,7 @@ class MergedGraphLayer:
         self._weighted_edges = list()
         self._edge_start_from = dict()
         self._composed_graph_layer = composed_graph_layer
-        self._node_probabilities = None
+        self._service_probabilities = None
         self.merge()
         tm = time.time() - tm
         print(f'Time for graph merging: {tm} seconds.')
@@ -57,7 +57,7 @@ class MergedGraphLayer:
     def merged_graph(self) -> nx.DiGraph:
         """
         Returns:
-            merged_graph: a nx.DiGraph, merging the nodes of attack graphs
+            merged_graph: a nx.DiGraph, merging the services of attack graphs
         """
         return self._merged_graph
     
@@ -78,12 +78,12 @@ class MergedGraphLayer:
         return self._composed_graph_layer
     
     @property
-    def node_probabilities(self) -> dict[str, float]:
+    def service_probabilities(self) -> dict[str, float]:
         """
         Returns:
-            node_probabilities: a dict containing bayesian probabilities
+            service_probabilities: a dict containing bayesian probabilities
         """
-        return self._node_probabilities
+        return self._service_probabilities
     
     @merged_graph.setter
     def merged_graph(self, merged_graph: nx.DiGraph):
@@ -97,14 +97,14 @@ class MergedGraphLayer:
     def merged_labels(self, merged_labels: dict[(str, str), dict[str]]):
         self._merged_labels = merged_labels
     
-    @node_probabilities.setter
-    def node_probabilities(self, node_probabilities: dict[str, float]):
-        self._node_probabilities = node_probabilities
+    @service_probabilities.setter
+    def service_probabilities(self, service_probabilities: dict[str, float]):
+        self._service_probabilities = service_probabilities
     
     # noinspection PyCallingNonCallable
     def merge(self):
         """
-        Merging composed graphs, where same nodes with different privileges are treated as one.
+        Merging composed graphs, where same services with different privileges are treated as one.
         Then compute the weight by CVSS score.
         """
         
@@ -112,9 +112,9 @@ class MergedGraphLayer:
         
         for label in self.composed_graph_layer.composed_labels:
             
-            (start_node, privilege1), (end_node, privilege2) = label
+            (start_service, privilege1), (service, privilege2) = label
             
-            if start_node == end_node:
+            if start_service == service:
                 continue
             
             vulnerabilities = self.composed_graph_layer.composed_labels[label]
@@ -124,7 +124,7 @@ class MergedGraphLayer:
                     scores = self.composed_graph_layer.attack_graph_layer.vulnerability_layer.scores
                     score = max(score, scores[vulnerability])
             weight_to_compare = MergedGraphLayer.__get_weight_from_score(score)
-            new_label = (start_node, end_node)
+            new_label = (start_service, service)
             
             if new_label in self.merged_labels \
                     and weight_to_compare >= self.merged_labels[new_label]['weight']:
@@ -133,15 +133,15 @@ class MergedGraphLayer:
             self.merged_labels[new_label] = {'weight': weight_to_compare, 'CVE': vulnerabilities}
             
             self._edge_start_from: dict[str, set[(str, str)]]
-            if start_node in self._edge_start_from:
-                self._edge_start_from[start_node].add(new_label)
+            if start_service in self._edge_start_from:
+                self._edge_start_from[start_service].add(new_label)
             else:
-                self._edge_start_from[start_node] = {new_label}
+                self._edge_start_from[start_service] = {new_label}
         
-        for node in self._edge_start_from:
+        for service in self._edge_start_from:
             
             total_value = 0
-            out_edges = self._edge_start_from[node]
+            out_edges = self._edge_start_from[service]
             for out_edge in out_edges:
                 weight = self.merged_labels[out_edge]['weight']
                 total_value += 1 - weight
@@ -150,8 +150,8 @@ class MergedGraphLayer:
                 self.merged_labels[out_edge]['probability'] = math.trunc((1 - weight) / total_value * 100) / 100
         
         for label in self.merged_labels:
-            start_node, end_node = label
-            self._weighted_edges.append((start_node, end_node, self.merged_labels[label]))
+            start_service, service = label
+            self._weighted_edges.append((start_service, service, self.merged_labels[label]))
         
         self.merged_graph.add_edges_from(self._weighted_edges)
         self.__get_bayesian_probabilities()
@@ -161,34 +161,34 @@ class MergedGraphLayer:
     
     def gen_defence_list(self, to_n: str = None, from_n='outside') -> dict[str, int]:
         """
-        Generate a list of nodes to deploy honeypots, based on connectivities and probabilities
+        Generate a list of services to deploy honeypots, based on connectivities and probabilities
         Parameters
             to_n:
             from_n:
         Returns:
-            A list of nodes to deploy honeypots.
+            A list of services to deploy honeypots.
         """
         if from_n not in self.merged_graph:
-            raise ValueError(f'Start node {from_n} is not in the merged graph.')
+            raise ValueError(f'Start service {from_n} is not in the merged graph.')
         
         if to_n is not None and to_n not in self.merged_graph:
-            raise ValueError(f'End node {to_n} is not in the merged graph.')
+            raise ValueError(f'End service {to_n} is not in the merged graph.')
         
         tg = time.time()
         path_counts: dict[str, int] = dict()
         topology_layer = self.composed_graph_layer.attack_graph_layer.vulnerability_layer.topology_layer
-        for gateway in topology_layer.gateway_nodes:
+        for gateway in topology_layer.gateway_services:
             degree: int = topology_layer.topology_graph.degree(gateway)
             path_counts[gateway] = degree
 
         if to_n is not None:
-            for node in nx.shortest_path(self.merged_graph, from_n, to_n):
-                if node in path_counts:
-                    path_counts[node] = path_counts[node] + 1
+            for service in nx.shortest_path(self.merged_graph, from_n, to_n):
+                if service in path_counts:
+                    path_counts[service] = path_counts[service] + 1
                 else:
-                    path_counts[node] = 1
+                    path_counts[service] = 1
         tg = time.time() - tg
-        print(f'The nodes to protect: {[*path_counts.keys()]}')
+        print(f'The services to protect: {[*path_counts.keys()]}')
         print(f'Time for generating defence list: {tg} seconds.')
         return path_counts
     
@@ -204,7 +204,7 @@ class MergedGraphLayer:
         vulnerability_layer = attack_graph_layer.vulnerability_layer
         topology_layer = vulnerability_layer.topology_layer
         
-        affected_networks = set()
+        affected_subnets = set()
         
         image = 'nginx'
         
@@ -218,39 +218,39 @@ class MergedGraphLayer:
             if path_counts[name] < minimum:
                 break
             
-            old_networks = topology_layer.services[name]['networks']
+            old_subnets = topology_layer.services[name]['subnets']
             
             honeypot_name = 'honey-' + str(h)
-            new_service = {'image': image, 'networks': old_networks}
+            new_service = {'image': image, 'subnets': old_subnets}
             
             topology_layer[honeypot_name] = new_service
             vulnerability_layer[honeypot_name] = image
             
-            for network in old_networks:
-                affected_networks.add(network)
+            for subnet in old_subnets:
+                affected_subnets.add(subnet)
             
             print(f'Honeypot {honeypot_name} deployed at {name}.')
             h += 1
         
         td = time.time() - td
         print(f'Time for deploying honeypots: {td} seconds.')
-        attack_graph_layer.update_by_networks(list(affected_networks))
+        attack_graph_layer.update_by_subnets(list(affected_subnets))
         self.composed_graph_layer.get_graph_compose()
         self.merge()
     
     def __get_bayesian_probabilities(self, from_n='outside'):
         """
-        Get bayesian probabilities for all nodes presenting in networks
+        Get bayesian probabilities for all services presenting in subnets
         Parameters:
             from_n: where search starts
         """
         
-        self.node_probabilities = dict()
+        self.service_probabilities = dict()
         
         if from_n not in self.merged_graph.nodes:
-            raise ValueError(f'node \'{from_n}\' undefined in merged graph.')
+            raise ValueError(f'service \'{from_n}\' undefined in merged graph.')
         
-        self.node_probabilities[from_n] = 1
+        self.service_probabilities[from_n] = 1
         
         queue = deque()
         queue.append(from_n)
@@ -260,21 +260,21 @@ class MergedGraphLayer:
     
     def breadth_first_bayesian(self, queue: deque):
         """
-        breadth first search throw nodes for bayesian probabilities
+        breadth first search throw services for bayesian probabilities
         Parameter
             queue: queue object
         """
         has_bayesian = queue.popleft()
         
         topology_layer = self.composed_graph_layer.attack_graph_layer.vulnerability_layer.topology_layer
-        neighbours = topology_layer.get_neighbours(topology_layer.services, topology_layer.networks, has_bayesian)
+        neighbours = topology_layer.get_neighbours(topology_layer.services, topology_layer.subnets, has_bayesian)
         
         for neighbour in neighbours:
             
             if neighbour not in self.merged_graph.nodes:
                 continue
             
-            if neighbour in self.node_probabilities:
+            if neighbour in self.service_probabilities:
                 continue
             
             edge = (has_bayesian, neighbour)
@@ -283,7 +283,7 @@ class MergedGraphLayer:
             
             if 'honey' not in neighbour:
                 if edge in self.merged_labels:
-                    neighbour_probability += self.node_probabilities[has_bayesian] \
+                    neighbour_probability += self.service_probabilities[has_bayesian] \
                         * self.merged_labels[edge]['probability']
                 
                 for neighbour_of_neighbour in neighbours:
@@ -299,21 +299,21 @@ class MergedGraphLayer:
                     neighbour_probability += self.merged_labels[start_edge]['probability'] \
                         * self.merged_labels[end_edge]['probability']
             
-            if neighbour in topology_layer.gateway_nodes:
+            if neighbour in topology_layer.gateway_services:
                 queue.append(neighbour)
             
-            self.node_probabilities[neighbour] = neighbour_probability
+            self.service_probabilities[neighbour] = neighbour_probability
     
     def __setitem__(self, name: str, new_service: dict[str]):
         """
-        set node to all layers
+        set service to all layers
         Parameters:
-            name: name of the node
+            name: name of the service
             new_service: new service to set
         """
         
         image = new_service['image']
-        new_networks = new_service['networks']
+        new_subnets = new_service['subnets']
         
         attack_graph_layer = self.composed_graph_layer.attack_graph_layer
         vulnerability_layer = attack_graph_layer.vulnerability_layer
@@ -321,15 +321,15 @@ class MergedGraphLayer:
         
         topology_layer[name] = new_service
         vulnerability_layer[name] = image
-        attack_graph_layer.update_by_networks(new_networks)
+        attack_graph_layer.update_by_subnets(new_subnets)
         self.composed_graph_layer.get_graph_compose()
         self.merge()
         
-        print(f'Node added: {new_service}.')
+        print(f'Service added: {new_service}.')
     
     def __delitem__(self, name: str):
         """
-        Remove a node from all layers
+        Remove a service from all layers
         Parameters:
             name: name of service to remove
         """
@@ -338,30 +338,30 @@ class MergedGraphLayer:
         vulnerability_layer = attack_graph_layer.vulnerability_layer
         topology_layer = vulnerability_layer.topology_layer
         
-        affected_networks = topology_layer.services[name]['networks']
+        affected_subnets = topology_layer.services[name]['subnets']
         
         del topology_layer[name]
         del vulnerability_layer[name]
-        attack_graph_layer.update_by_networks(affected_networks)
+        attack_graph_layer.update_by_subnets(affected_subnets)
         self.composed_graph_layer.get_graph_compose()
         self.merge()
         
-        print(f'Node removed: {name}.')
+        print(f'Service removed: {name}.')
     
     @staticmethod
-    def compare_rates(nodes1: dict[str, float], nodes2: dict[str, float], to_n: str = None):
+    def compare_rates(services1: dict[str, float], services2: dict[str, float], to_n: str = None):
         """
         Compare bayesian probabilities
         Parameters:
-            nodes1: set of nodes as self.node_probabilities
-            nodes2: set of nodes as self.node_probabilities
+            services1: set of services as self.service_probabilities
+            services2: set of services as self.service_probabilities
             to_n: if not None, compare to_n only. Default: None
         """
         if to_n is not None:
-            if to_n not in nodes1:
-                raise ValueError(f'End node {to_n} is not in the merged graph.')
-            p1 = nodes1[to_n]
-            p2 = nodes2[to_n]
+            if to_n not in services1:
+                raise ValueError(f'End service {to_n} is not in the merged graph.')
+            p1 = services1[to_n]
+            p2 = services2[to_n]
             if p1 != 0:
                 rate = p1 - p2 / p1
             else:
@@ -373,9 +373,9 @@ class MergedGraphLayer:
             return
             
         all_down = 0
-        for node in nodes1:
-            p1 = nodes1[node]
-            p2 = nodes2[node]
+        for service in services1:
+            p1 = services1[service]
+            p2 = services2[service]
             if p1 != 0:
                 rate = p1 - p2 / p1
             else:
@@ -384,8 +384,8 @@ class MergedGraphLayer:
             print(
                 f'Probability before and after deploying: {math.trunc(p1 * 100) / 100},  {math.trunc(p2 * 100) / 100},'
                 f' {math.trunc(rate * 100) / 100} less')
-        if len(nodes1) > 0:
-            all_down = all_down / len(nodes1)
+        if len(services1) > 0:
+            all_down = all_down / len(services1)
         print(f'Overall probability is lowered by {all_down}')
     
     @staticmethod

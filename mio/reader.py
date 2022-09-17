@@ -103,7 +103,7 @@ def validate_config_file() -> dict[str]:
     
     # Check if the main keywords are present in the config file.
     main_keywords = {'attack-vector-folder-path', 'examples-results-path', 'examples-path', 'nums-of-processes',
-                     'generate-graphs', 'single-edge-label', 'single-exploit-per-node',
+                     'generate-graphs', 'single-edge-label', 'single-exploit-per-service',
                      'deploy-honeypots', 'honeypot-destination'}
     
     for main_keyword in main_keywords:
@@ -121,10 +121,10 @@ def validate_config_file() -> dict[str]:
         raise ValueError(f'Value \'{single_edge_label}\' is invalid for keyword \'single-edge-label\', it must be bool')
     
     # Check if the labels_edges keyword has the right values
-    single_exploit_per_node = config_file['single-exploit-per-node']
-    if type(single_exploit_per_node) is not bool:
-        raise ValueError(f'Value \'{single_exploit_per_node}\' is invalid for keyword \'single-exploit-per-node\', '
-                         f'it must be bool')
+    single_exploit_per_service = config_file['single-exploit-per-service']
+    if type(single_exploit_per_service) is not bool:
+        raise ValueError(f'Value \'{single_exploit_per_service}\' is invalid for keyword \'single-exploit-per-service'
+                         f'\', ' f'it must be bool')
 
     concurrency = config_file['nums-of-processes']
     if type(concurrency) is not int or concurrency < 0:

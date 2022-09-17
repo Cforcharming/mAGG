@@ -91,9 +91,9 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
         minimum = 0
         path_counts = merged_graph_layer.gen_defence_list(to)
         
-        n1 = merged_graph_layer.node_probabilities.copy()
+        n1 = merged_graph_layer.service_probabilities.copy()
         merged_graph_layer.deploy_honeypot(path_counts, minimum)
-        merged_graph_layer.compare_rates(n1, merged_graph_layer.node_probabilities, to)
+        merged_graph_layer.compare_rates(n1, merged_graph_layer.service_probabilities, to)
     
     if config['generate-graphs']:
         # draw graphs

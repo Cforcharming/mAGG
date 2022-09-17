@@ -13,14 +13,14 @@ nums-of-processes: 12
 # This property states if topology and attack graphs are going to be produced.
 generate-graphs: False # Options {True, False}
 
-# This property states if single or multiple vulnerabilities constitute an edge between two same nodes
+# This property states if single or multiple vulnerabilities constitute an edge between two same services
 single-edge-label: True # Options {True, False}
 
-# This property states if a node is exploited only once, or as much as possible
-single-exploit-per-node: False # Options {True, False}
+# This property states if a service is exploited only once, or as much as possible
+single-exploit-per-service: False # Options {True, False}
 
 # This property states if honeypots are deployed
-deploy-honeypots: False # Options {True, False}
+deploy-honeypots: True # Options {True, False}
 
 # # This property states the destination of honeypots
 honeypot-destination: target # Options None
