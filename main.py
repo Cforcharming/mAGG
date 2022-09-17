@@ -70,18 +70,20 @@ def do_experiment(experiment_dir: str, result_dir: str, config: dict, attack_vec
     print(f'\n\n\n\n\n******************************{os.path.basename(experiment_dir)}******************************')
     
     # get topology layer
-    if topology_type := config['topology-type'] == 'docker-compose':
-        topology_layer = DockerComposeTopologyLayer(experiment_dir)
-    else:
-        raise ValueError(f'Topology type {topology_type} not implemented, '
-                         f'please feel free to open Issue or PR on GitHub.')
+    match topology_type := config['topology-type']:
+        case 'docker-compose':
+            topology_layer = DockerComposeTopologyLayer(experiment_dir)
+        case _:
+            raise ValueError(f'Topology type {topology_type} not implemented, '
+                             f'please feel free to open Issue or PR on GitHub.')
     
     # get vulnerability layer
-    if vulnerability_type := config['vulnerability-type'] == 'clairctl':
-        vulnerability_layer = ClairctlVulnerabilityLayer(topology_layer, config, attack_vectors)
-    else:
-        raise ValueError(f'Vulnerability type {vulnerability_type} not implemented, '
-                         f'please feel free to open Issue or PR on GitHub.')
+    match vulnerability_type := config['vulnerability-type']:
+        case 'clairctl':
+            vulnerability_layer = ClairctlVulnerabilityLayer(topology_layer, config, attack_vectors)
+        case _:
+            raise ValueError(f'Vulnerability type {vulnerability_type} not implemented, '
+                             f'please feel free to open Issue or PR on GitHub.')
     
     # get attack graph layer
     attack_graph_layer = AttackGraphLayer(vulnerability_layer, executor)
