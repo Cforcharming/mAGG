@@ -229,7 +229,7 @@ def generate_full_from_exposed(services: dict[str, dict[str]], exploitable_vulne
     
     exploited_vulnerabilities: dict[(str, str), set[str]] = dict()
     depth_stack = deque()
-    depth_stack.append(('outside', 4))
+    depth_stack.append(('outside', VulnerabilityLayer.get_privilege_value('ADMIN')))
     exploited_services: set[str] = {'outside'}
 
     while len(depth_stack) > 0:
