@@ -16,7 +16,7 @@
 """
 Main module that builds a pipeline for multiple experiments. For details, please see main.ipydb
 """
-
+import os.path
 import sys
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
@@ -65,6 +65,8 @@ def parse_one_folder(example_folder: str, result_folder: str, config: dict, atta
         attack_vectors: result of VulnerabilityLayer.get_attack_vectors()
         executor: concurrent.futures.Executor, default: None
     """
+    
+    print(f'\n\n\n\n\n******************************{os.path.basename(example_folder)}******************************')
     
     # get topology layer
     topology_layer = TopologyLayer(example_folder)
