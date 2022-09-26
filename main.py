@@ -26,7 +26,7 @@ def main(argv):
     # Opening the configuration file.
     config = reader.validate_config_file()
     example_folder = os.path.join(os.getcwd(), argv[1])
-    result_folder = os.path.join(os.getcwd(), 'example-results/full-conn/10-example')
+    result_folder = os.path.join(os.getcwd(), 'example-results/example')
     
     # Parsing the topology of the docker containers.
     time_start = time.time()
@@ -59,14 +59,16 @@ def main(argv):
     # Merging the attack vector files and creating an attack vector dictionary.
     attack_vector_dict = attack_graph_parser.get_attack_vector(attack_vector_files)
     
-    example_folders = os.listdir(os.path.join(os.getcwd(), 'examples/full-conn'))
+    example_folders = os.listdir(os.path.join(os.getcwd(), 'examples/designed'))
     
     for example_folder in example_folders:
         print('\n\n\n**************************' + example_folder + '**************************\n\n\n')
-        example_folder = os.path.join(os.getcwd(), 'examples/full-conn', example_folder)
+        example_folder = os.path.join(os.getcwd(), 'examples/designed', example_folder)
         # Create folder where the result files will be stored.
         
         topology, networks, services, gateway_nodes = topology_parser.parse_topology(example_folder)
+        
+        mapping_names = topology_parser.get_mapping_service_to_image_names(services, example_folder)
         
         exploitable_vulnerabilities, dvp = attack_graph_parser.get_exploitable_vulnerabilities(
             topology, vulnerabilities, mapping_names, attack_vector_dict, config["preconditions-rules"],

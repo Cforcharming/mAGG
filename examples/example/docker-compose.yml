@@ -27,6 +27,17 @@ services:
       - frontend
       - backend
     image: nginx
+
+  at:
+    networks:
+      - backend
+    image: atsea_app
+
+  atd:
+    networks:
+      - backend
+    image: atsea_db
+
 networks:
   frontend: {}
   backend: {}

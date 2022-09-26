@@ -1,5 +1,5 @@
 # The location of the folder with the NVD attack rule files.
-attack-vector-folder-path: data/attack_vector_files
+attack-vector-folder-path: data/nvd-json-feed
 
 # The locations from where the example-folders are read and where their results are being stored.
 examples-results-path: example-results
