@@ -5,29 +5,27 @@ services:
   py:
     networks:
       - backend
-      - db
+      - frontend
     image: python
 
   tc:
     networks:
-      - frontend
       - backend
+      - frontend
     image: tomcat
-    ports:
-      - "3001:8080"
 
   ms:
     # build: .
     networks:
-      - db
+      - backend
     image: mysql
 
   ng:
     networks:
       - frontend
-      - backend
     image: nginx
+    ports:
+      - "3001:8080"
 networks:
   frontend: {}
   backend: {}
-  db: {}
