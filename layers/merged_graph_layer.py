@@ -363,12 +363,12 @@ class MergedGraphLayer:
             p1 = services1[to_n]
             p2 = services2[to_n]
             if p1 != 0:
-                rate = p1 - p2 / p1
+                rate = (p1 - p2) / p1
             else:
                 rate = 1
             print(
-                f'Probability before and after deploying: {math.trunc(p1 * 100) / 100},  {math.trunc(p2 * 100) / 100},'
-                f' {math.trunc(rate * 100) / 100} less')
+                f'Probability before and after deploying on {to_n}: {math.trunc(p1 * 100) / 100},  '
+                f'{math.trunc(p2 * 100) / 100}, {math.trunc(rate * 100) / 100} less.')
             
             return
             
@@ -377,13 +377,13 @@ class MergedGraphLayer:
             p1 = services1[service]
             p2 = services2[service]
             if p1 != 0:
-                rate = p1 - p2 / p1
+                rate = (p1 - p2) / p1
             else:
                 rate = 1
             all_down += rate
             print(
-                f'Probability before and after deploying: {math.trunc(p1 * 100) / 100},  {math.trunc(p2 * 100) / 100},'
-                f' {math.trunc(rate * 100) / 100} less')
+                f'Probability before and after deploying on {service}: {math.trunc(p1 * 100) / 100},  '
+                f'{math.trunc(p2 * 100) / 100}, {math.trunc(rate * 100) / 100} less.')
         if len(services1) > 0:
             all_down = all_down / len(services1)
         print(f'Overall probability is lowered by {all_down}')
