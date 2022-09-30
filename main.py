@@ -39,7 +39,7 @@ def main(argv):
     Parameters:
         argv: sys.argv
     """
-    config, experiments = wrapper.init(argv)
+    config = wrapper.init()
     
     concurrency = config['nums-of-processes']
     executor = None
@@ -47,6 +47,8 @@ def main(argv):
         executor = ProcessPoolExecutor(concurrency, mp.get_context('forkserver'))
     
     attack_vectors = ClairctlVulnerabilityLayer.get_attack_vectors(config['nvd-feed-path'], executor)
+    
+    experiments = wrapper.get_experiments(argv, config)
     
     for experiment in experiments:
         experiment_dir, result_dir = wrapper.create_directories(experiment, config)

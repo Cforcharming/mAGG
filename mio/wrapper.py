@@ -22,22 +22,29 @@ import time
 import os
 
 
-def init(argv: list) -> (dict[str], list[str]):
+def init() -> dict[str]:
     """
     Initialise experimental environments
-    Parameters:
-        argv: sys.argv, where argv must be a list of 2
     Returns:
         config: config.yml file in form of dictionary
-        experiments: a list of experiment directories
     """
     # Opening the configuration file.
     config = reader.validate_config_file()
     
-    # Checks if the command-line input and config file content is valid.
+    return config
+
+
+def get_experiments(argv: list, config: dict[str]) -> list[str]:
+    """
+    Checks if the command-line input and config file content is valid.
+    Parameters:
+        argv: sys.argv, where argv must be a list of 2
+        config: config.yml file in form of dictionary
+    Returns:
+        experiments: a list of experiment directories
+    """
     experiments = reader.read_command_line_input(argv, config)
-    
-    return config, experiments
+    return experiments
 
 
 def create_directories(experiment_base: str, config: dict[str]) -> (str, str):
