@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CsvFileAttributes">
+    <option name="attributeMap">
+      <map>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/matplotlib/mpl-data/sample_data/data_x_x2_x3.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/matplotlib/mpl-data/sample_data/msft.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/matplotlib/mpl-data/sample_data/percent_bachelors_degrees_women_usa.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/mt19937-testset-1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/mt19937-testset-2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/pcg64-testset-1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/pcg64-testset-2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/pcg64dxsm-testset-1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/pcg64dxsm-testset-2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/philox-testset-1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/philox-testset-2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/sfc64-testset-1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/.local/venv/mAGG/lib/python3.10/site-packages/numpy/random/tests/data/sfc64-testset-2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
