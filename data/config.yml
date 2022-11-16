@@ -26,7 +26,7 @@ single-edge-label: True # Options {True, False}
 single-exploit-per-service: False # Options {True, False}
 
 # if honeypots are deployed
-deploy-honeypots: True # Options {True, False}
+deploy-honeypots: False # Options {True, False}
 
 # the target service for calculating paths when deploying honeypots
 target: None # default: None

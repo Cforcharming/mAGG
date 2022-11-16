@@ -100,7 +100,7 @@ def do_experiment(experiment_dir: str, result_dir: str, config: dict, attack_vec
     wrapper.print_summary(merged_graph_layer)
 
     if config['deploy-honeypots']:
-        to = config['honeypot-destination']
+        to = config['target']
         minimum = 0
         path_counts = merged_graph_layer.gen_defence_list(to)
         
