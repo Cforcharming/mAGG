@@ -1,5 +1,9 @@
 # mAGG: a managed multi-layer Attack Graph Generator
-
+<p align="center">
+<a href="./LICENSE"><img src="https://img.shields.io/github/license/Cforcharming/mAGG?color=blue"></a>
+<a href="https://github.com/cforcharming/mAGG/releases"><img src="https://img.shields.io/github/v/release/Cforcharming/mAGG?include_prereleases"></a>
+<img src="https://img.shields.io/badge/python-3.10|3.11-green">
+</p>
 ## Installing
 
 ---
@@ -23,7 +27,7 @@ Note that this script is recommended to be running on following systems:
 * Ubuntu 22.04 LTS
 * Kali 2022.2
 
-Other versions of the above OS, e.g. `Ubuntu 20.04 LTS`, `macOS Ventura`, 
+Other versions of the above OS, e.g. `Ubuntu 22.04 LTS`, `macOS Ventura`, 
 [install_dependencies.bash](install_dependencies.bash) should also work. 
 Also, the script may work on all `Arch-Based Linux` distros and `Debian Linux`.
 
